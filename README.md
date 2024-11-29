@@ -21,12 +21,12 @@
 
   > ps:曾开了几天 CPU 飙升！ 且一直挂在最前影响做其他事儿。
 
-- 使用 VC6 写的按键精灵插件 searchLines/RXSocket.dll。包含如下方法：
+- 使用 VC6 写的按键精灵插件 [searchLines/RxSocket.dll](searchLines/RXSocket.dll)。包含如下方法：
 
   - getPartServerLines 获取分区服务器的线路状况(字符串分区,字符串服务器(末尾加\"(新服)\"))[0满,1未满,逗号分隔]
   - getByteArray 获取分区返回数据(字符串分区)[字节数组]
-  - writeData2Clickable 修改内存数据(长整型窗口句柄,字符串内存地址,字符串二进制数据(小端))[0异常,1成功]
-  - writeData 修改禁用状态(长整型窗口句柄,字符串内存地址('|'分隔的十六进制字符串地址))[0异常,1成功]
+  - writeData2Clickable 修改禁用状态(长整型窗口句柄,字符串内存地址('|'分隔的十六进制字符串地址))[0异常,1成功]
+  - writeData 修改内存数据(长整型窗口句柄,字符串内存地址,字符串二进制数据(小端))[0异常,1成功]
   - getModuleSize 获取模块大小(长整型窗口句柄,字符串模块名称)[0异常]
 
 ## 使用
