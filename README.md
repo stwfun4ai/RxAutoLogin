@@ -19,7 +19,7 @@
 
 - 打开 查线器.exe 查字每条线尾部 "%"若有即开线。
 
-  > ps:曾开了几天 CPU 飙升！ 且一直挂在最前影响做其他事儿。
+  > ps:曾开了几天 CPU 飙升！ 且一直挂在最前影响做其他事儿。弃了！
 
 - 使用 VC6 写的按键精灵插件 [searchLines/RxSocket.dll](searchLines/RXSocket.dll)。包含如下方法：
 
