@@ -37,164 +37,164 @@ Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwn
  																		As Long
 Declare Function GetKeyState lib "user32" (ByVal nVirtKey as Long) as Integer
 
-//Â·¾¶
-Dimenv rxRootDirPath	//rx¸ùÄ¿Â¼Â·¾¶ ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\
-Dimenv alFreeDirPath, freeFileName//½Å±¾ÊÍ·ÅÄ¿Â¼Â·¾¶ ÈçD:\Program Files\°´¼ü¾«Áé\°´¼ü¾«Áé2014\rxFree\
-freeFileName = "rxFree\"	//½Å±¾ÊÍ·ÅÎÄ¼ş¼ĞÃû
-Dimenv iniPath, iniFileName	//iniÎÄ¼şÂ·¾¶	ÈçD:\Program Files\°´¼ü¾«Áé\°´¼ü¾«Áé2014\rxFree\rxConfig.ini
-iniFileName = "rxConfig.ini"//iniÅäÖÃÎÄ¼şÃû
-DimEnv payDirPath, freeDirPath	//ÊÕ·ÑÓëÃâ·ÑÉñÆ÷Ä¿Â¼Â·¾¶	ÈçE:\ÈÈÑª½­ºşÉñÆ÷\
+//è·¯å¾„
+Dimenv rxRootDirPath	//rxæ ¹ç›®å½•è·¯å¾„ å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\
+Dimenv alFreeDirPath, freeFileName//è„šæœ¬é‡Šæ”¾ç›®å½•è·¯å¾„ å¦‚D:\Program Files\æŒ‰é”®ç²¾çµ\æŒ‰é”®ç²¾çµ2014\rxFree\
+freeFileName = "rxFree\"	//è„šæœ¬é‡Šæ”¾æ–‡ä»¶å¤¹å
+Dimenv iniPath, iniFileName	//iniæ–‡ä»¶è·¯å¾„	å¦‚D:\Program Files\æŒ‰é”®ç²¾çµ\æŒ‰é”®ç²¾çµ2014\rxFree\rxConfig.ini
+iniFileName = "rxConfig.ini"//inié…ç½®æ–‡ä»¶å
+DimEnv payDirPath, freeDirPath	//æ”¶è´¹ä¸å…è´¹ç¥å™¨ç›®å½•è·¯å¾„	å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ç¥å™¨\
 
-DimEnv users		//ËùÓĞÓÃ»§ĞÅÏ¢×Ö·û´®
-Dimenv useDir(30)	//Ê¹ÓÃÂ·¾¶Êı×é	À¨ºÅÄÚÎª×î´óÏÂ±ê£¬Ôİ¶¨30	ÓëcpdFile´óĞ¡Ò»ÖÂ£¡//Ğè>ÕËºÅÊıÁ¿ 30Ò»°ã¹»ÁË 
-Dimenv cpdFile(30)//¸´ÖÆClientÎÄ¼ş¼ĞÎÄ¼ş±ê¼ÇÊı×é		ÓëuseDir´óĞ¡Ò»ÖÂ£¡
-Dimenv alStates		//ËùÓĞÏßÂ·×´Ì¬×Ö·û´®
-Dimenv cipher	//ÃÜÔ¿×Ö·û´® ×î´ó16¸ö×Ö·û
+DimEnv users		//æ‰€æœ‰ç”¨æˆ·ä¿¡æ¯å­—ç¬¦ä¸²
+Dimenv useDir(30)	//ä½¿ç”¨è·¯å¾„æ•°ç»„	æ‹¬å·å†…ä¸ºæœ€å¤§ä¸‹æ ‡ï¼Œæš‚å®š30	ä¸cpdFileå¤§å°ä¸€è‡´ï¼//éœ€>è´¦å·æ•°é‡ 30ä¸€èˆ¬å¤Ÿäº† 
+Dimenv cpdFile(30)//å¤åˆ¶Clientæ–‡ä»¶å¤¹æ–‡ä»¶æ ‡è®°æ•°ç»„		ä¸useDirå¤§å°ä¸€è‡´ï¼
+Dimenv alStates		//æ‰€æœ‰çº¿è·¯çŠ¶æ€å­—ç¬¦ä¸²
+Dimenv cipher	//å¯†é’¥å­—ç¬¦ä¸² æœ€å¤§16ä¸ªå­—ç¬¦
 cipher = "rxjh"
 
-//±êÊ¶·û
+//æ ‡è¯†ç¬¦
 Dimenv autoLoginFlag, updateBaseAddrFlag, updateBaseAddr2Flag, lastStoresFlag, tcpCheckLineFlag, formLoadCompleteFlag
-autoLoginFlag = False//×Ô¶¯µÇÂ¼±êÊ¶·û	Ä¬ÈÏ¹Ø±Õ
-updateBaseAddrFlag = True	//¸üĞÂ»ùÖ·±êÊ¶ Ä¬ÈÏÎªtrue¸üĞÂÒ»´Î¸ÄÎªfalse	// ĞèÇórd+¿Í»§¶Ë
-updateBaseAddr2Flag = True	//¸üĞÂ»ùÖ·2±êÊ¶ Ä¬ÈÏÎªtrue¸üĞÂÒ»´Î¸ÄÎªfalse	// ĞèÇóË«»÷ÏßÂ·ºó+¿Í»§¶Ë
-lastStoresFlag = True//¸üĞÂ²ÖÓà±êÊ¶ Ä¬ÈÏÎªtrue¸üĞÂÒ»´Î¸ÄÎªfalse Æô¶¯½Å±¾¾ÍÅÜÒ»´Î
-tcpCheckLineFlag = False		//Ê¹ÓÃRxSocket.dll½øĞĞtcp²éÏß±êÊ¶
-formLoadCompleteFlag = False	//½çÃæ¼ÓÔØÍê³É±êÊ¶	Ò»°ãÍ£Ö¹½Å±¾ºó¶¼»á¹Ø½çÃæsoÑ¡Ôñ³õÊ¼»¯
+autoLoginFlag = False//è‡ªåŠ¨ç™»å½•æ ‡è¯†ç¬¦	é»˜è®¤å…³é—­
+updateBaseAddrFlag = True	//æ›´æ–°åŸºå€æ ‡è¯† é»˜è®¤ä¸ºtrueæ›´æ–°ä¸€æ¬¡æ”¹ä¸ºfalse	// éœ€æ±‚rd+å®¢æˆ·ç«¯
+updateBaseAddr2Flag = True	//æ›´æ–°åŸºå€2æ ‡è¯† é»˜è®¤ä¸ºtrueæ›´æ–°ä¸€æ¬¡æ”¹ä¸ºfalse	// éœ€æ±‚åŒå‡»çº¿è·¯å+å®¢æˆ·ç«¯
+lastStoresFlag = True//æ›´æ–°ä»“ä½™æ ‡è¯† é»˜è®¤ä¸ºtrueæ›´æ–°ä¸€æ¬¡æ”¹ä¸ºfalse å¯åŠ¨è„šæœ¬å°±è·‘ä¸€æ¬¡
+tcpCheckLineFlag = False		//ä½¿ç”¨RxSocket.dllè¿›è¡ŒtcpæŸ¥çº¿æ ‡è¯†
+formLoadCompleteFlag = False	//ç•Œé¢åŠ è½½å®Œæˆæ ‡è¯†	ä¸€èˆ¬åœæ­¢è„šæœ¬åéƒ½ä¼šå…³ç•Œé¢soé€‰æ‹©åˆå§‹åŒ–
 
-Dimenv hState(4)	//ÓÎÏ·¿Í»§¶Ë×´Ì¬Êı×é
+Dimenv hState(4)	//æ¸¸æˆå®¢æˆ·ç«¯çŠ¶æ€æ•°ç»„
 hState(0) = "=="	//null
 hState(1) = "==rd"	//ready
 hState(2) = "==sc"	//select character	//enter line
 hState(3) = "==ig"	//in game
 hState(4) = "==ap"	//active Plugin
 
-//d3d9.dllºÚÆÁÏÔÊ¾µØÖ· rÔ­Ê¼Êı¾İ mĞŞ¸ÄÊı¾İ
-//Ê¹ÓÃdm.WriteData()ÀÏÊÇ³ö´í£¬¸ÄÎª×ÔĞ´µÄ£¬ÒÔÏÂÎªÆ«ÒÆµØÖ· d3d9ba1 = "<d3d9.dll>++5E440" ¸ÄÎª d3d9ba1 = "5E440"  //Ô­À´ÊÇ2¸ö+ºÅ³É¹¦£¿£¿£¿£¿£¿
-//¶ÁÈ¡Ä£¿é»ùÖ·d3d9ba³É¹¦ºó£¬ÔÙ°ÑÆ«ÒÆ×ªÎª¾ßÌåµØÖ·£¡
+//d3d9.dllé»‘å±æ˜¾ç¤ºåœ°å€ råŸå§‹æ•°æ® mä¿®æ”¹æ•°æ®
+//ä½¿ç”¨dm.WriteData()è€æ˜¯å‡ºé”™ï¼Œæ”¹ä¸ºè‡ªå†™çš„ï¼Œä»¥ä¸‹ä¸ºåç§»åœ°å€ d3d9ba1 = "<d3d9.dll>++5E440" æ”¹ä¸º d3d9ba1 = "5E440"  //åŸæ¥æ˜¯2ä¸ª+å·æˆåŠŸï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+//è¯»å–æ¨¡å—åŸºå€d3d9baæˆåŠŸåï¼Œå†æŠŠåç§»è½¬ä¸ºå…·ä½“åœ°å€ï¼
 Dimenv d3d9ba, d3d9ba1, d3d9ba2, d3d9ba3, d3d9ba4, d3d9ba5, d3d9r1, d3d9r2, d3d9r3, d3d9r4, d3d9r5, d3d9m1, d3d9m2, d3d9m3, d3d9m4, d3d9m5
-d3d9ba = ""	//³õÊ¼ÉèÎª¿Õ±ÜÃâÓĞÖµ(ÉèÖµºó²»¹Ø°´¼ü¾«ÁéÖ±½ÓÆô¶¯½çÃæ)²»ÄÜ¸üĞÂÏÂÃæÆ«ÒÆÎª¾ßÌåµØÖ·µ¼ÖÂºÚÆÁÊ§°Ü£¡ setModuleEnv()
+d3d9ba = ""	//åˆå§‹è®¾ä¸ºç©ºé¿å…æœ‰å€¼(è®¾å€¼åä¸å…³æŒ‰é”®ç²¾çµç›´æ¥å¯åŠ¨ç•Œé¢)ä¸èƒ½æ›´æ–°ä¸‹é¢åç§»ä¸ºå…·ä½“åœ°å€å¯¼è‡´é»‘å±å¤±è´¥ï¼ setModuleEnv()
 d3d9ba1 = "5E440"  : d3d9r1 = "8B FF 55" : d3d9m1 = "C2 1C 00" 	//mov edi,edi	/ ret 001C
 d3d9ba2 = "5E5A0"  : d3d9r2 = "8B FF 55" : d3d9m2 = "C2 10 00"	//mov edi,edi	/ ret 0010
 d3d9ba3 = "E3640"  : d3d9r3 = "8B FF 55" : d3d9m3 = "C2 14 00"	//mov edi,edi	/ ret 0014
 d3d9ba4 = "130790" : d3d9r4 = "6A 20 B8" : d3d9m4 = "C2 24 00"	//push 20		/ ret 0024
 d3d9ba5 = "130C90" : d3d9r5 = "6A 28 B8" : d3d9m5 = "C2 14 00"	//push 28		/ ret 0014
 
-//×ÓÏß³Ì
-Dimenv subThreadId//¶¨Òå×ÓÏß³ÌID
-//DimEnv tcpCheckLineThreadId	//tcp²éÏß×ÓÏß³ÌID
+//å­çº¿ç¨‹
+Dimenv subThreadId//å®šä¹‰å­çº¿ç¨‹ID
+//DimEnv tcpCheckLineThreadId	//tcpæŸ¥çº¿å­çº¿ç¨‹ID
 
-//»ùÖ·
+//åŸºå€
 Dimenv roleInfoBaseAddr, packBaseAddr, socketStateBaseAddr, actualLineBaseAddr, attackRangeBaseAddr, fixedPointBaseAddr, returnPointBaseAddr, disconnectFlagBaseAddr
-//ÎŞĞè³õÊ¼»¯£¬¸³Öµºó²»¹ØÈí¼şÔÙÖØÆô½Å±¾ÒÀÈ»±£³Ö×îºóÉèÖÃÖµ
-/*roleInfoBaseAddr = ""		//½ÇÉ«ĞÅÏ¢»ùÖ· ÈËÎïÃû×Ö	Ê¹ÓÃ×Ô´ø²å¼ş¶ÁÈ¡
-packBaseAddr = ""			//±³°üedi»ùÖ·	Ê¹ÓÃ´óÄ®²å¼ş¶ÁÈ¡
-socketStateBaseAddr = ""	//socket×´Ì¬»ùÖ· 	//[baseAddr+0x2C]  //-0x1 ¶ÏÏß£»ÆäËûÎªÕı³£
-actualLineBaseAddr = ""		//Êµ¼Ê½øÈëÏßÂ·»ùÖ·
-attackRangeBaseAddr = ""//¹¥»÷¾àÀë»ùÖ· 53B592
-fixedPointBaseAddr = ""//¶¨µã»ùÖ·
-returnPointBaseAddr = ""//½ÇÉ«³¬³ö¹Ò»úµã·µ»Ø  »Øµã»ùÖ·
-disconnectFlagBaseAddr = "" //dllµôÏß±êÊ¶»ùÖ·
+//æ— éœ€åˆå§‹åŒ–ï¼Œèµ‹å€¼åä¸å…³è½¯ä»¶å†é‡å¯è„šæœ¬ä¾ç„¶ä¿æŒæœ€åè®¾ç½®å€¼
+/*roleInfoBaseAddr = ""		//è§’è‰²ä¿¡æ¯åŸºå€ äººç‰©åå­—	ä½¿ç”¨è‡ªå¸¦æ’ä»¶è¯»å–
+packBaseAddr = ""			//èƒŒåŒ…ediåŸºå€	ä½¿ç”¨å¤§æ¼ æ’ä»¶è¯»å–
+socketStateBaseAddr = ""	//socketçŠ¶æ€åŸºå€ 	//[baseAddr+0x2C]  //-0x1 æ–­çº¿ï¼›å…¶ä»–ä¸ºæ­£å¸¸
+actualLineBaseAddr = ""		//å®é™…è¿›å…¥çº¿è·¯åŸºå€
+attackRangeBaseAddr = ""//æ”»å‡»è·ç¦»åŸºå€ 53B592
+fixedPointBaseAddr = ""//å®šç‚¹åŸºå€
+returnPointBaseAddr = ""//è§’è‰²è¶…å‡ºæŒ‚æœºç‚¹è¿”å›  å›ç‚¹åŸºå€
+disconnectFlagBaseAddr = "" //dllæ‰çº¿æ ‡è¯†åŸºå€
 */
-Dimenv fpRawData, fpModData	//¶¨µã»ùÖ·´¦Ô­Ê¼Óë¸Ä¶¯´úÂë	Ğ¡¶Ë×Ö½ÚÊı×é
-fpRawData = "0F 93 C0"	//¶¨µã»ùÖ·´¦Ô­Ê¼´úÂë	ÅÜ¶¯
-fpModData = "B0 01 90"	//¶¨µã»ùÖ·´¦¸Ä¶¯´úÂë ¶¨µã
+Dimenv fpRawData, fpModData	//å®šç‚¹åŸºå€å¤„åŸå§‹ä¸æ”¹åŠ¨ä»£ç 	å°ç«¯å­—èŠ‚æ•°ç»„
+fpRawData = "0F 93 C0"	//å®šç‚¹åŸºå€å¤„åŸå§‹ä»£ç 	è·‘åŠ¨
+fpModData = "B0 01 90"	//å®šç‚¹åŸºå€å¤„æ”¹åŠ¨ä»£ç  å®šç‚¹
 
-Dimenv availableDllAddrs, ctrlFpDllAddrs	//rxkd.dll½ûÓÃ°´Å¥µØÖ·¡¢rxkd.dll¿ØÖÆClient¶¨µã»ùÖ·µÄµØÖ·
-//availableDllAddrs = ""	//ÎŞĞè³õÊ¼»¯£¬¸³Öµºó²»¹ØÈí¼şÔÙÖØÆô½Å±¾ÒÀÈ»±£³Ö×îºóÉèÖÃÖµ
-Dimenv rxkdAddrRange, clientAddrRange	//Ä£¿éÄÚ´æµØÖ··¶Î§	rxkd.dll¡¢Client.exe
-Dimenv pstoreGap, cstoreGap	//¸ö²Ö×Û²ÖÏà¶Ô±³°ü»ùÖ·Æ«ÒÆ²î¾à
+Dimenv availableDllAddrs, ctrlFpDllAddrs	//rxkd.dllç¦ç”¨æŒ‰é’®åœ°å€ã€rxkd.dllæ§åˆ¶Clientå®šç‚¹åŸºå€çš„åœ°å€
+//availableDllAddrs = ""	//æ— éœ€åˆå§‹åŒ–ï¼Œèµ‹å€¼åä¸å…³è½¯ä»¶å†é‡å¯è„šæœ¬ä¾ç„¶ä¿æŒæœ€åè®¾ç½®å€¼
+Dimenv rxkdAddrRange, clientAddrRange	//æ¨¡å—å†…å­˜åœ°å€èŒƒå›´	rxkd.dllã€Client.exe
+Dimenv pstoreGap, cstoreGap	//ä¸ªä»“ç»¼ä»“ç›¸å¯¹èƒŒåŒ…åŸºå€åç§»å·®è·
 pstoreGap = "+0x22A8"	//"+0x2294"	//+0x2288"
 cstoreGap = "+0x22A4"	//"+0x2290"	//+0x2284"
 
 
 
-//³õÊ¼»¯½çÃæ
+//åˆå§‹åŒ–ç•Œé¢
 Event Form1.Load
 	addLog "====== formLoad start..."
-	Form1.TabControl1.Tab = 0//Ä¬ÈÏÕ¹Ê¾¹¦ÄÜÊ×Ò³
+	Form1.TabControl1.Tab = 0//é»˜è®¤å±•ç¤ºåŠŸèƒ½é¦–é¡µ
 	
-	//½çÃæ¼ÓÔØÊ±Æô¶¯½Å±¾ Ö÷ÒªµÚÒ»´Î´ò¿ª°´¼üÊ±¼ÓÔØ»·¾³±äÁ¿¹©ÏÂÃæ·½·¨Ê¹ÓÃ£¬·ñÔòÈ¡²»µ½³ö´í¡£ ÏÈºóË³Ğò£¡
+	//ç•Œé¢åŠ è½½æ—¶å¯åŠ¨è„šæœ¬ ä¸»è¦ç¬¬ä¸€æ¬¡æ‰“å¼€æŒ‰é”®æ—¶åŠ è½½ç¯å¢ƒå˜é‡ä¾›ä¸‹é¢æ–¹æ³•ä½¿ç”¨ï¼Œå¦åˆ™å–ä¸åˆ°å‡ºé”™ã€‚ å…ˆåé¡ºåºï¼
 	RestartScript 
-	Delay 200//¸øµãÊ±¼äÈÃÖ÷Ïß³Ì¼ÓÔØ»·¾³±äÁ¿
+	Delay 200//ç»™ç‚¹æ—¶é—´è®©ä¸»çº¿ç¨‹åŠ è½½ç¯å¢ƒå˜é‡
 	
-	Call setFreeDirPath()	//ÉèÖÃ½Å±¾ÊÍ·ÅÄ¿Â¼Â·¾¶ÓëiniÅäÖÃÎÄ¼şÓëlogÄ¿Â¼
-	Call regDM()//×¢²á´óÄ®²å¼ş²¢´´½¨¶ÔÏó£¬±£Ö¤ÁËÆô¶¯½çÃæÖ»¼ÓÔØÒ»´Î
-	Call readFile2SetEnv()//¶ÁÈ¡ÎÄ¼şÊı¾İÉèÖÃ»·¾³±äÁ¿	users
+	Call setFreeDirPath()	//è®¾ç½®è„šæœ¬é‡Šæ”¾ç›®å½•è·¯å¾„ä¸inié…ç½®æ–‡ä»¶ä¸logç›®å½•
+	Call regDM()//æ³¨å†Œå¤§æ¼ æ’ä»¶å¹¶åˆ›å»ºå¯¹è±¡ï¼Œä¿è¯äº†å¯åŠ¨ç•Œé¢åªåŠ è½½ä¸€æ¬¡
+	Call readFile2SetEnv()//è¯»å–æ–‡ä»¶æ•°æ®è®¾ç½®ç¯å¢ƒå˜é‡	users
 	
-	//1) ¶ÁÈ¡ÅäÖÃÎÄ¼şÖĞµÄÊı¾İÌî³äÖÁ½çÃæÌØÊâ¿Ø¼ş
-	//Launcher.exeÂ·¾¶ÓëÉñÆ÷Â·¾¶	//±ØÑ¡ ÈôÎª¿Õ¸ø¸ö"C:\"£¿	ÓÅÏÈ¶Á£¡
+	//1) è¯»å–é…ç½®æ–‡ä»¶ä¸­çš„æ•°æ®å¡«å……è‡³ç•Œé¢ç‰¹æ®Šæ§ä»¶
+	//Launcher.exeè·¯å¾„ä¸ç¥å™¨è·¯å¾„	//å¿…é€‰ è‹¥ä¸ºç©ºç»™ä¸ª"C:\"ï¼Ÿ	ä¼˜å…ˆè¯»ï¼
 	If readFileByKey("launcherPath") <> "" Then Form1.BrowseBoxLauncherPath.Path = readFileByKey("launcherPath")
 	If readFileByKey("payPath") <> "" Then Form1.BrowseBoxPayPath.Path = readFileByKey("payPath")
 	If readFileByKey("freePath") <> "" Then Form1.BrowseBoxFreePath.Path = readFileByKey("freePath")
 
-	//Í¬Ê±½øÓÎÕËºÅ	0±íÊ¾ÎŞÏŞÖÆ
+	//åŒæ—¶è¿›æ¸¸è´¦å·	0è¡¨ç¤ºæ— é™åˆ¶
 	If readFileByKey("accountLimit") <> "" Then Form1.ComboBoxAccountLimit.ListIndex = readFileByKey("accountLimit")
-	//¿ªÏßµÇÂ¼³¢ÊÔ´ÎÊı	0±íÊ¾ÎŞÏŞÖÆ
+	//å¼€çº¿ç™»å½•å°è¯•æ¬¡æ•°	0è¡¨ç¤ºæ— é™åˆ¶
 	If readFileByKey("openLineTryLimit") <> "" Then Form1.ComboboxOpenLineTryLimit.ListIndex = readFileByKey("openLineTryLimit")
-	//°´¼ü¾²Òô
+	//æŒ‰é”®é™éŸ³
 	If readFileByKey("mute") <> "" Then Form1.CheckBoxMute.Value = readFileByKey("mute")
-	//×Ô¶¯¸üĞÂ
+	//è‡ªåŠ¨æ›´æ–°
 	If readFileByKey("autoPatch") <> "" Then Form1.CheckBoxAutoPatch.Value = readFileByKey("autoPatch")
-	//²»¶ÁÄÚ´æ
+	//ä¸è¯»å†…å­˜
 	If readFileByKey("noReadMemoryData") <> "" Then Form1.CheckBoxNoReadMemoryData.Value = readFileByKey("noReadMemoryData")
-	//Î¬»¤µÈ´ıÊ±¼äºóÔÙÆô¶¯¸üĞÂ
+	//ç»´æŠ¤ç­‰å¾…æ—¶é—´åå†å¯åŠ¨æ›´æ–°
 	If readFileByKey("maintenance") <> "" Then Form1.CheckBoxMaintenance.Value = readFileByKey("maintenance")
-	//Î¬»¤ĞÇÆÚ
+	//ç»´æŠ¤æ˜ŸæœŸ
 	If readFileByKey("MTWeek") <> "" Then Form1.ComboBoxMTWeek.ListIndex = readFileByKey("MTWeek")
-	//Î¬»¤Ğ¡Ê±
+	//ç»´æŠ¤å°æ—¶
 	If readFileByKey("MTHour") <> "" Then Form1.ComboBoxMTHour.ListIndex = readFileByKey("MTHour")
 	
-	//×ÓÏß³ÌÑ­»·Ê±¼ä
+	//å­çº¿ç¨‹å¾ªç¯æ—¶é—´
 	If readFileByKey("stDelay") <> "" Then Form1.InputBoxSubTime.Text = readFileByKey("stDelay")
 	
-	//2) ½çÃæÒ»°ã¿Ø¼şÌî³äÓëÄ¬ÈÏÖµ
-	//½çÃæeventÏÔÊ¾ĞèÇóÊı×é		´¿Êı×Ö/´¿×Ö·û´®ÓÃArray,»ìºÏĞÍĞèÓÃsplit(Ä¬ÈÏÎª×Ö·û´®ÀàĞÍÔªËØ£¬ÈôĞèÒªÊı×ÖĞèµ¥¶À½øĞĞÊı¾İÀàĞÍ×ª»»£©
-	//·ÖÇøÊı×é
-	partArray = Array("ÍøÍ¨Ò»Çø","ÍøÍ¨¶şÇø","ÍøÍ¨ÈıÇø","ÍøÍ¨ËÄÇø","µçĞÅÒ»Çø","µçĞÅ¶şÇø","µçĞÅÈıÇø","µçĞÅËÄÇø","µçĞÅÎåÇø","µçĞÅÁùÇø","Ë«ÏßÒ»Çø")
-	//·şÎñÆ÷Êı×é
-	serverArray = Array("×³Ö¾ÁèÔÆ(ĞÂ·ş)|ß³ßåÎäÁÖ|¶·×ªĞÇÒÆ|ÍõÕßÖ®Õù|ÁúÕù»¢¶·|Ñ©Ô­", _
-				"ĞÛ°Ô", _
-				"µÇ·åÔì¼«", _
-				"À×öªÍò¾û(ĞÂ·ş)|ÏõÑÌËÄÆğ|ĞşÎäÆÆÌì|±Ìº£", _
-				"°ÁÑ©ÁèËª(ĞÂ·ş)|É½º£ĞÛ¹Ø|Õ½»ğÖØÈ¼|¿ñÁú½µÌì|»ÃÓ°ÃÜÂ·|³¤¿Õ", _
-				"Æø¹á³¤ºç(ĞÂ·ş)|·é»ğÌìÏÂ|¸ÇÊÀÎŞË«|¶«ÔÀ", _
-				"Ğşºş", _
-				"×ÏÔÂ" , _
-				"Òå±¡ÔÆÌì(ĞÂ·ş)|·ïÎè¾ÅÖİ|³ÁÏã", _
-				"ËÄº£(ĞÂ·ş)|åĞÒ£|°ÔÒµ|²ÔÔÂ|ĞÇËª", _
-				"ÎäÁÖÕù°Ô(ĞÂ·ş)|×İºáËÄº£|×İºáËÄº£2·ş")
-	lineArray = Split("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,ÆÕÍ¨Ïß,µ¥Ïß,Ë«Ïß,×Ô¶¨Òå", ",")	//ÏßÂ·Êı×é ÏÂÀ­¿òÒ³ÃæÏÔÊ¾		Óë lineArray2 ¶ÔÓ¦
-	lineArray2 = Split("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,3-4-5-6-7-8-9-10-11-12-13-14-15-16,3-5-7-9-11-13-15,4-6-8-10-12-14-16,3-6-7-10", ",")//ÏßÂ·Êı×é	ÊäÈë¿òÒ³ÃæÏÔÊ¾
-	orderArray = Array(1,2,3,4)		//ÈËÎïË³ĞòÊı×é Ò³ÃæÏÔÊ¾
-	afterLineArray = Array("Í£Áô½øÈëÒ³Ãæ", "·¢´ô", "¹Ò»ú", "¶¨", "·À", "½Å", "¶¨·À", "¶¨½Å", "·À½Å", "¶¨·À½Å", "¿ªµê")//ÉÏÏßºóÊı×é Ò³ÃæÏÔÊ¾
-	fixedPointArray = Array("·ñ", "ÊÇ")	//¶¨µãÊı×é Ò³ÃæÏÔÊ¾
-	user = split(users, "|")//ÓÃ»§ĞÅÏ¢Êı×é
+	//2) ç•Œé¢ä¸€èˆ¬æ§ä»¶å¡«å……ä¸é»˜è®¤å€¼
+	//ç•Œé¢eventæ˜¾ç¤ºéœ€æ±‚æ•°ç»„		çº¯æ•°å­—/çº¯å­—ç¬¦ä¸²ç”¨Array,æ··åˆå‹éœ€ç”¨split(é»˜è®¤ä¸ºå­—ç¬¦ä¸²ç±»å‹å…ƒç´ ï¼Œè‹¥éœ€è¦æ•°å­—éœ€å•ç‹¬è¿›è¡Œæ•°æ®ç±»å‹è½¬æ¢ï¼‰
+	//åˆ†åŒºæ•°ç»„
+	partArray = Array("ç½‘é€šä¸€åŒº","ç½‘é€šäºŒåŒº","ç½‘é€šä¸‰åŒº","ç½‘é€šå››åŒº","ç”µä¿¡ä¸€åŒº","ç”µä¿¡äºŒåŒº","ç”µä¿¡ä¸‰åŒº","ç”µä¿¡å››åŒº","ç”µä¿¡äº”åŒº","ç”µä¿¡å…­åŒº","åŒçº¿ä¸€åŒº")
+	//æœåŠ¡å™¨æ•°ç»„
+	serverArray = Array("å£®å¿—å‡Œäº‘(æ–°æœ)|å±å’¤æ­¦æ—|æ–—è½¬æ˜Ÿç§»|ç‹è€…ä¹‹äº‰|é¾™äº‰è™æ–—|é›ªåŸ", _
+				"é›„éœ¸", _
+				"ç™»å³°é€ æ", _
+				"é›·éœ†ä¸‡é’§(æ–°æœ)|ç¡çƒŸå››èµ·|ç„æ­¦ç ´å¤©|ç¢§æµ·", _
+				"å‚²é›ªå‡Œéœœ(æ–°æœ)|å±±æµ·é›„å…³|æˆ˜ç«é‡ç‡ƒ|ç‹‚é¾™é™å¤©|å¹»å½±å¯†è·¯|é•¿ç©º", _
+				"æ°”è´¯é•¿è™¹(æ–°æœ)|çƒ½ç«å¤©ä¸‹|ç›–ä¸–æ— åŒ|ä¸œå²³", _
+				"ç„æ¹–", _
+				"ç´«æœˆ" , _
+				"ä¹‰è–„äº‘å¤©(æ–°æœ)|å‡¤èˆä¹å·|æ²‰é¦™", _
+				"å››æµ·(æ–°æœ)|é€é¥|éœ¸ä¸š|è‹æœˆ|æ˜Ÿéœœ", _
+				"æ­¦æ—äº‰éœ¸(æ–°æœ)|çºµæ¨ªå››æµ·|çºµæ¨ªå››æµ·2æœ")
+	lineArray = Split("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,æ™®é€šçº¿,å•çº¿,åŒçº¿,è‡ªå®šä¹‰", ",")	//çº¿è·¯æ•°ç»„ ä¸‹æ‹‰æ¡†é¡µé¢æ˜¾ç¤º		ä¸ lineArray2 å¯¹åº”
+	lineArray2 = Split("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,3-4-5-6-7-8-9-10-11-12-13-14-15-16,3-5-7-9-11-13-15,4-6-8-10-12-14-16,3-6-7-10", ",")//çº¿è·¯æ•°ç»„	è¾“å…¥æ¡†é¡µé¢æ˜¾ç¤º
+	orderArray = Array(1,2,3,4)		//äººç‰©é¡ºåºæ•°ç»„ é¡µé¢æ˜¾ç¤º
+	afterLineArray = Array("åœç•™è¿›å…¥é¡µé¢", "å‘å‘†", "æŒ‚æœº", "å®š", "é˜²", "è„š", "å®šé˜²", "å®šè„š", "é˜²è„š", "å®šé˜²è„š", "å¼€åº—")//ä¸Šçº¿åæ•°ç»„ é¡µé¢æ˜¾ç¤º
+	fixedPointArray = Array("å¦", "æ˜¯")	//å®šç‚¹æ•°ç»„ é¡µé¢æ˜¾ç¤º
+	user = split(users, "|")//ç”¨æˆ·ä¿¡æ¯æ•°ç»„
 		
-	'Ñ¡ÏîÒ³-ÕËºÅ²Ù×÷Ò³
-	Form1.ComboBoxPart.List = Join(partArray, "|")	//·ÖÇøÏÂÀ­¿ò
-	Form1.ComboBoxPart.ListIndex = -1	////·ÖÇøÄ¬ÈÏÎª¿Õ
-	Form1.ComboBoxLine.List = Join(lineArray, "|")	//ÏßÂ·ÏÂÀ­¿ò
-	Form1.InputBoxLine.Text = 10	//ÏßÂ·ÊäÈë¿òÄ¬ÈÏ 10Ïß
-	Form1.ComboBoxOrder.List = Join(orderArray, "|")	//ÈËÎïË³ĞòÏÂÀ­¿ò
-	Form1.ComboBoxOrder.ListIndex = 0		//ÈËÎïË³ĞòÄ¬ÈÏ 1
-	Form1.ComboBoxAfterLine.List = Join(afterLineArray, "|")	//ÉÏÏßºóÏÂÀ­¿ò
-	Form1.ComboBoxAfterLine.ListIndex = 2	//ÉÏÏßºóÄ¬ÈÏ 2¹Ò»ú
+	'é€‰é¡¹é¡µ-è´¦å·æ“ä½œé¡µ
+	Form1.ComboBoxPart.List = Join(partArray, "|")	//åˆ†åŒºä¸‹æ‹‰æ¡†
+	Form1.ComboBoxPart.ListIndex = -1	////åˆ†åŒºé»˜è®¤ä¸ºç©º
+	Form1.ComboBoxLine.List = Join(lineArray, "|")	//çº¿è·¯ä¸‹æ‹‰æ¡†
+	Form1.InputBoxLine.Text = 10	//çº¿è·¯è¾“å…¥æ¡†é»˜è®¤ 10çº¿
+	Form1.ComboBoxOrder.List = Join(orderArray, "|")	//äººç‰©é¡ºåºä¸‹æ‹‰æ¡†
+	Form1.ComboBoxOrder.ListIndex = 0		//äººç‰©é¡ºåºé»˜è®¤ 1
+	Form1.ComboBoxAfterLine.List = Join(afterLineArray, "|")	//ä¸Šçº¿åä¸‹æ‹‰æ¡†
+	Form1.ComboBoxAfterLine.ListIndex = 2	//ä¸Šçº¿åé»˜è®¤ 2æŒ‚æœº
 
-	//3) ¶ÁÈ¡ÅäÖÃÎÄ¼şÖĞµÄÊı¾İÌî³äÖÁ½çÃæGrid±í¸ñ
-	//ÃÜÂëÁĞÒş²Ø
+	//3) è¯»å–é…ç½®æ–‡ä»¶ä¸­çš„æ•°æ®å¡«å……è‡³ç•Œé¢Gridè¡¨æ ¼
+	//å¯†ç åˆ—éšè—
 	Form1.Grid1.EnableColumnHide getColomnByProperty("password"), 1
-	//¶ÁÈ¡ÎÄ¼şÖĞµÄÕËºÅĞÅÏ¢Ìî³äµ½±í¸ñ
-	For i = 1 To UBound(user)//ÓÃ»§Êı×é ĞĞÑ­»·	//µÚ0ĞĞÎª±êÌâÀ¸Õ¼Î»´Ó1¿ªÊ¼
-		Form1.Grid1.InsertRow i			//²åÈëÖ¸¶¨ĞĞ
-		Form1.Grid1.SetRowEditable i, 0	//ĞĞÉèÖÃÎªÖ»¶Á
-		Form1.Grid1.SetCellType i, 0, 1			//ÉèÖÃµÚÊ×ÁĞÎª¶àÑ¡¿ò	ĞĞÁĞ¶¼ÊÇ´Ó0¼ÆÊı£¡ÀÁµÃ¸ÄĞ´ÁË
-		Form1.Grid1.setCheckBoxValue i, 0, 1//ÉèÖÃ¶àÑ¡¿òÄ¬ÈÏÑ¡ÖĞ
+	//è¯»å–æ–‡ä»¶ä¸­çš„è´¦å·ä¿¡æ¯å¡«å……åˆ°è¡¨æ ¼
+	For i = 1 To UBound(user)//ç”¨æˆ·æ•°ç»„ è¡Œå¾ªç¯	//ç¬¬0è¡Œä¸ºæ ‡é¢˜æ å ä½ä»1å¼€å§‹
+		Form1.Grid1.InsertRow i			//æ’å…¥æŒ‡å®šè¡Œ
+		Form1.Grid1.SetRowEditable i, 0	//è¡Œè®¾ç½®ä¸ºåªè¯»
+		Form1.Grid1.SetCellType i, 0, 1			//è®¾ç½®ç¬¬é¦–åˆ—ä¸ºå¤šé€‰æ¡†	è¡Œåˆ—éƒ½æ˜¯ä»0è®¡æ•°ï¼æ‡’å¾—æ”¹å†™äº†
+		Form1.Grid1.setCheckBoxValue i, 0, 1//è®¾ç½®å¤šé€‰æ¡†é»˜è®¤é€‰ä¸­
 		
-		//¸ù¾İÎÄ¼şÌî³ä¹Ì¶¨ÁĞÊı¾İ
+		//æ ¹æ®æ–‡ä»¶å¡«å……å›ºå®šåˆ—æ•°æ®
 		iSetItemText i, "account", getUserInfo(i, "account")
-		iSetItemText i, "password", getUserInfo(i, "password")	//Õ¹Ê¾encodeÃÜÂë
+		iSetItemText i, "password", getUserInfo(i, "password")	//å±•ç¤ºencodeå¯†ç 
 		iSetItemText i, "line", getUserInfo(i, "line")
-		//actualLieĞèÒªÓĞÓÎÏ·´°¿Úhwnd²ÅÄÜ¶ÁÈ¡£¡so¼ÓÔØ¾ä±úºóÔÙ¶ÁÈ¡ÉèÖÃ£¡ Ê¡ÂÔcallÔò²ÎÊı²»ÄÜÀ¨ÆğÀ´£¡
+		//actualLieéœ€è¦æœ‰æ¸¸æˆçª—å£hwndæ‰èƒ½è¯»å–ï¼soåŠ è½½å¥æŸ„åå†è¯»å–è®¾ç½®ï¼ çœç•¥callåˆ™å‚æ•°ä¸èƒ½æ‹¬èµ·æ¥ï¼
 		iSetItemText i, "notes", getUserInfo(i, "notes")
 		iSetItemText i, "name", getUserInfo(i, "name")
 		iSetItemText i, "order", getUserInfo(i, "order")
@@ -203,94 +203,94 @@ Event Form1.Load
 		iSetItemText i, "attackDistance", getUserInfo(i, "attackDistance")
 		iSetItemText i, "part", getUserInfo(i, "part")
 		iSetItemText i, "server", getUserInfo(i, "server")
-		//×´Ì¬À¸¡¢¾ä±ú
+		//çŠ¶æ€æ ã€å¥æŸ„
 		If Plugin.Window.Find("D3D Window", getUserInfo(i, "name")) = 0 Then 
 		 	If Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(3)) = 0 Then 
 				If Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(2)) = 0 Then 
 					If Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(1)) = 0 Then 
-						iSetItemText i, "state", hState(0)//ÖÃ¿Õ ÎŞ¸ÃÕËºÅÈÎÒâ´°¿Ú
+						iSetItemText i, "state", hState(0)//ç½®ç©º æ— è¯¥è´¦å·ä»»æ„çª—å£
 						iSetItemText i, "hwnd", 0
 					Else 
-						iSetItemText i, "state", hState(1)	//rd ÕËºÅ×¼±¸´°¿Ú´æÔÚ
+						iSetItemText i, "state", hState(1)	//rd è´¦å·å‡†å¤‡çª—å£å­˜åœ¨
 						iSetItemText i, "hwnd", Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(1))
 					End If
-					iSetItemBkColor i, "state", "4F4FFF"	//±³¾°¸ÄÎªºìÉ«
+					iSetItemBkColor i, "state", "4F4FFF"	//èƒŒæ™¯æ”¹ä¸ºçº¢è‰²
 				Else 
-					iSetItemText i, "state", hState(2)	//sc ÕËºÅÑ¡½Ç´°¿Ú´æÔÚ
+					iSetItemText i, "state", hState(2)	//sc è´¦å·é€‰è§’çª—å£å­˜åœ¨
 					iSetItemText i, "hwnd", Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(2))
 				End If
 			Else 
-				iSetItemText i, "state", hState(3)	//ig ÕËºÅÓÎÏ·ÖĞ´°¿Ú´æÔÚ
+				iSetItemText i, "state", hState(3)	//ig è´¦å·æ¸¸æˆä¸­çª—å£å­˜åœ¨
 				iSetItemText i, "hwnd", Plugin.Window.Find("D3D Window", getUserInfo(i, "account") & hState(3))
 			End If
 		Else 
-			iSetItemText i, "state", hState(4)	//ap ½ÇÉ«Ãû¼´ºô³öÍâ¹Ò´°¿Ú´æÔÚ
-			iSetItemText i, "hwnd", Plugin.Window.Find("D3D Window", getUserInfo(i, "name"))//¾ä±ú		
+			iSetItemText i, "state", hState(4)	//ap è§’è‰²åå³å‘¼å‡ºå¤–æŒ‚çª—å£å­˜åœ¨
+			iSetItemText i, "hwnd", Plugin.Window.Find("D3D Window", getUserInfo(i, "name"))//å¥æŸ„		
 		End If
 		
-		//rd×´Ì¬ÎŞ·¨²éµ½Êµ¼ÊÏßÂ·»ùÖ· ½øÏß³É¹¦ºóscÑ¡½Ç½çÃæ²ÅÄÜ²éµ½£¡
+		//rdçŠ¶æ€æ— æ³•æŸ¥åˆ°å®é™…çº¿è·¯åŸºå€ è¿›çº¿æˆåŠŸåscé€‰è§’ç•Œé¢æ‰èƒ½æŸ¥åˆ°ï¼
 		If iGetItemText(i, "hwnd") <> 0 Then 
-			//¸üĞÂ»ùÖ·	client.exe´ò¿ª¾ÍÄÜ²éµ½µÄ»ùÖ· ¼´rd×´Ì¬¿É²é
+			//æ›´æ–°åŸºå€	client.exeæ‰“å¼€å°±èƒ½æŸ¥åˆ°çš„åŸºå€ å³rdçŠ¶æ€å¯æŸ¥
 			Call updateBaseAddr(iGetItemText(i, "hwnd"))
-			//¶¨ÖÆÕËºÅ Èç¶¨µã¡¢ĞŞ¸Ä¹¥»÷¾àÀë		Ğè»ùÖ·so·Å¸üĞÂ»ùÖ·Ö®ºó
-			//Call customizeAccount(iGetItemText(i, "hwnd"), i)	//ÏÖÔÚ¶¼ÊÇ½Å±¾Æô¶¯µÄÓÎÏ·ÒÑ¾­¶¨ÖÆ¹ıÁË »¹ĞèÒªÕâÂğ£¿test
+			//å®šåˆ¶è´¦å· å¦‚å®šç‚¹ã€ä¿®æ”¹æ”»å‡»è·ç¦»		éœ€åŸºå€soæ”¾æ›´æ–°åŸºå€ä¹‹å
+			//Call customizeAccount(iGetItemText(i, "hwnd"), i)	//ç°åœ¨éƒ½æ˜¯è„šæœ¬å¯åŠ¨çš„æ¸¸æˆå·²ç»å®šåˆ¶è¿‡äº† è¿˜éœ€è¦è¿™å—ï¼Ÿtest
 			
-			If iGetItemText(i, "state") <> hState(1) Then //£¿hState(2)=sc ÈôÊÇºÚÆÁµÇÂ¼²»Ò»¶¨½øÏß³É¹¦ÔÚÑ¡½Ç½çÃæÅÅ³ı£¿´ı¶¨£¿
+			If iGetItemText(i, "state") <> hState(1) Then //ï¼ŸhState(2)=sc è‹¥æ˜¯é»‘å±ç™»å½•ä¸ä¸€å®šè¿›çº¿æˆåŠŸåœ¨é€‰è§’ç•Œé¢æ’é™¤ï¼Ÿå¾…å®šï¼Ÿ
 				server = iGetItemText(i, "server")
-				//¸üĞÂ»ùÖ·2	½ø½×ÈçĞèÒª½øÏß³É¹¦ºó²Å»á¸üĞÂµÄ»ùÖ·
+				//æ›´æ–°åŸºå€2	è¿›é˜¶å¦‚éœ€è¦è¿›çº¿æˆåŠŸåæ‰ä¼šæ›´æ–°çš„åŸºå€
 				Call updateBaseAddr2(iGetItemText(i, "hwnd"))
-				//If actualLineBaseAddr <> "" Then //Îª¿ÕÖ±½ÓsetItem¿ÕÒ²ĞĞ
-				iSetItemText i, "actualLine", dm.ReadString(iGetItemText(i, "hwnd"), actualLineBaseAddr, 0, 2)	//Êµ¼Ê½øÈëÏßÂ· hwnd<>0ÇÒ½øÏß³É¹¦ºó
+				//If actualLineBaseAddr <> "" Then //ä¸ºç©ºç›´æ¥setItemç©ºä¹Ÿè¡Œ
+				iSetItemText i, "actualLine", dm.ReadString(iGetItemText(i, "hwnd"), actualLineBaseAddr, 0, 2)	//å®é™…è¿›å…¥çº¿è·¯ hwnd<>0ä¸”è¿›çº¿æˆåŠŸå
 			End If
 		End If
 
-		//½ğÇ® µÈ¼¶ ÈË²Î Ç¿»¯	 ²ÖÓàµÈÁĞÊÇ±äÁ¿ÔÚ×ÓÏß³ÌsubThreadÖĞ¶ÁÈ¡ÄÚ´æºó¸üĞÂ£¡	
+		//é‡‘é’± ç­‰çº§ äººå‚ å¼ºåŒ–	 ä»“ä½™ç­‰åˆ—æ˜¯å˜é‡åœ¨å­çº¿ç¨‹subThreadä¸­è¯»å–å†…å­˜åæ›´æ–°ï¼	
 	Next
-	//·Å¿ªÊ×ÁĞ¶àÑ¡¿òÖ»¶ÁÎª¿É¹´Ñ¡
+	//æ”¾å¼€é¦–åˆ—å¤šé€‰æ¡†åªè¯»ä¸ºå¯å‹¾é€‰
 	Form1.Grid1.SetColumnEditable getColomnByProperty("check"), 1
 	
 	formLoadCompleteFlag = True
 	addLog "====== formLoad done!"
 End Event
 
-//ÉèÖÃ½Å±¾ÊÍ·ÅÄ¿Â¼Â·¾¶ÓëiniÅäÖÃÎÄ¼ş¡¢logÈÕÖ¾ÎÄ¼şÄ¿Â¼
+//è®¾ç½®è„šæœ¬é‡Šæ”¾ç›®å½•è·¯å¾„ä¸inié…ç½®æ–‡ä»¶ã€logæ—¥å¿—æ–‡ä»¶ç›®å½•
 Sub setFreeDirPath()
-	exeDir = GetExeDir()	//»ñÈ¡µ±Ç°½Å±¾³ÌĞòËùÔÚÂ·¾¶	ÈçD:\Program Files\°´¼ü¾«Áé\°´¼ü¾«Áé2014\
-	alFreeDirPath = exeDir & freeFileName	//½Å±¾ÊÍ·ÅÄ¿Â¼Â·¾¶Î²²¿º¬"\"	ÈçD:\Program Files\°´¼ü¾«Áé\°´¼ü¾«Áé2014\rxFree\
+	exeDir = GetExeDir()	//è·å–å½“å‰è„šæœ¬ç¨‹åºæ‰€åœ¨è·¯å¾„	å¦‚D:\Program Files\æŒ‰é”®ç²¾çµ\æŒ‰é”®ç²¾çµ2014\
+	alFreeDirPath = exeDir & freeFileName	//è„šæœ¬é‡Šæ”¾ç›®å½•è·¯å¾„å°¾éƒ¨å«"\"	å¦‚D:\Program Files\æŒ‰é”®ç²¾çµ\æŒ‰é”®ç²¾çµ2014\rxFree\
 	If Plugin.File.ExistFile(alFreeDirPath) = 0 Then 
 		Call Plugin.File.CreateFolder(alFreeDirPath)	
 	End If
-	If Plugin.File.ExistFile(alFreeDirPath & "log") = 0 Then //´´½¨logÎÄ¼ş¼Ğ
+	If Plugin.File.ExistFile(alFreeDirPath & "log") = 0 Then //åˆ›å»ºlogæ–‡ä»¶å¤¹
 		Call Plugin.File.CreateFolder(alFreeDirPath & "log")
 	End If
 	
-	//ÈôÎÄ¼ş²»´æÔÚ£¬¶ÁÈ¡Îª¿Õ£¬Ğ´Èë»á×Ô¶¯´´½¨	test´ı¶¨£¿
+	//è‹¥æ–‡ä»¶ä¸å­˜åœ¨ï¼Œè¯»å–ä¸ºç©ºï¼Œå†™å…¥ä¼šè‡ªåŠ¨åˆ›å»º	testå¾…å®šï¼Ÿ
 	iniPath = exeDir & freeFileName & iniFileName
 End Sub
 
-//¸ù¾İ¼ü¶ÁÈ¡ÎÄ¼şÖĞµÄÖµ
+//æ ¹æ®é”®è¯»å–æ–‡ä»¶ä¸­çš„å€¼
 Function readFileByKey(k)
 	readFileByKey = Plugin.File.ReadINI("config", k, iniPath)
 End Function
-//¶ÁÈ¡ÎÄ¼şÖĞµÄÊı¾İÉèÖÃÏàÓ¦»·¾³±äÁ¿
+//è¯»å–æ–‡ä»¶ä¸­çš„æ•°æ®è®¾ç½®ç›¸åº”ç¯å¢ƒå˜é‡
 Function readFile2SetEnv()
-	//ËùÓĞÓÃ»§ĞÅÏ¢×Ö·û´®
+	//æ‰€æœ‰ç”¨æˆ·ä¿¡æ¯å­—ç¬¦ä¸²
 	users = readFileByKey("users")
-	//UBound(user)¾ÍÊÇÕËºÅ¸öÊı	¿´Ğ´Èë¹æÔòÈçwriteFileFormGrid()=a|b| ×î´óÏÂ±ê2 ÕËºÅ¸öÊı2
+	//UBound(user)å°±æ˜¯è´¦å·ä¸ªæ•°	çœ‹å†™å…¥è§„åˆ™å¦‚writeFileFormGrid()=a|b| æœ€å¤§ä¸‹æ ‡2 è´¦å·ä¸ªæ•°2
 End Function
 
-//¸ù¾İ¼üÖµĞ´ÈëÎÄ¼ş
+//æ ¹æ®é”®å€¼å†™å…¥æ–‡ä»¶
 Function writeFileByKV(k, v)
 	Call Plugin.File.writeINI("config",k, v, iniPath)
 End Function
-//½çÃæÖĞµÄGrid¿Ø¼şÊı¾İĞ´ÈëÎÄ¼ş	×¢ÒâË³Ğò ÓëformloadÖĞ¶ÁĞ´Ò»ÖÂ ÓëgetUserInfo()Ïà¹Ø£¡
+//ç•Œé¢ä¸­çš„Gridæ§ä»¶æ•°æ®å†™å…¥æ–‡ä»¶	æ³¨æ„é¡ºåº ä¸formloadä¸­è¯»å†™ä¸€è‡´ ä¸getUserInfo()ç›¸å…³ï¼
 Sub writeFileFormGrid()
 	Dim value
     For i = 1 To Form1.Grid1.RowCount - 1
-        If iGetItemText(i, "account") = "" Then  //Ò³ÃæÕËºÅÎª¿ÕËµÃ÷ºóÃæÃ»Êı¾İÁË ½áÊøÑ­»·
+        If iGetItemText(i, "account") = "" Then  //é¡µé¢è´¦å·ä¸ºç©ºè¯´æ˜åé¢æ²¡æ•°æ®äº† ç»“æŸå¾ªç¯
             Exit For
         End If
-		//¸ñÊ½»¯ÕËºÅ¡¢±¸×¢¡¢½ÇÉ«Ãû Ìæ»»"|"·Ö¸ô·ûÎª"#S"¡¢","Îª"#C" ±ÜÃâÕËºÅÊı¾İ·Ö¸ô´íÎó	ÃÜÂë¿ÉÒÔÊäÕâĞ©Âğ ´ı¶¨£¿
+		//æ ¼å¼åŒ–è´¦å·ã€å¤‡æ³¨ã€è§’è‰²å æ›¿æ¢"|"åˆ†éš”ç¬¦ä¸º"#S"ã€","ä¸º"#C" é¿å…è´¦å·æ•°æ®åˆ†éš”é”™è¯¯	å¯†ç å¯ä»¥è¾“è¿™äº›å— å¾…å®šï¼Ÿ
         value = value & formatData2Save(iGetItemText(i, "account")) & "," & _
         				formatData2Save(iGetItemText(i, "password")) & "," & _
         				iGetItemText(i, "line") & "," & _
@@ -312,55 +312,55 @@ Sub writeFileFormGrid()
 						iGetItemText(i, "part") & "," & _
 						iGetItemText(i, "server")
 		
-		value = value & "|"		//userÊı¾İ½áÊø·Ö¸ô
+		value = value & "|"		//useræ•°æ®ç»“æŸåˆ†éš”
     Next    
-    writeFileByKV "users", value//¿ÉÄÜÎª¿Õ ÈçÒ³ÃæÊı¾İÈ«É¾³ı so²»ÅĞ¶Ïvalue¿Õ
+    writeFileByKV "users", value//å¯èƒ½ä¸ºç©º å¦‚é¡µé¢æ•°æ®å…¨åˆ é™¤ soä¸åˆ¤æ–­valueç©º
     
-    //ÔöÉ¾¸ÄÖØÖÃusers×Ö·û´®»·¾³±äÁ¿ ¹©½Å±¾ËæÊ±Ê¹ÓÃ×îĞÂÖµ Èç²éÏßÊ±Ö±½ÓĞŞ¸ÄµÇÂ¼
-    Call readFile2SetEnv()		//»òÖ±½Ó users = value ´ı¶¨£¿»òÊÖ¸Äini£¿
+    //å¢åˆ æ”¹é‡ç½®userså­—ç¬¦ä¸²ç¯å¢ƒå˜é‡ ä¾›è„šæœ¬éšæ—¶ä½¿ç”¨æœ€æ–°å€¼ å¦‚æŸ¥çº¿æ—¶ç›´æ¥ä¿®æ”¹ç™»å½•
+    Call readFile2SetEnv()		//æˆ–ç›´æ¥ users = value å¾…å®šï¼Ÿæˆ–æ‰‹æ”¹iniï¼Ÿ
 End Sub
-//½çÃæÖĞµÄÌØÊâ¿Ø¼şÊı¾İĞ´ÈëÎÄ¼ş£¨²»°üº¬Grid±í¸ñÊı¾İ£©
+//ç•Œé¢ä¸­çš„ç‰¹æ®Šæ§ä»¶æ•°æ®å†™å…¥æ–‡ä»¶ï¼ˆä¸åŒ…å«Gridè¡¨æ ¼æ•°æ®ï¼‰
 Function writeFileSpecialData()
-	//Launcher.exeÂ·¾¶Í¨ÓÃÉñÆ÷Â·¾¶
+	//Launcher.exeè·¯å¾„é€šç”¨ç¥å™¨è·¯å¾„
 	writeFileByKV "launcherPath", Form1.BrowseBoxLauncherPath.Path
 	writeFileByKV "payPath", Form1.BrowseBoxPayPath.Path
 	writeFileByKV "freePath", Form1.BrowseBoxFreePath.Path
 	
-	//Í¬Ê±½øÓÎÕËºÅ
+	//åŒæ—¶è¿›æ¸¸è´¦å·
 	writeFileByKV "accountLimit", Form1.ComboBoxAccountLimit.ListIndex
-	//¿ªÏßµÇÂ¼³¢ÊÔ´ÎÊı
+	//å¼€çº¿ç™»å½•å°è¯•æ¬¡æ•°
 	writeFileByKV "openLineTryLimit", Form1.ComboboxOpenLineTryLimit.ListIndex
-	//°´¼ü¾²Òô
+	//æŒ‰é”®é™éŸ³
 	writeFileByKV "mute", Form1.CheckBoxMute.Value
-	//×Ô¶¯¸üĞÂ
+	//è‡ªåŠ¨æ›´æ–°
 	writeFileByKV "autoPatch", Form1.CheckBoxAutoPatch.Value
-	//²»¶ÁÄÚ´æ
+	//ä¸è¯»å†…å­˜
 	writeFileByKV "noReadMemoryData", Form1.CheckBoxNoReadMemoryData.Value
-	//Î¬»¤µÈ´ıÊ±¼äºóÔÙÆô¶¯¸üĞÂ
+	//ç»´æŠ¤ç­‰å¾…æ—¶é—´åå†å¯åŠ¨æ›´æ–°
 	writeFileByKV "maintenance", Form1.CheckBoxMaintenance.Value
-	//Î¬»¤ĞÇÆÚ
+	//ç»´æŠ¤æ˜ŸæœŸ
 	writeFileByKV "MTWeek", Form1.ComboBoxMTWeek.ListIndex
-	//Î¬»¤Ğ¡Ê±
+	//ç»´æŠ¤å°æ—¶
 	writeFileByKV "MTHour", Form1.ComboBoxMTHour.ListIndex
 	
-	//×ÓÏß³ÌÑ­»·Ê±¼ä	//ÓĞchangeÊÂ¼şÅĞ¶Ï¸³Öµ²»»áÎª¿Õ
-	writeFileByKV "stDelay", Form1.InputBoxSubTime.Text	//ÊäÈë¿ò²»Îª¿ÕÔòÖ±½ÓĞ´ÈëÎÄ¼ş
+	//å­çº¿ç¨‹å¾ªç¯æ—¶é—´	//æœ‰changeäº‹ä»¶åˆ¤æ–­èµ‹å€¼ä¸ä¼šä¸ºç©º
+	writeFileByKV "stDelay", Form1.InputBoxSubTime.Text	//è¾“å…¥æ¡†ä¸ä¸ºç©ºåˆ™ç›´æ¥å†™å…¥æ–‡ä»¶
 	
 End Function
-//»ùÖ·Ğ´ÈëÎÄ¼ş	//Ë³±ãĞ´Èë½çÃæ·½±ã²é¿´¸´ÖÆ
+//åŸºå€å†™å…¥æ–‡ä»¶	//é¡ºä¾¿å†™å…¥ç•Œé¢æ–¹ä¾¿æŸ¥çœ‹å¤åˆ¶
 Function writeFileBaseAddr()
-	//1 Client.exe´ò¿ª¾ÍÄÜ²éµ½µÄ»ùÖ· ¼´rd×´Ì¬¿É²é
-	writeFileByKV "roleInfoBaseAddr", roleInfoBaseAddr			//½ÇÉ«ĞÅÏ¢»ùÖ· ÈËÎïÃû×Ö
-	writeFileByKV "packBaseAddr", packBaseAddr					//±³°üedi»ùÖ·
-	writeFileByKV "attackRangeBaseAddr", attackRangeBaseAddr	//¹¥»÷¾àÀë»ùÖ·
-	writeFileByKV "fixedPointBaseAddr", fixedPointBaseAddr		//¶¨µã»ùÖ·
-	writeFileByKV "returnPointBaseAddr", returnPointBaseAddr	//»Øµã»ùÖ·
-	writeFileByKV "disconnectFlagBaseAddr", disconnectFlagBaseAddr//dllµôÏß±êÊ¶»ùÖ·
-	writeFileByKV "socketStateBaseAddr", socketStateBaseAddr	//socket×´Ì¬»ùÖ·	
-	//2 ĞèÒªË«»÷ÏßÂ·ºó²Å»á¸üĞÂÊµ¼ÊÏßÂ·»ùÖ·
-	writeFileByKV "actualLineBaseAddr", actualLineBaseAddr		//Êµ¼ÊÏßÂ·»ùÖ·
+	//1 Client.exeæ‰“å¼€å°±èƒ½æŸ¥åˆ°çš„åŸºå€ å³rdçŠ¶æ€å¯æŸ¥
+	writeFileByKV "roleInfoBaseAddr", roleInfoBaseAddr			//è§’è‰²ä¿¡æ¯åŸºå€ äººç‰©åå­—
+	writeFileByKV "packBaseAddr", packBaseAddr					//èƒŒåŒ…ediåŸºå€
+	writeFileByKV "attackRangeBaseAddr", attackRangeBaseAddr	//æ”»å‡»è·ç¦»åŸºå€
+	writeFileByKV "fixedPointBaseAddr", fixedPointBaseAddr		//å®šç‚¹åŸºå€
+	writeFileByKV "returnPointBaseAddr", returnPointBaseAddr	//å›ç‚¹åŸºå€
+	writeFileByKV "disconnectFlagBaseAddr", disconnectFlagBaseAddr//dllæ‰çº¿æ ‡è¯†åŸºå€
+	writeFileByKV "socketStateBaseAddr", socketStateBaseAddr	//socketçŠ¶æ€åŸºå€	
+	//2 éœ€è¦åŒå‡»çº¿è·¯åæ‰ä¼šæ›´æ–°å®é™…çº¿è·¯åŸºå€
+	writeFileByKV "actualLineBaseAddr", actualLineBaseAddr		//å®é™…çº¿è·¯åŸºå€
 	
-	'Ñ¡ÏîÒ³-»ùÖ·Ò³	//Ë³±ãĞ´Èë½çÃæ·½±ã²é¿´¸´ÖÆ	test
+	'é€‰é¡¹é¡µ-åŸºå€é¡µ	//é¡ºä¾¿å†™å…¥ç•Œé¢æ–¹ä¾¿æŸ¥çœ‹å¤åˆ¶	test
 	Form1.InputBoxRoleInfo.Text = roleInfoBaseAddr
 	Form1.InputBoxPack.Text = packBaseAddr
 	Form1.InputBoxSocketState.Text = socketStateBaseAddr
@@ -371,141 +371,141 @@ Function writeFileBaseAddr()
 	Form1.InputBoxDisconnectFlag.Text = disconnectFlagBaseAddr
 End Function
 
-//»ñÈ¡iniÎÄ¼şÖĞµÄÓÃ»§ĞÅÏ¢    
-' a: iniÎÄ¼şuserÊı×éÖĞµÃµ½µ¥¸öuserĞÅÏ¢ ÒòÎª½çÃæ¶àÊÇ´Ó1¿ªÊ¼Ëì´ÓÖ® ¼´ÊäÈë1µÃµ½user(0)µÚÒ»¸öÓÃ»§ĞÅÏ¢	
-' userPropertyÊôĞÔ£ºuser¡¢account¡¢password¡¢line¡¢notes¡¢name¡¢order¡¢afterLine¡¢fixedPoint¡¢attackDistance¡¢part¡¢server
-' ÕËºÅ,ÃÜÂë,ÏßÂ·,±¸×¢,½ÇÉ«Ãû,ÈËÎïË³Ğò,ÉÏÏßºó¡¢¶¨µã×´Ì¬¡¢¹¥»÷¾àÀë¡¢·ÖÇø¡¢·şÎñÆ÷
+//è·å–iniæ–‡ä»¶ä¸­çš„ç”¨æˆ·ä¿¡æ¯    
+' a: iniæ–‡ä»¶useræ•°ç»„ä¸­å¾—åˆ°å•ä¸ªuserä¿¡æ¯ å› ä¸ºç•Œé¢å¤šæ˜¯ä»1å¼€å§‹é‚ä»ä¹‹ å³è¾“å…¥1å¾—åˆ°user(0)ç¬¬ä¸€ä¸ªç”¨æˆ·ä¿¡æ¯	
+' userPropertyå±æ€§ï¼šuserã€accountã€passwordã€lineã€notesã€nameã€orderã€afterLineã€fixedPointã€attackDistanceã€partã€server
+' è´¦å·,å¯†ç ,çº¿è·¯,å¤‡æ³¨,è§’è‰²å,äººç‰©é¡ºåº,ä¸Šçº¿åã€å®šç‚¹çŠ¶æ€ã€æ”»å‡»è·ç¦»ã€åˆ†åŒºã€æœåŠ¡å™¨
 Function getUserInfo(a, userProperty)
 	Select Case userProperty
-		Case "user"		//µÃµ½Ä³¸öuser¶ÔÏó
+		Case "user"		//å¾—åˆ°æŸä¸ªuserå¯¹è±¡
 			getUserInfo = user(a - 1)
-		Case "account"	//µÃµ½Ä³¸öuserµÄÕËºÅ
+		Case "account"	//å¾—åˆ°æŸä¸ªuserçš„è´¦å·
 			getUserInfo = transformData2Show(split(user(a - 1), ",")(0))
-		Case "password"//µÃµ½Ä³¸öuserµÄÃÜÂë
+		Case "password"//å¾—åˆ°æŸä¸ªuserçš„å¯†ç 
 			getUserInfo = transformData2Show(split(user(a - 1), ",")(1))
-		Case "line"		//µÃµ½Ä³¸öuserµÄÏßÂ·
+		Case "line"		//å¾—åˆ°æŸä¸ªuserçš„çº¿è·¯
 			getUserInfo = split(user(a - 1), ",")(2)
-		Case "notes"	//µÃµ½Ä³¸öuserµÄ±¸×¢
+		Case "notes"	//å¾—åˆ°æŸä¸ªuserçš„å¤‡æ³¨
 			getUserInfo = transformData2Show(split(user(a - 1), ",")(3))	
-		Case "name"		//µÃµ½Ä³¸öuserµÄ½ÇÉ«Ãû
+		Case "name"		//å¾—åˆ°æŸä¸ªuserçš„è§’è‰²å
 			getUserInfo = transformData2Show(split(user(a - 1), ",")(4))
-		Case "order"	//µÃµ½Ä³¸öuserµÄÈËÎïË³Ğò
+		Case "order"	//å¾—åˆ°æŸä¸ªuserçš„äººç‰©é¡ºåº
 			getUserInfo = split(user(a - 1), ",")(5)
-		Case "afterLine"//µÃµ½Ä³¸öuserµÄÉÏÏßºó²Ù×÷
+		Case "afterLine"//å¾—åˆ°æŸä¸ªuserçš„ä¸Šçº¿åæ“ä½œ
 			getUserInfo = split(user(a - 1), ",")(6)
-		Case "fixedPoint"//µÃµ½Ä³¸öuserµÄ¶¨µã×´Ì¬
+		Case "fixedPoint"//å¾—åˆ°æŸä¸ªuserçš„å®šç‚¹çŠ¶æ€
 			getUserInfo = split(user(a - 1), ",")(7)
-		Case "attackDistance"//µÃµ½Ä³¸öuserµÄ¹¥»÷¾àÀë
+		Case "attackDistance"//å¾—åˆ°æŸä¸ªuserçš„æ”»å‡»è·ç¦»
 			getUserInfo = split(user(a - 1), ",")(8)
-		Case "part"//µÃµ½Ä³¸öuserµÄ·ÖÇø
+		Case "part"//å¾—åˆ°æŸä¸ªuserçš„åˆ†åŒº
 			getUserInfo = split(user(a - 1), ",")(9)
-		Case "server"//µÃµ½Ä³¸öuserµÄ·şÎñÆ÷
+		Case "server"//å¾—åˆ°æŸä¸ªuserçš„æœåŠ¡å™¨
 			getUserInfo = split(user(a - 1), ",")(10)
 		Case Else
-			getUserInfo = "" //Ä¬ÈÏ·µ»Ø¿Õ
+			getUserInfo = "" //é»˜è®¤è¿”å›ç©º
 	End Select
 	
 	//getUserInfo = transformData2Show(uInfo)
 End Function
 
-//»ñÈ¡ÓÎÏ·ÖĞ½ÇÉ«ĞÅÏ¢		
-'rolePropertyÊôĞÔ£ºname¡¢level¡¢money		
-'format¸ñÊ½»¯£º0·ñ1ÊÇ
+//è·å–æ¸¸æˆä¸­è§’è‰²ä¿¡æ¯		
+'rolePropertyå±æ€§ï¼šnameã€levelã€money		
+'formatæ ¼å¼åŒ–ï¼š0å¦1æ˜¯
 Function getRoleInfo(hwnd, roleProperty, format)
-	//02C8EDE0	//»ùÖ· ÈËÎïÃû×Ö	¶¨ÒåÎª»·¾³±äÁ¿£¡
-	//+34		//µÈ¼¶	1byte
-	//+35		//¼¸×ª	1byte
-	//+36		//ÃûÉù	char*
-	//+80		//µ±Ç°ÑªÁ¿  +0x4 * n ... +84µ±Ç°À¶Á¿/+88µ±Ç°·ßÅ­Öµ/+8C×ÜÑªÁ¿/+90×ÜÀ¶Á¿/+94×Ü·ßÅ­Öµ
-	//+98		//µ±Ç°µÈ¼¶¾­ÑéÖµ	 8byte
-	//+A0		//µ±Ç°µÈ¼¶Éı¼¶ËùĞè×Ü¾­Ñé	8byte
-	//+AC		//ÀúÁ·
-	//+B0		//ĞÄ   +0x4...
-	//+C8		//¹¥»÷ +0x4...
-	//+E4		//½ğÇ®	8byte? 5byte!!!
+	//02C8EDE0	//åŸºå€ äººç‰©åå­—	å®šä¹‰ä¸ºç¯å¢ƒå˜é‡ï¼
+	//+34		//ç­‰çº§	1byte
+	//+35		//å‡ è½¬	1byte
+	//+36		//åå£°	char*
+	//+80		//å½“å‰è¡€é‡  +0x4 * n ... +84å½“å‰è“é‡/+88å½“å‰æ„¤æ€’å€¼/+8Cæ€»è¡€é‡/+90æ€»è“é‡/+94æ€»æ„¤æ€’å€¼
+	//+98		//å½“å‰ç­‰çº§ç»éªŒå€¼	 8byte
+	//+A0		//å½“å‰ç­‰çº§å‡çº§æ‰€éœ€æ€»ç»éªŒ	8byte
+	//+AC		//å†ç»ƒ
+	//+B0		//å¿ƒ   +0x4...
+	//+C8		//æ”»å‡» +0x4...
+	//+E4		//é‡‘é’±	8byte? 5byte!!!
 	
-	//£¡£¡£¡´óÄ®¶ÁÈ¡4×Ö½ÚReadIntÓÃµÄsigned int,FFFFFFFF¶ÁÈ¡Îª-1£¡£¡£¡£¡£¡soÓÃ×Ô´ø²å¼şÃ²ËÆÊÇÓÃµÄlong/unsigned int?		//×¢ÒâÈôreadData¶ÁÈ¡Êı¾İÎªĞ¡¶ËÏÔÊ¾µÄhex²»ºÃ²Ù×÷£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡
+	//ï¼ï¼ï¼å¤§æ¼ è¯»å–4å­—èŠ‚ReadIntç”¨çš„signed int,FFFFFFFFè¯»å–ä¸º-1ï¼ï¼ï¼ï¼ï¼soç”¨è‡ªå¸¦æ’ä»¶è²Œä¼¼æ˜¯ç”¨çš„long/unsigned int?		//æ³¨æ„è‹¥readDataè¯»å–æ•°æ®ä¸ºå°ç«¯æ˜¾ç¤ºçš„hexä¸å¥½æ“ä½œï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 	Select Case roleProperty
-		Case "name"		//ÈËÎïÃû×Ö 16×Ö½Ú
+		Case "name"		//äººç‰©åå­— 16å­—èŠ‚
 			getRoleInfo = Plugin.Memory.ReadString(hwnd, "&H" & roleInfoBaseAddr, 16)
 			//getRoleInfo = dm.ReadString(hwnd, roleInfoBaseAddr, 0, 16)		
-		Case "level"	//µÈ¼¶	1byte
+		Case "level"	//ç­‰çº§	1byte
 			getRoleInfo = Plugin.Memory.Read8Bit(hwnd, ("&H" & roleInfoBaseAddr) + &H34)
 			//getRoleInfo = dm.ReadInt(hwnd, roleInfoBaseAddr & "+ 0x34", 2)
-		Case "money"	//½ğÇ®	5byte
-			//dec:200e hex= 4 A817 C800	/×îĞÂ¿ÉÄÜÓĞ1ke hex=17 4876 E800		¹²5¸ö×Ö½Ú Memory²å¼ş½á¹ûÎªÊı×Ödec
-			moneyLow = Plugin.Memory.Read32Bit(hwnd, ("&H" & roleInfoBaseAddr) + &HE4)//ÏÈ¶ÁµÍÎ»4×Ö½Údec	//×î´ó4294967295			
-			moneyHigh = Plugin.Memory.Read8Bit(hwnd, ("&H" & roleInfoBaseAddr) + &HE8) * 16 ^ 8	//ÔÙ¶Á¸ßÎ»1¸ö×Ö½Úhex(×î´ó04/17) ³ËÒÔ16^8
+		Case "money"	//é‡‘é’±	5byte
+			//dec:200e hex= 4 A817 C800	/æœ€æ–°å¯èƒ½æœ‰1ke hex=17 4876 E800		å…±5ä¸ªå­—èŠ‚ Memoryæ’ä»¶ç»“æœä¸ºæ•°å­—dec
+			moneyLow = Plugin.Memory.Read32Bit(hwnd, ("&H" & roleInfoBaseAddr) + &HE4)//å…ˆè¯»ä½ä½4å­—èŠ‚dec	//æœ€å¤§4294967295			
+			moneyHigh = Plugin.Memory.Read8Bit(hwnd, ("&H" & roleInfoBaseAddr) + &HE8) * 16 ^ 8	//å†è¯»é«˜ä½1ä¸ªå­—èŠ‚hex(æœ€å¤§04/17) ä¹˜ä»¥16^8
 			roleMoney = moneyHigh + moneyLow
-			If format = 0 Then //Ô­Ê¼½ğÇ®
+			If format = 0 Then //åŸå§‹é‡‘é’±
 				getRoleInfo = roleMoney
-			Else //¸ñÊ½»¯½ğÇ®
+			Else //æ ¼å¼åŒ–é‡‘é’±
 				getRoleInfo = formatMoney(roleMoney, 1)
 			End If					
 		Case Else
-			getRoleInfo = ""	//Ä¬ÈÏ·µ»Ø¿Õ
+			getRoleInfo = ""	//é»˜è®¤è¿”å›ç©º
 	End Select
 End Function
 
-//¸ñÊ½»¯½ğÇ®		1ÍòÒÔÉÏtrim:0²»È¥ºó4Î» 1È¥ºó4Î»£»1ÍòÒÔÏÂÖ±½ÓÏÔÊ¾
+//æ ¼å¼åŒ–é‡‘é’±		1ä¸‡ä»¥ä¸Štrim:0ä¸å»å4ä½ 1å»å4ä½ï¼›1ä¸‡ä»¥ä¸‹ç›´æ¥æ˜¾ç¤º
 Function formatMoney(money, trim)
 	r = CStr(money)	
 	If Len(r) >= 5 and Len(r) <= 8 Then 
-		If trim = 0 Then //1wÒÔÉÏ ²»È¥ºó4Î»
-			r = Mid(r,1,Len(r)-4) & "Íò" & Right(r, 4)
+		If trim = 0 Then //1wä»¥ä¸Š ä¸å»å4ä½
+			r = Mid(r,1,Len(r)-4) & "ä¸‡" & Right(r, 4)
 		Else 
-			r = Mid(r,1,Len(r)-4) & "Íò" //& Right(r, 4)	
+			r = Mid(r,1,Len(r)-4) & "ä¸‡" //& Right(r, 4)	
 		End If
 		
 	ElseIf Len(r) >= 9 Then
-		If trim = 0 Then //1wÒÔÉÏ ²»È¥ºó4Î»
-			r = Mid(r, 1, Len(r) - 8) & "ÒÚ" & Mid(r, Len(r) - 7, 4) & "Íò" & Right(r, 4)
+		If trim = 0 Then //1wä»¥ä¸Š ä¸å»å4ä½
+			r = Mid(r, 1, Len(r) - 8) & "äº¿" & Mid(r, Len(r) - 7, 4) & "ä¸‡" & Right(r, 4)
 		Else 
-			r = Mid(r, 1, Len(r) - 8) & "ÒÚ" & Mid(r, Len(r) - 7, 4) & "Íò" //& Right(r, 4)
+			r = Mid(r, 1, Len(r) - 8) & "äº¿" & Mid(r, Len(r) - 7, 4) & "ä¸‡" //& Right(r, 4)
 		End If		
 	Else 
-		//1wÒÔÏÂÖ±½ÓÏÔÊ¾
+		//1wä»¥ä¸‹ç›´æ¥æ˜¾ç¤º
 	End If		
 	formatMoney = r	
 End Function
 
-//»ñÈ¡½ÇÉ«´æ´¢ÁĞ±íĞÅÏ¢
-'storeProperty: pack¡¢pstore¡¢cstore		(personal store¡¢common store)
-'indexÎïÆ·ÏÂ±ê£ºÊ®½øÖÆ pack:1-36 pstore/cstore:1-60
-'itemPropertyÎïÆ·ÊôĞÔ£ºname¡¢describe¡¢property¡¢number...
+//è·å–è§’è‰²å­˜å‚¨åˆ—è¡¨ä¿¡æ¯
+'storeProperty: packã€pstoreã€cstore		(personal storeã€common store)
+'indexç‰©å“ä¸‹æ ‡ï¼šåè¿›åˆ¶ pack:1-36 pstore/cstore:1-60
+'itemPropertyç‰©å“å±æ€§ï¼šnameã€describeã€propertyã€number...
 Function getRoleStoreList(hwnd, storeProperty, index, itemProperty)
-	//´æ´¢ÁĞ±íÍ¨ÓÃ¹«Ê½:[edi+ebx*4+53C]+Æ«ÒÆ	
-	//+0x64	   //ÎïÆ·Ãû×Ö
-	//+0xF9    //ÎïÆ·ÃèÊö
-	//+0x338   //ÎïÆ·ÊôĞÔ	
-	//+0xD4C   //ÎïÆ·ÊıÁ¿
-	//		   //ÏîÁ´µÈ¸½¼ÓÊôĞÔ ´ıOD²éÕÒ£¡
+	//å­˜å‚¨åˆ—è¡¨é€šç”¨å…¬å¼:[edi+ebx*4+53C]+åç§»	
+	//+0x64	   //ç‰©å“åå­—
+	//+0xF9    //ç‰©å“æè¿°
+	//+0x338   //ç‰©å“å±æ€§	
+	//+0xD4C   //ç‰©å“æ•°é‡
+	//		   //é¡¹é“¾ç­‰é™„åŠ å±æ€§ å¾…ODæŸ¥æ‰¾ï¼
 	
 	Select Case storeProperty
-		Case "pack"		//±³°üÁĞ±í
+		Case "pack"		//èƒŒåŒ…åˆ—è¡¨
 			baseAddr = "[" & packBaseAddr & "]"		// pack
-		Case "pstore"	//¸öÈË²Ö¿âÁĞ±í personal store
+		Case "pstore"	//ä¸ªäººä»“åº“åˆ—è¡¨ personal store
 			baseAddr = "[" & packBaseAddr & pstoreGap & "]"	//pstore	0xAF70 0xAF88
-		Case "cstore"	//×ÛºÏ²Ö¿âÁĞ±í common store
+		Case "cstore"	//ç»¼åˆä»“åº“åˆ—è¡¨ common store
 			baseAddr = "[" & packBaseAddr & cstoreGap & "]"	//cstore	0xAF74 0xAF8C
 		Case Else
-			getRoleStoreList = ""//Ä¬ÈÏ·µ»Ø¿Õ
+			getRoleStoreList = ""//é»˜è®¤è¿”å›ç©º
 			Exit Function
 	End Select
 	If index = 0 Then 
-		getRoleStoreList = ""//Ä¬ÈÏ·µ»Ø¿Õ
+		getRoleStoreList = ""//é»˜è®¤è¿”å›ç©º
 		Exit Function
 	End If
 	
-	//ebx*4+0x53C//´óÄ®²å¼ş []ºóÖ»Ê¶±ğÒ»¸ö²ÎÊı£¿ ¾­²âÊÔ dm []ºóÖ»¶ÁÈ¡µÚÒ»¸ö¼ÓºÅÊı¾İ£¬ĞèÏÈ¼ÆËã³öÀ´£¡
+	//ebx*4+0x53C//å¤§æ¼ æ’ä»¶ []ååªè¯†åˆ«ä¸€ä¸ªå‚æ•°ï¼Ÿ ç»æµ‹è¯• dm []ååªè¯»å–ç¬¬ä¸€ä¸ªåŠ å·æ•°æ®ï¼Œéœ€å…ˆè®¡ç®—å‡ºæ¥ï¼
 	addr = "[" & baseAddr & " + " & hex((index - 1) * 4 + &H53C) & "]"
 	
 	Select Case itemProperty
-		//+0x64	   //ÎïÆ·Ãû×Ö
-		//+0xF9    //ÎïÆ·ÃèÊö
-		//+0x338   //ÎïÆ·ÊôĞÔ	
-		//+0xD4C   //ÎïÆ·ÊıÁ¿
-		//		   //ÏîÁ´µÈ¸½¼ÓÊôĞÔ ´ıOD²éÕÒ£¡
+		//+0x64	   //ç‰©å“åå­—
+		//+0xF9    //ç‰©å“æè¿°
+		//+0x338   //ç‰©å“å±æ€§	
+		//+0xD4C   //ç‰©å“æ•°é‡
+		//		   //é¡¹é“¾ç­‰é™„åŠ å±æ€§ å¾…ODæŸ¥æ‰¾ï¼
 		Case "name"			
 			getRoleStoreList = dm.ReadString(hwnd, addr & "+ 0x64", 0, 16)
 		Case "describe"
@@ -515,35 +515,35 @@ Function getRoleStoreList(hwnd, storeProperty, index, itemProperty)
 		Case "number"
 			getRoleStoreList = dm.ReadInt(hwnd, addr & "+ 0xD4C", 0)
 		Case Else		
-			getRoleStoreList = ""//Ä¬ÈÏ·µ»Ø¿Õ
+			getRoleStoreList = ""//é»˜è®¤è¿”å›ç©º
 	End Select	
 	
 End Function
 
 
 //=============================================================================
-//================================µÇ Â¼========================================
+//================================ç™» å½•========================================
 //=============================================================================
 
-//¶şÎ¬Êı×éÖ»ÄÜ·ÅÖ÷½Å±¾dim ·ÅsubÀïdimÈôÔÙcall subÈ¡²»µ½
-Dim serverLineFailCount(40, 20)//(·şÎñÆ÷index, ×î´óÏßÂ·) (34, 16) ¼ÓµãÈßÓà
+//äºŒç»´æ•°ç»„åªèƒ½æ”¾ä¸»è„šæœ¬dim æ”¾subé‡Œdimè‹¥å†call subå–ä¸åˆ°
+Dim serverLineFailCount(40, 20)//(æœåŠ¡å™¨index, æœ€å¤§çº¿è·¯) (34, 16) åŠ ç‚¹å†—ä½™
 
-//¿¨ÏßÊ±¼ä¶¯Ì¬Êı×é´æ´¢msÊ±¼ä(Ó¦ÓëÕËºÅÊıÒ»ÖÂ)
+//å¡çº¿æ—¶é—´åŠ¨æ€æ•°ç»„å­˜å‚¨msæ—¶é—´(åº”ä¸è´¦å·æ•°ä¸€è‡´)
 Dim lagTime()
-//VBSÖ´ĞĞ¿é¶¨ÒåĞè·ÅÔÚµ÷ÓÃÖ®Ç°£¡
-' Erase Óë redim ¶¼²»ÄÜÖ±½ÓÊ¹ÓÃ ±ØĞëÌí¼Ó VBSBegin...VBSEnd VBSÖ´ĞĞ¿é£¡£¡£¡
+//VBSæ‰§è¡Œå—å®šä¹‰éœ€æ”¾åœ¨è°ƒç”¨ä¹‹å‰ï¼
+' Erase ä¸ redim éƒ½ä¸èƒ½ç›´æ¥ä½¿ç”¨ å¿…é¡»æ·»åŠ  VBSBegin...VBSEnd VBSæ‰§è¡Œå—ï¼ï¼ï¼
 VBSBegin
-	' ReDimÖØ¶¨ÒålagTimeÊı×é´óĞ¡ ±£ÁôÔ­Êı¾İ	×¢ÊÍÖ»ÄÜÓÃ'²»ÄÜÓÃ//
+	' ReDimé‡å®šä¹‰lagTimeæ•°ç»„å¤§å° ä¿ç•™åŸæ•°æ®	æ³¨é‡Šåªèƒ½ç”¨'ä¸èƒ½ç”¨//
     Function redimLagTime(rn)
     	If rn = - 1  Then 
     		Exit Function
     	End If	
     	ReDim Preserve lagTime(rn)
-		' ÈôĞÂÔöÔòÔªËØÖµÎª¿Õ×Ö·û´®
+		' è‹¥æ–°å¢åˆ™å…ƒç´ å€¼ä¸ºç©ºå­—ç¬¦ä¸²
     End Function
 VBSEnd
 
-//¿ØÖÆÈÕÖ¾´òÓ¡Á÷³ÌË³Ğò
+//æ§åˆ¶æ—¥å¿—æ‰“å°æµç¨‹é¡ºåº
 s1 = Plugin.Sys.GetTime()
 Do
 	Delay 500
@@ -553,223 +553,223 @@ Do
 Loop
 
 Call aaloginInit()
-//³õÊ¼»¯µÇÂ¼ĞÅÏ¢
+//åˆå§‹åŒ–ç™»å½•ä¿¡æ¯
 Sub aaloginInit()
-	LogStart alFreeDirPath & "log\rxlog_" & Replace(Date(), "/", "-") & "_" & Hour(now) & "_" & Minute(now) & "_" & Second(now) & ".log" //¼ÇÂ¼ÈÕÖ¾   
-	addLogT "====== loginInit start..."	//vbs ÎŞ·µ»ØÖµµÄ¿ÉÒÔ²»¼ÓÀ¨ºÅ ÓĞ·µ»ØÖµµÄ±ØĞë¼ÓÀ¨ºÅ£¡
+	LogStart alFreeDirPath & "log\rxlog_" & Replace(Date(), "/", "-") & "_" & Hour(now) & "_" & Minute(now) & "_" & Second(now) & ".log" //è®°å½•æ—¥å¿—   
+	addLogT "====== loginInit start..."	//vbs æ— è¿”å›å€¼çš„å¯ä»¥ä¸åŠ æ‹¬å· æœ‰è¿”å›å€¼çš„å¿…é¡»åŠ æ‹¬å·ï¼
 	
 	
-	waitCount = -1	//Ö÷Ñ­»·´ÎÊı¼ÆÊı  ×¢Òâ¾ßÌålogin²Ù×÷ÏûºÄÊ±¼ä²»¼ÆËãÔÚÄÚ£¡ ¹©login3()Ñ¡½Ç½øÓÎ¼ÆËãµÈ´ıÊ±¼äÊ¹ÓÃ£¡
-	loadingAccount = 0//Í¬Ê±½øÈëÓÎÏ·ÕËºÅÊıÁ¿
-	lagLine = 1 //Ê¹ÓÃ1Ïß×÷Îª¿¨ÏßÊ±³¢ÊÔµÄÏßÂ· £¨vipÏßÂ·Ò»°ãÎ´Âú¿Éµã»÷£©
+	waitCount = -1	//ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°  æ³¨æ„å…·ä½“loginæ“ä½œæ¶ˆè€—æ—¶é—´ä¸è®¡ç®—åœ¨å†…ï¼ ä¾›login3()é€‰è§’è¿›æ¸¸è®¡ç®—ç­‰å¾…æ—¶é—´ä½¿ç”¨ï¼
+	loadingAccount = 0//åŒæ—¶è¿›å…¥æ¸¸æˆè´¦å·æ•°é‡
+	lagLine = 1 //ä½¿ç”¨1çº¿ä½œä¸ºå¡çº¿æ—¶å°è¯•çš„çº¿è·¯ ï¼ˆvipçº¿è·¯ä¸€èˆ¬æœªæ»¡å¯ç‚¹å‡»ï¼‰
 	
-	allServersArray = Array("×³Ö¾ÁèÔÆ(ĞÂ·ş)", "ß³ßåÎäÁÖ", "¶·×ªĞÇÒÆ", "ÍõÕßÖ®Õù", "ÁúÕù»¢¶·", "Ñ©Ô­", _
-				"ĞÛ°Ô", _
-				"µÇ·åÔì¼«", _
-				"À×öªÍò¾û(ĞÂ·ş)", "ÏõÑÌËÄÆğ", "ĞşÎäÆÆÌì", "±Ìº£", _
-				"°ÁÑ©ÁèËª(ĞÂ·ş)", "É½º£ĞÛ¹Ø", "Õ½»ğÖØÈ¼", "¿ñÁú½µÌì", "»ÃÓ°ÃÜÂ·", "³¤¿Õ", _
-				"Æø¹á³¤ºç(ĞÂ·ş)", "·é»ğÌìÏÂ", "¸ÇÊÀÎŞË«", "¶«ÔÀ", _
-				"Ğşºş", _
-				"×ÏÔÂ" , _
-				"Òå±¡ÔÆÌì(ĞÂ·ş)", "·ïÎè¾ÅÖİ", "³ÁÏã", _
-				"ËÄº£(ĞÂ·ş)", "åĞÒ£", "°ÔÒµ", "²ÔÔÂ", "ĞÇËª", _
-				"ÎäÁÖÕù°Ô(ĞÂ·ş)", "×İºáËÄº£", "×İºáËÄº£2·ş")	//ËùÓĞ·şÎñÆ÷Êı×é
+	allServersArray = Array("å£®å¿—å‡Œäº‘(æ–°æœ)", "å±å’¤æ­¦æ—", "æ–—è½¬æ˜Ÿç§»", "ç‹è€…ä¹‹äº‰", "é¾™äº‰è™æ–—", "é›ªåŸ", _
+				"é›„éœ¸", _
+				"ç™»å³°é€ æ", _
+				"é›·éœ†ä¸‡é’§(æ–°æœ)", "ç¡çƒŸå››èµ·", "ç„æ­¦ç ´å¤©", "ç¢§æµ·", _
+				"å‚²é›ªå‡Œéœœ(æ–°æœ)", "å±±æµ·é›„å…³", "æˆ˜ç«é‡ç‡ƒ", "ç‹‚é¾™é™å¤©", "å¹»å½±å¯†è·¯", "é•¿ç©º", _
+				"æ°”è´¯é•¿è™¹(æ–°æœ)", "çƒ½ç«å¤©ä¸‹", "ç›–ä¸–æ— åŒ", "ä¸œå²³", _
+				"ç„æ¹–", _
+				"ç´«æœˆ" , _
+				"ä¹‰è–„äº‘å¤©(æ–°æœ)", "å‡¤èˆä¹å·", "æ²‰é¦™", _
+				"å››æµ·(æ–°æœ)", "é€é¥", "éœ¸ä¸š", "è‹æœˆ", "æ˜Ÿéœœ", _
+				"æ­¦æ—äº‰éœ¸(æ–°æœ)", "çºµæ¨ªå››æµ·", "çºµæ¨ªå››æµ·2æœ")	//æ‰€æœ‰æœåŠ¡å™¨æ•°ç»„
 	
-	'init ·şÎñÆ÷ÏßÂ·µÇÂ¼Ê§°Ü¼ÆÊı¶şÎ¬Êı×é È«²¿Îª0	//´ÓÏÂ±ê1¿ªÓÃ
-	Call initServerLineFailCount(UBound(serverLineFailCount, 1), UBound(serverLineFailCount, 2))	//Î¬¶È
-	'init Ê¹ÓÃÂ·¾¶Êı×é
+	'init æœåŠ¡å™¨çº¿è·¯ç™»å½•å¤±è´¥è®¡æ•°äºŒç»´æ•°ç»„ å…¨éƒ¨ä¸º0	//ä»ä¸‹æ ‡1å¼€ç”¨
+	Call initServerLineFailCount(UBound(serverLineFailCount, 1), UBound(serverLineFailCount, 2))	//ç»´åº¦
+	'init ä½¿ç”¨è·¯å¾„æ•°ç»„
 	Call initUseDir()	
-	'init ¸´ÖÆClientÎÄ¼ş¼Ğ±êÖ¾Êı×é
+	'init å¤åˆ¶Clientæ–‡ä»¶å¤¹æ ‡å¿—æ•°ç»„
 	For cf = 0 To UBound(cpdFile)
-		cpdFile(cf) = 0	//³õÊ¼È«²¿ÖÃ0
+		cpdFile(cf) = 0	//åˆå§‹å…¨éƒ¨ç½®0
 	Next
 	
-	'init ½çÃæ	//ÈôÖ±½ÓÖØÆô½Å±¾ ĞèÒªÖØÖÃ formloadÖ»¼ÓÔØÒ»´Î²»ĞĞ£¡
-	Form1.ButtonOpenAutoLogin.Visible = 1//¿ªÆô×Ô¶¯µÇÂ¼ °´Å¥ÏÔÊ¾
-	Form1.CheckBoxAll.Value = 0			//ÕËºÅÈ«Ñ¡ ¶àÑ¡¿òÈ¡Ïû
-	Form1.CheckBoxSchedule.Value = 0	//¶¨Ê±ÈÎÎñ ¶àÑ¡¿òÈ¡Ïû ĞÇÆÚËÄ6µã¹Ø»ú
-	'init Ñ­»·¼ì²â½çÃæÂ·¾¶²¢±£´æ
+	'init ç•Œé¢	//è‹¥ç›´æ¥é‡å¯è„šæœ¬ éœ€è¦é‡ç½® formloadåªåŠ è½½ä¸€æ¬¡ä¸è¡Œï¼
+	Form1.ButtonOpenAutoLogin.Visible = 1//å¼€å¯è‡ªåŠ¨ç™»å½• æŒ‰é’®æ˜¾ç¤º
+	Form1.CheckBoxAll.Value = 0			//è´¦å·å…¨é€‰ å¤šé€‰æ¡†å–æ¶ˆ
+	Form1.CheckBoxSchedule.Value = 0	//å®šæ—¶ä»»åŠ¡ å¤šé€‰æ¡†å–æ¶ˆ æ˜ŸæœŸå››6ç‚¹å…³æœº
+	'init å¾ªç¯æ£€æµ‹ç•Œé¢è·¯å¾„å¹¶ä¿å­˜
    	Call checkPath("launcher.exe")
-   	Call checkPath("ÈÈÑªÉñÆ÷.exe")
-   	Call checkPath("»ù´¡Ö÷´°¿Ú.exe")
+   	Call checkPath("çƒ­è¡€ç¥å™¨.exe")
+   	Call checkPath("åŸºç¡€ä¸»çª—å£.exe")
    	
-	'init ´óÄ®²å¼ş¶ÔÏó
+	'init å¤§æ¼ æ’ä»¶å¯¹è±¡
 	Call useDM()
 	
-	'Î¬»¤ÈÕ½Å±¾ĞèµÈµ½¾ßÌåÊ±¼äºóÔÙÆô¶¯ÔÙ×Ô¶¯¸üĞÂ£¬±ÜÃâ17/SQÎ´Íê³É¸üĞÂ·¢²¼£¡
+	'ç»´æŠ¤æ—¥è„šæœ¬éœ€ç­‰åˆ°å…·ä½“æ—¶é—´åå†å¯åŠ¨å†è‡ªåŠ¨æ›´æ–°ï¼Œé¿å…17/SQæœªå®Œæˆæ›´æ–°å‘å¸ƒï¼
 	Call waitTime2Upd()
 	
-	'init ×Ô¶¯¸üĞÂÓÎÏ·
+	'init è‡ªåŠ¨æ›´æ–°æ¸¸æˆ
    	If Form1.CheckBoxAutoPatch.Value = 1 Then 
-   		//·ÅÖ÷Ñ­»·»¹ÊÇlogin1()Ê×²¿£¿£¿£¿£¿£¿
-   		//»òÓĞ½ô¼±¸üĞÂ²¹¶¡ĞèÒªÔÙ´Î¼ì²â£¬µ«Ò»°ã¹ÒÒ²Ğè¸üĞÂ£¬so½Å±¾Ò²ĞèÖØĞÂÆô¶¯¡£¶øÇÒ´ËÇé¿öºÜÉÙ£¡ÔİÆú£¡
+   		//æ”¾ä¸»å¾ªç¯è¿˜æ˜¯login1()é¦–éƒ¨ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+   		//æˆ–æœ‰ç´§æ€¥æ›´æ–°è¡¥ä¸éœ€è¦å†æ¬¡æ£€æµ‹ï¼Œä½†ä¸€èˆ¬æŒ‚ä¹Ÿéœ€æ›´æ–°ï¼Œsoè„šæœ¬ä¹Ÿéœ€é‡æ–°å¯åŠ¨ã€‚è€Œä¸”æ­¤æƒ…å†µå¾ˆå°‘ï¼æš‚å¼ƒï¼
 		If autoPatch() = False Then 
-			addLogT "×Ô¶¯¸üĞÂÊ§°Ü£¬ÇëÊÖ¶¯¸üĞÂºóÔÙÖØĞÂ³¢ÊÔ½Å±¾£¡¿¨ºÜ¾Ã¿É¹Ø±Õ£¡"
+			addLogT "è‡ªåŠ¨æ›´æ–°å¤±è´¥ï¼Œè¯·æ‰‹åŠ¨æ›´æ–°åå†é‡æ–°å°è¯•è„šæœ¬ï¼å¡å¾ˆä¹…å¯å…³é—­ï¼"
 			Goto exitLogin
 		End If
    	End If
 	
-	'init ÈÈÑªÉñÆ÷
- 	hwnd0 = Plugin.Window.Find("WTWindow", "½øÈëÓÎÏ·°´HOME»òDeleteºô³ö´°¿Ú")
-    If hwnd0 = 0 Then //Î´´ò¿ªÔòÔËĞĞUpdater.exe±£³Ö×îĞÂ
+	'init çƒ­è¡€ç¥å™¨
+ 	hwnd0 = Plugin.Window.Find("WTWindow", "è¿›å…¥æ¸¸æˆæŒ‰HOMEæˆ–Deleteå‘¼å‡ºçª—å£")
+    If hwnd0 = 0 Then //æœªæ‰“å¼€åˆ™è¿è¡ŒUpdater.exeä¿æŒæœ€æ–°
     	Delay 500
     	RunApp payDirPath & "Updater.exe"
     	Delay 1000
     	s1 = Plugin.Sys.GetTime()
     	Do
-    		If Plugin.Pic.FindWordShape(742, 530, 888, 550, "±¾´Î¸üĞÂÎÄ¼ş¸öÊı", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
+    		If Plugin.Pic.FindWordShape(742, 530, 888, 550, "æœ¬æ¬¡æ›´æ–°æ–‡ä»¶ä¸ªæ•°", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
     			Delay 200
-    			MoveTo 1148, 558	//µã»÷½áÊø ¹Ø±Õ¸üĞÂµ¯³ö¿ò
+    			MoveTo 1148, 558	//ç‚¹å‡»ç»“æŸ å…³é—­æ›´æ–°å¼¹å‡ºæ¡†
     			LeftClick 1
 				Delay 1000
-    			MoveTo 959, 595		//µã»÷È·¶¨
+    			MoveTo 959, 595		//ç‚¹å‡»ç¡®å®š
     			LeftClick 1
     			Delay 1000
-    			hwnd0 = Plugin.Window.Find("WTWindow", "½øÈëÓÎÏ·°´HOME»òDeleteºô³ö´°¿Ú")
+    			hwnd0 = Plugin.Window.Find("WTWindow", "è¿›å…¥æ¸¸æˆæŒ‰HOMEæˆ–Deleteå‘¼å‡ºçª—å£")
     			Exit Do
     		End If
 			If Plugin.Sys.GetTime() - s1 >= 180000 Then 
-    			addLogT "3mÄÚinitÈÈÑªÉñÆ÷Ê§°Ü£¬ÇëÊÖ¶¯¸üĞÂ´ò¿ªºóÔÙÖØĞÂ³¢ÊÔ½Å±¾£¡"
+    			addLogT "3må†…initçƒ­è¡€ç¥å™¨å¤±è´¥ï¼Œè¯·æ‰‹åŠ¨æ›´æ–°æ‰“å¼€åå†é‡æ–°å°è¯•è„šæœ¬ï¼"
 				Goto exitLogin
     		End If
     		Delay 200
     	Loop
 	End If 
-	//ÒÆ¶¯ÉñÆ÷´°¿Úµ½ÌØ¶¨Î»ÖÃºóÒş²Ø
+	//ç§»åŠ¨ç¥å™¨çª—å£åˆ°ç‰¹å®šä½ç½®åéšè—
 	//Call Plugin.Window.Move(hwnd0, 610, 405)
     Call Plugin.Window.Hide(hwnd0)
    
-    hwndFree = Plugin.Window.Find(0, "»ù±¾Ö÷´°¿Ú")
-    If hwndFree = 0 Then //Î´´ò¿ªÔòÔËĞĞ µã»÷×Ô¶¯¸üĞÂ.exe±£³Ö×îĞÂ
+    hwndFree = Plugin.Window.Find(0, "åŸºæœ¬ä¸»çª—å£")
+    If hwndFree = 0 Then //æœªæ‰“å¼€åˆ™è¿è¡Œ ç‚¹å‡»è‡ªåŠ¨æ›´æ–°.exeä¿æŒæœ€æ–°
     	Delay 500
-    	RunApp freeDirPath & "µã»÷×Ô¶¯¸üĞÂ.exe"
+    	RunApp freeDirPath & "ç‚¹å‡»è‡ªåŠ¨æ›´æ–°.exe"
     	Delay 1000
     	s1 = Plugin.Sys.GetTime()
     	Do
-    		If Plugin.Pic.FindWordShape(1067, 513, 1184, 580, "½áÊø", "ËÎÌå", 9, 0, 0.9) = "-1|-1" Then 
+    		If Plugin.Pic.FindWordShape(1067, 513, 1184, 580, "ç»“æŸ", "å®‹ä½“", 9, 0, 0.9) = "-1|-1" Then 
     			Delay 300
-    			//×Ô¶¯¸üĞÂÍê"½áÊø"°´Å¥²»´æÔÚ
-    			RunApp freeDirPath & "»ù´¡Ö÷´°¿Ú.exe"
+    			//è‡ªåŠ¨æ›´æ–°å®Œ"ç»“æŸ"æŒ‰é’®ä¸å­˜åœ¨
+    			RunApp freeDirPath & "åŸºç¡€ä¸»çª—å£.exe"
     			Delay 1000
-    			hwndFree = Plugin.Window.Find(0, "»ù±¾Ö÷´°¿Ú")
+    			hwndFree = Plugin.Window.Find(0, "åŸºæœ¬ä¸»çª—å£")
     			Exit Do
     		End If
     		If Plugin.Sys.GetTime() - s1 >= 180000 Then 
-    			addLogT "3mÄÚinit ÈÈÑªÉñÆ÷»ù´¡°æÊ§°Ü£¬ÇëÊÖ¶¯¸üĞÂ´ò¿ªºóÔÙÖØĞÂ³¢ÊÔ½Å±¾£¡"
+    			addLogT "3må†…init çƒ­è¡€ç¥å™¨åŸºç¡€ç‰ˆå¤±è´¥ï¼Œè¯·æ‰‹åŠ¨æ›´æ–°æ‰“å¼€åå†é‡æ–°å°è¯•è„šæœ¬ï¼"
     			Goto exitLogin
     		End If
     		Delay 200
     	Loop
     End If 
-    Call Plugin.Window.Hide(hwndFree)	//´æÔÚÖ±½ÓÒş²Ø	
+    Call Plugin.Window.Hide(hwndFree)	//å­˜åœ¨ç›´æ¥éšè—	
     
 	
-	'init tcp²éÏß×ÓÈÎÎñÏß³Ì 1sÑ­»·		//task¶ÏÏß¼ì²â ¶¨Ê±ÈÎÎñµÈ		//·ÅÖ÷Ïß³Ì²éÏßÔİÆútest£¡
+	'init tcpæŸ¥çº¿å­ä»»åŠ¡çº¿ç¨‹ 1så¾ªç¯		//taskæ–­çº¿æ£€æµ‹ å®šæ—¶ä»»åŠ¡ç­‰		//æ”¾ä¸»çº¿ç¨‹æŸ¥çº¿æš‚å¼ƒtestï¼
 	//tcpCheckLineThreadId = BeginThread(tcpCheckLineThread)
-	//TracePrint "init tcp²éÏß×ÓÏß³Ì(" & tcpCheckLineThreadId & ") Ñ­»·Ê±¼ä 1 Ãë£¡"
+	//TracePrint "init tcpæŸ¥çº¿å­çº¿ç¨‹(" & tcpCheckLineThreadId & ") å¾ªç¯æ—¶é—´ 1 ç§’ï¼"
 	
-	'init ×ÓÏß³Ì ×ö¶ÏÏß¡¢¸üĞÂÒ³Ãæ½ğÇ®µÈ¹¤×÷£¡	
+	'init å­çº¿ç¨‹ åšæ–­çº¿ã€æ›´æ–°é¡µé¢é‡‘é’±ç­‰å·¥ä½œï¼	
 	subThreadId = BeginThread(subThread)
-	TracePrint "init ×ÓÏß³Ì(" & subThreadId & ") Ñ­»·Ê±¼ä" & CLng(Form1.InputBoxSubTime.Text) & "Ãë£¡"
+	TracePrint "init å­çº¿ç¨‹(" & subThreadId & ") å¾ªç¯æ—¶é—´" & CLng(Form1.InputBoxSubTime.Text) & "ç§’ï¼"
 	
 	
 	addLogT "====== loginInit done!"
-	//addLogT "============== Ö÷Ïß³ÌÑ­»·ÔËĞĞÖĞ =============="
-	//Ö÷Ñ­»·µÇÂ¼¹ı³Ì
+	//addLogT "============== ä¸»çº¿ç¨‹å¾ªç¯è¿è¡Œä¸­ =============="
+	//ä¸»å¾ªç¯ç™»å½•è¿‡ç¨‹
 	Do		
-		//×Ô¶¯µÇÂ¼¿ªÆô
+		//è‡ªåŠ¨ç™»å½•å¼€å¯
 		If autoLoginFlag = true Then 
-			//¶ÁÈ¡ÎÄ¼şÖĞµÄÕËºÅĞÅÏ¢ ÖØÖÃuser±äÁ¿ ½çÃæ¸Ä¶¯1sºóÖ±½ÓÉúĞ§£¡£¡£¡
-			user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
-			//¼ì²âÒ³Ãæ¹´Ñ¡ÕËºÅ½øĞĞÏàÓ¦²Ù×÷    		
+			//è¯»å–æ–‡ä»¶ä¸­çš„è´¦å·ä¿¡æ¯ é‡ç½®userå˜é‡ ç•Œé¢æ”¹åŠ¨1såç›´æ¥ç”Ÿæ•ˆï¼ï¼ï¼
+			user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
+			//æ£€æµ‹é¡µé¢å‹¾é€‰è´¦å·è¿›è¡Œç›¸åº”æ“ä½œ    		
 			For i = 1 To UBound(user)
-				If Form1.Grid1.GetCheckBoxValue(i, 0) = 1 Then //¹´Ñ¡ÕËºÅ
+				If Form1.Grid1.GetCheckBoxValue(i, 0) = 1 Then //å‹¾é€‰è´¦å·
 					
 					hwnd = CLng(iGetItemText(i, "hwnd"))
 					
-					//¶ÏÏß¼ì²â(·şÎñÆ÷&±¾µØ)
-					//ÕËºÅ¾ä±ú´óÓÚ0±íÃ÷==×´Ì¬²»¼ì²â
-					If hwnd > 0 Then //ĞÂÔöĞĞĞèÒªÅĞ¶ÏÎª¿ÕÂğ ÔÚĞÂÔöÊÂ¼şÊ±ÉèÖÃhwndÎª0ÁË
-						//´°¿Ú´æÔÚÔò¼ì²âsocket
+					//æ–­çº¿æ£€æµ‹(æœåŠ¡å™¨&æœ¬åœ°)
+					//è´¦å·å¥æŸ„å¤§äº0è¡¨æ˜==çŠ¶æ€ä¸æ£€æµ‹
+					If hwnd > 0 Then //æ–°å¢è¡Œéœ€è¦åˆ¤æ–­ä¸ºç©ºå— åœ¨æ–°å¢äº‹ä»¶æ—¶è®¾ç½®hwndä¸º0äº†
+						//çª—å£å­˜åœ¨åˆ™æ£€æµ‹socket
 						If Plugin.Window.GetWindowState(hwnd, 0) = True Then 
-							//±¾µØ¶ÏÏß(socketÎª-1) ĞèÊÖ¶¯¹Ø±Õ¿Í»§¶Ë	//==²»»á½øÈë£¬rdµÄsocketÎª0»¹Î´Í¨ĞÅÎŞĞè¼ì²â
+							//æœ¬åœ°æ–­çº¿(socketä¸º-1) éœ€æ‰‹åŠ¨å…³é—­å®¢æˆ·ç«¯	//==ä¸ä¼šè¿›å…¥ï¼Œrdçš„socketä¸º0è¿˜æœªé€šä¿¡æ— éœ€æ£€æµ‹
 							If iGetItemText(i, "state") <> hState(1) and dm.ReadData(hwnd, "[" & socketStateBaseAddr & "] + 0x2C", 4) = "FF FF FF FF" Then  
-								addLogT "¡¾" & iGetItemText(i, "account") & "¡¿±¾µØ¶ÏÏß£¡"
+								addLogT "ã€" & iGetItemText(i, "account") & "ã€‘æœ¬åœ°æ–­çº¿ï¼"
 								
-								//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+								//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 								Call clearAccount(hwnd)
 							End If
-						Else //´°¿Ú²»´æÔÚ(ÊÖ¶¯¹Ø±Õ¿Í»§¶Ë»»Ïß/·şÎñÆ÷¶ÏÏßÍâ¹ÒÉèÖÃ¹Ø±Õ¿Í»§¶Ë)
-							addLogT "¡¾" & iGetItemText(i, "account") & "¡¿ÊÖ¶¯¹Ø±Õ/·şÎñÆ÷¶ÏÏß£¡"
-							//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
-							Call clearAccount(hwnd)//¿ÉÒÔÖ±½ÓÓÃ²ÎÊı0 Ôİ¶¨¹Ø±ÕËùÓĞÏà¹ØµÄ£¿
+						Else //çª—å£ä¸å­˜åœ¨(æ‰‹åŠ¨å…³é—­å®¢æˆ·ç«¯æ¢çº¿/æœåŠ¡å™¨æ–­çº¿å¤–æŒ‚è®¾ç½®å…³é—­å®¢æˆ·ç«¯)
+							addLogT "ã€" & iGetItemText(i, "account") & "ã€‘æ‰‹åŠ¨å…³é—­/æœåŠ¡å™¨æ–­çº¿ï¼"
+							//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
+							Call clearAccount(hwnd)//å¯ä»¥ç›´æ¥ç”¨å‚æ•°0 æš‚å®šå…³é—­æ‰€æœ‰ç›¸å…³çš„ï¼Ÿ
 						End If
 					End If
 					
 					
-					//ÅĞ¶Ï×´Ì¬ÎªapÔòÌø¹ı ·ñÔòÒÀ´Î½øĞĞÏàÓ¦ÅĞ¶Ï²Ù×÷
+					//åˆ¤æ–­çŠ¶æ€ä¸ºapåˆ™è·³è¿‡ å¦åˆ™ä¾æ¬¡è¿›è¡Œç›¸åº”åˆ¤æ–­æ“ä½œ
 					If iGetItemText(i, "state") <> hState(4) Then 
-						//tcpCheckLineFlag = True	//tcp²éÏß¸üĞÂalStatesËùÓĞÏßÂ·×´Ì¬×Ö·û´®		//·ÅÖ÷Ïß³Ì²éÏßÔİÆútest£¡
+						//tcpCheckLineFlag = True	//tcpæŸ¥çº¿æ›´æ–°alStatesæ‰€æœ‰çº¿è·¯çŠ¶æ€å­—ç¬¦ä¸²		//æ”¾ä¸»çº¿ç¨‹æŸ¥çº¿æš‚å¼ƒtestï¼
 						
-						//¶¨ÒåÒ³ÃæÈ¡ÖµµÄ³£Á¿·½±ãºóÃæÅĞ¶Ï¼òĞ´Ê¹ÓÃ	ÕËºÅĞĞÊıi
-    					account = iGetItemText(i, "account")	//ÕËºÅ		
-						name = iGetItemText(i, "name")		//½ÇÉ«Ãû
-						userOrder = iGetItemText(i, "order")	//ÈËÎïË³Ğò(orderÊÇ¹Ø¼ü×Ö)	
-						afterLine = getUserInfo(i, "afterLine")//ÉÏÏßºó²Ù×÷
-						part = iGetItemText(i, "part")	//·ÖÇø
-						server = iGetItemText(i, "server")	//·şÎñÆ÷
-						sIndex = getServerIndex(server)	//»ñÈ¡allServersArrayÊı×éÖĞserver¶ÔÓ¦µÄindex¹©serverLineFailCountÊı×éÊ¹ÓÃ£¬Ê§°Ü·µ»ØUBound(allServersArray)=40
+						//å®šä¹‰é¡µé¢å–å€¼çš„å¸¸é‡æ–¹ä¾¿åé¢åˆ¤æ–­ç®€å†™ä½¿ç”¨	è´¦å·è¡Œæ•°i
+    					account = iGetItemText(i, "account")	//è´¦å·		
+						name = iGetItemText(i, "name")		//è§’è‰²å
+						userOrder = iGetItemText(i, "order")	//äººç‰©é¡ºåº(orderæ˜¯å…³é”®å­—)	
+						afterLine = getUserInfo(i, "afterLine")//ä¸Šçº¿åæ“ä½œ
+						part = iGetItemText(i, "part")	//åˆ†åŒº
+						server = iGetItemText(i, "server")	//æœåŠ¡å™¨
+						sIndex = getServerIndex(server)	//è·å–allServersArrayæ•°ç»„ä¸­serverå¯¹åº”çš„indexä¾›serverLineFailCountæ•°ç»„ä½¿ç”¨ï¼Œå¤±è´¥è¿”å›UBound(allServersArray)=40
 						
-						//×´Ì¬Îª¿Õ ¿Í»§¶ËÆô¶¯ÓÎÏ·µÈ´ıµÇÂ¼
+						//çŠ¶æ€ä¸ºç©º å®¢æˆ·ç«¯å¯åŠ¨æ¸¸æˆç­‰å¾…ç™»å½•
 						If iGetItemText(i, "state") = hState(0) Then 
-							addLogT ("¡¾" & account & "¡¿Æô¶¯ÓÎÏ·µÈ´ıµÇÂ¼£¡")
-			 				//¿Í»§¶ËÆô¶¯ÓÎÏ·µÈ´ıµÇÂ¼ ¸Ä×´Ì¬Îªrd	ÆäÄÚ±£Ö¤¸üĞÂ»ùÖ·ÓëÖ÷ºÅ¹¥»÷¾àÀë
-			 				//Ê¹ÓÃ²ÎÊı£ºÕËºÅaccount¡¢½ÇÉ«Ãûname¡¢ÕËºÅĞĞÊıi(¹©ĞŞ¸Ä×´Ì¬À¸Î»)
+							addLogT ("ã€" & account & "ã€‘å¯åŠ¨æ¸¸æˆç­‰å¾…ç™»å½•ï¼")
+			 				//å®¢æˆ·ç«¯å¯åŠ¨æ¸¸æˆç­‰å¾…ç™»å½• æ”¹çŠ¶æ€ä¸ºrd	å…¶å†…ä¿è¯æ›´æ–°åŸºå€ä¸ä¸»å·æ”»å‡»è·ç¦»
+			 				//ä½¿ç”¨å‚æ•°ï¼šè´¦å·accountã€è§’è‰²ånameã€è´¦å·è¡Œæ•°i(ä¾›ä¿®æ”¹çŠ¶æ€æ ä½)
 			 				Call login1()
 			 			End If
 			 			
-			 			//²éÏß½øÏß ÓĞ×´Ì¬ÎªrdµÄ½ø³Ì	//dll²éÏß ÎŞĞè²éÏßÆ÷Ïà¹Ø²Ù×÷£¡
+			 			//æŸ¥çº¿è¿›çº¿ æœ‰çŠ¶æ€ä¸ºrdçš„è¿›ç¨‹	//dllæŸ¥çº¿ æ— éœ€æŸ¥çº¿å™¨ç›¸å…³æ“ä½œï¼
 						If iGetItemText(i, "state") = hState(1) Then 
-							//SocketDll·Ç×èÈû500ms³¬Ê±¡£ÈôÊı¾İ²»¶Ô¿Éµ÷ÓÃgetByteArray()È·¶¨·şÎñÆ÷IdÎ»ÖÃºóÔÙµ÷ÓÃgetPartServerLines2()´«Öµ
+							//SocketDlléé˜»å¡500msè¶…æ—¶ã€‚è‹¥æ•°æ®ä¸å¯¹å¯è°ƒç”¨getByteArray()ç¡®å®šæœåŠ¡å™¨Idä½ç½®åå†è°ƒç”¨getPartServerLines2()ä¼ å€¼
 							alStates = Plugin.RxSocket.getPartServerLines(part, server)
-							If alStates <> "" Then //ËùÓĞÏßÂ·×´Ì¬×Ö·û´®
-								If iGetItemBkColor(i, "actualLine") = "4F4FFF" Then //¿¨ÏßÊ±ÊµÏß±³¾°ÎªºìÖ±½Ó½øvipÏß³¢ÊÔ
-									Call redimLagTime(UBound(user))//¸ù¾İÕËºÅ¸öÊıÖØ¶¨ÒålagTimeÊı×é´óĞ¡ ±£ÁôÔ­Êı¾İ
+							If alStates <> "" Then //æ‰€æœ‰çº¿è·¯çŠ¶æ€å­—ç¬¦ä¸²
+								If iGetItemBkColor(i, "actualLine") = "4F4FFF" Then //å¡çº¿æ—¶å®çº¿èƒŒæ™¯ä¸ºçº¢ç›´æ¥è¿›vipçº¿å°è¯•
+									Call redimLagTime(UBound(user))//æ ¹æ®è´¦å·ä¸ªæ•°é‡å®šä¹‰lagTimeæ•°ç»„å¤§å° ä¿ç•™åŸæ•°æ®
 									
 									If lagTime(i) = "" Then 
-										lagTime(i) = Plugin.Sys.GetTime()	//±£´æµ±Ç°Ê±¼äms
+										lagTime(i) = Plugin.Sys.GetTime()	//ä¿å­˜å½“å‰æ—¶é—´ms
 									Else 
-										If Plugin.Sys.GetTime() - CLng(lagTime(i)) >= 300000 Then //µÈ´ı5m
-											jx = CInt(lagLine)	//Ê¹ÓÃ1Ïß×÷Îª¿¨ÏßÊ±³¢ÊÔµÄÏßÂ· £¨vipÏßÂ·Ò»°ãÎ´Âú¿Éµã»÷£©
-											//goto tologin2	//Ö±½ÓĞ´²»ÖªÊÇ·ñ»áÓĞÒì³££¬soÖ±½ÓÖØĞ´²½Öè
-											addLogT "¡¾" & account & "¡¿[" & jx & "Ïß]µÇÂ¼½øÏß£¡¿¨Ïß³¢ÊÔ"
-											//µÇÂ¼½øÏß ¸Ä×´Ì¬Îªsc
-											//Ê¹ÓÃ²ÎÊı£ºÕËºÅaccount¡¢½ÇÉ«Ãûname¡¢ÕËºÅĞĞÊıi(¹©ĞŞ¸Ä×´Ì¬À¸Î»)¡¢¿ª·ÅÏßÂ·jx¡¢¿Í»§¶Ë¾ä±úhwnd
-											Call login2()//ÏÔÊ¾13
+										If Plugin.Sys.GetTime() - CLng(lagTime(i)) >= 300000 Then //ç­‰å¾…5m
+											jx = CInt(lagLine)	//ä½¿ç”¨1çº¿ä½œä¸ºå¡çº¿æ—¶å°è¯•çš„çº¿è·¯ ï¼ˆvipçº¿è·¯ä¸€èˆ¬æœªæ»¡å¯ç‚¹å‡»ï¼‰
+											//goto tologin2	//ç›´æ¥å†™ä¸çŸ¥æ˜¯å¦ä¼šæœ‰å¼‚å¸¸ï¼Œsoç›´æ¥é‡å†™æ­¥éª¤
+											addLogT "ã€" & account & "ã€‘[" & jx & "çº¿]ç™»å½•è¿›çº¿ï¼å¡çº¿å°è¯•"
+											//ç™»å½•è¿›çº¿ æ”¹çŠ¶æ€ä¸ºsc
+											//ä½¿ç”¨å‚æ•°ï¼šè´¦å·accountã€è§’è‰²ånameã€è´¦å·è¡Œæ•°i(ä¾›ä¿®æ”¹çŠ¶æ€æ ä½)ã€å¼€æ”¾çº¿è·¯jxã€å®¢æˆ·ç«¯å¥æŸ„hwnd
+											Call login2()//æ˜¾ç¤º13
 											
-											//waitCount = 0//Ö÷Ñ­»·´ÎÊı¼ÆÊı  ÓĞÕËºÅ½øÏß³É¹¦¾ÍÖØÖÃÎª0Æô¶¯¼ÆÊı	//·Åµ½º¯ÊıÌåÄÚ¸³ÖµÒò¿ÉÄÜ²Ù×÷Ê§°ÜÎŞĞèÖÃ0£¡
-											iSetItemBkColor i, "actualLine", "FFFFFF"//ÊµÏß±³¾°¸Ä°×¸´Ô­
-											lagTime(i) = ""	//¿¨ÏßÊı×éiÇå¿Õ¸´Ô­
+											//waitCount = 0//ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°  æœ‰è´¦å·è¿›çº¿æˆåŠŸå°±é‡ç½®ä¸º0å¯åŠ¨è®¡æ•°	//æ”¾åˆ°å‡½æ•°ä½“å†…èµ‹å€¼å› å¯èƒ½æ“ä½œå¤±è´¥æ— éœ€ç½®0ï¼
+											iSetItemBkColor i, "actualLine", "FFFFFF"//å®çº¿èƒŒæ™¯æ”¹ç™½å¤åŸ
+											lagTime(i) = ""	//å¡çº¿æ•°ç»„iæ¸…ç©ºå¤åŸ
 										End If
 									End If
 								Else
-									als = split(alStates, ",")//ËùÓĞÏßÂ·×´Ì¬Êı×é
-									//ÕËºÅÑ¡ÔñÏßÂ·¶Ô±È¿ª·ÅÏßÂ·
-									For Each jx In split(iGetItemText(i, "line"), "-")//ÕËºÅÑ¡ÔñÏßÂ·×éÑ­»·
-										If CInt(jx) <= UBound(als) + 1 Then //ÅÅ³ı³¬¹ı·şÎñÆ÷×î´óÏßÂ·µÄÑ¡ÔñÏßÂ·
-											If CInt(als(jx - 1)) = 1 Then //Ñ¡ÔñÏßÂ·¿ª·Å
-												//¿ªÏßµÇÂ¼³¢ÊÔ´ÎÊı 0Îª²»ÏŞÖÆ
-    											If Form1.ComboboxOpenLineTryLimit.ListIndex = 0 or Form1.ComboboxOpenLineTryLimit.ListIndex > serverLineFailCount(sIndex, jx) Then //3 -012¿É½øÏß
+									als = split(alStates, ",")//æ‰€æœ‰çº¿è·¯çŠ¶æ€æ•°ç»„
+									//è´¦å·é€‰æ‹©çº¿è·¯å¯¹æ¯”å¼€æ”¾çº¿è·¯
+									For Each jx In split(iGetItemText(i, "line"), "-")//è´¦å·é€‰æ‹©çº¿è·¯ç»„å¾ªç¯
+										If CInt(jx) <= UBound(als) + 1 Then //æ’é™¤è¶…è¿‡æœåŠ¡å™¨æœ€å¤§çº¿è·¯çš„é€‰æ‹©çº¿è·¯
+											If CInt(als(jx - 1)) = 1 Then //é€‰æ‹©çº¿è·¯å¼€æ”¾
+												//å¼€çº¿ç™»å½•å°è¯•æ¬¡æ•° 0ä¸ºä¸é™åˆ¶
+    											If Form1.ComboboxOpenLineTryLimit.ListIndex = 0 or Form1.ComboboxOpenLineTryLimit.ListIndex > serverLineFailCount(sIndex, jx) Then //3 -012å¯è¿›çº¿
     												//rem tologin2
-    												addLogT "¡¾" & account & "¡¿[" & jx & "Ïß]µÇÂ¼½øÏß£¡"
-													//µÇÂ¼½øÏß ¸Ä×´Ì¬Îªsc
-													//Ê¹ÓÃ²ÎÊı£ºÕËºÅaccount¡¢½ÇÉ«Ãûname¡¢ÕËºÅĞĞÊıi(¹©ĞŞ¸Ä×´Ì¬À¸Î»)¡¢¿ª·ÅÏßÂ·jx¡¢¿Í»§¶Ë¾ä±úhwnd
-													Call login2()//ÏÔÊ¾13
+    												addLogT "ã€" & account & "ã€‘[" & jx & "çº¿]ç™»å½•è¿›çº¿ï¼"
+													//ç™»å½•è¿›çº¿ æ”¹çŠ¶æ€ä¸ºsc
+													//ä½¿ç”¨å‚æ•°ï¼šè´¦å·accountã€è§’è‰²ånameã€è´¦å·è¡Œæ•°i(ä¾›ä¿®æ”¹çŠ¶æ€æ ä½)ã€å¼€æ”¾çº¿è·¯jxã€å®¢æˆ·ç«¯å¥æŸ„hwnd
+													Call login2()//æ˜¾ç¤º13
 													
-													//waitCount = 0//Ö÷Ñ­»·´ÎÊı¼ÆÊı  ÓĞÕËºÅ½øÏß³É¹¦¾ÍÖØÖÃÎª0Æô¶¯¼ÆÊı	//·Åµ½º¯ÊıÌåÄÚ¸³ÖµÒò¿ÉÄÜ²Ù×÷Ê§°ÜÎŞĞèÖÃ0£¡
-													Exit For	//½áÊøºóĞøÏßÂ·Ñ­»·	±ÜÃâ¶àÌõÏßÂ·¿ª·ÅÈ«²¿µã»÷½øÏß ´íÎó£¡
+													//waitCount = 0//ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°  æœ‰è´¦å·è¿›çº¿æˆåŠŸå°±é‡ç½®ä¸º0å¯åŠ¨è®¡æ•°	//æ”¾åˆ°å‡½æ•°ä½“å†…èµ‹å€¼å› å¯èƒ½æ“ä½œå¤±è´¥æ— éœ€ç½®0ï¼
+													Exit For	//ç»“æŸåç»­çº¿è·¯å¾ªç¯	é¿å…å¤šæ¡çº¿è·¯å¼€æ”¾å…¨éƒ¨ç‚¹å‡»è¿›çº¿ é”™è¯¯ï¼
 												End If
-											Else //ÏßÂ·Î´¿ª·Å ÖØÖÃÊı×é¶ÔÓ¦·şÎñÆ÷ÏßÂ·µÇÂ¼Ê§°Ü´ÎÊı		ÈôÒ»Ö±¿ª×ÅÏßµ«´ÎÊıÏŞÖÆÄÚÃ»½øÈ¥ ÄÇÃ´ÓÀÔ¶²»»áÖØÖÃ£¿²»¿ÉÄÜ »ğ±¬£¡ÓĞÕâÇé¿ö£¿´ı¶¨£¿£¿£¿
+											Else //çº¿è·¯æœªå¼€æ”¾ é‡ç½®æ•°ç»„å¯¹åº”æœåŠ¡å™¨çº¿è·¯ç™»å½•å¤±è´¥æ¬¡æ•°		è‹¥ä¸€ç›´å¼€ç€çº¿ä½†æ¬¡æ•°é™åˆ¶å†…æ²¡è¿›å» é‚£ä¹ˆæ°¸è¿œä¸ä¼šé‡ç½®ï¼Ÿä¸å¯èƒ½ ç«çˆ†ï¼æœ‰è¿™æƒ…å†µï¼Ÿå¾…å®šï¼Ÿï¼Ÿï¼Ÿ
 												If serverLineFailCount(sIndex, jx) <> 0 Then 
 													serverLineFailCount(sIndex, jx) = 0
 												End If
@@ -780,67 +780,67 @@ Sub aaloginInit()
 							End If
 						End If
 						
-						//Ñ¡½Ç½øÓÎ	ÏÔÊ¾13²Ù×÷	×´Ì¬Îªsc & ÉÏÏßºó²Ù×÷´óÓÚ0Í£Áô½øÈëÒ³Ãæ & Ôİ¸ø2s½øÈëÑ¡½Ç½çÃæ£º1½øÏßĞèÒªÊ±¼ä¼·ÈÃÆäËû¿ªÏßÕËºÅ¾¡¿ìµÇÂ½½øÏß 2·ÀÖ¹Ğ´ÄÚ´æ¹ı¿ìÏÔÊ¾´íÎó
+						//é€‰è§’è¿›æ¸¸	æ˜¾ç¤º13æ“ä½œ	çŠ¶æ€ä¸ºsc & ä¸Šçº¿åæ“ä½œå¤§äº0åœç•™è¿›å…¥é¡µé¢ & æš‚ç»™2sè¿›å…¥é€‰è§’ç•Œé¢ï¼š1è¿›çº¿éœ€è¦æ—¶é—´æŒ¤è®©å…¶ä»–å¼€çº¿è´¦å·å°½å¿«ç™»é™†è¿›çº¿ 2é˜²æ­¢å†™å†…å­˜è¿‡å¿«æ˜¾ç¤ºé”™è¯¯
 						If iGetItemText(i, "state") = hState(2) and afterLine > 0 and waitCount >= 2 Then 
-							//½çÃæÍ¬Ê±½øÓÎÕËºÅÊıÁ¿ÊäÈë 0 Îª²»ÏŞÖÆ
-							If Form1.ComboBoxAccountLimit.ListIndex = 0 or Form1.ComboBoxAccountLimit.ListIndex > loadingAccount Then //3 -012ÄÜ½øÈë Èô>=Ôò3½øÈëÁË¿ÉÄÜ±äÎª4 soÖ»>
+							//ç•Œé¢åŒæ—¶è¿›æ¸¸è´¦å·æ•°é‡è¾“å…¥ 0 ä¸ºä¸é™åˆ¶
+							If Form1.ComboBoxAccountLimit.ListIndex = 0 or Form1.ComboBoxAccountLimit.ListIndex > loadingAccount Then //3 -012èƒ½è¿›å…¥ è‹¥>=åˆ™3è¿›å…¥äº†å¯èƒ½å˜ä¸º4 soåª>
 								actualLine = iGetItemText(i, "actualLine")
-								//Ñ¡½Ç½øÓÎ ¸Ä×´Ì¬Îªig	//Èô½øÏßÊ§°Ü½çÃæhwndÉèÖÃÎª0 ÆäËûÑ­»·ÅĞ¶Ï·Åº¯ÊıÌåÄÚ
-								//Ê¹ÓÃ²ÎÊı£ºÕËºÅaccount¡¢½ÇÉ«Ãûname¡¢ÕËºÅĞĞÊıi(¹©ĞŞ¸Ä×´Ì¬À¸Î»)¡¢ÈËÎïË³ĞòuserOrder¡¢¿Í»§¶Ë¾ä±úhwnd¡¢Êµ¼ÊÏßÂ·actualLine
+								//é€‰è§’è¿›æ¸¸ æ”¹çŠ¶æ€ä¸ºig	//è‹¥è¿›çº¿å¤±è´¥ç•Œé¢hwndè®¾ç½®ä¸º0 å…¶ä»–å¾ªç¯åˆ¤æ–­æ”¾å‡½æ•°ä½“å†…
+								//ä½¿ç”¨å‚æ•°ï¼šè´¦å·accountã€è§’è‰²ånameã€è´¦å·è¡Œæ•°i(ä¾›ä¿®æ”¹çŠ¶æ€æ ä½)ã€äººç‰©é¡ºåºuserOrderã€å®¢æˆ·ç«¯å¥æŸ„hwndã€å®é™…çº¿è·¯actualLine
 								Call login3()
 							End If	
 						End If
 						
-						//´ËÅĞ¶ÏÔİÊ±ÓĞÎÊÌâ closeEx()ÉúĞ§½ÏÂı ĞèÒªÊ±¼ä²Ù×÷ so·Åµ½×îºóÅĞ¶Ï£¿	´ı¶¨£¿£¿£¿£¿£¿
-						//×´Ì¬²»Îªap & ¿Í»§¶Ë±êÌâÎªÓÃ»§Ãû £º±íÊ¾¿ÉÄÜÎªÊÖ¶¯µÇÂ¼´ò¿ªÍâ¹Ò£¡¸Ä×´Ì¬Îªap·½±ã×ÓÏß³Ì¶ÁÈ¡ÄÚ´æÊı¾İ£¡ £¿ÕËºÅÄÚĞ¡ºÅÄØ£¿´ı¶¨£¿ 
+						//æ­¤åˆ¤æ–­æš‚æ—¶æœ‰é—®é¢˜ closeEx()ç”Ÿæ•ˆè¾ƒæ…¢ éœ€è¦æ—¶é—´æ“ä½œ soæ”¾åˆ°æœ€ååˆ¤æ–­ï¼Ÿ	å¾…å®šï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+						//çŠ¶æ€ä¸ä¸ºap & å®¢æˆ·ç«¯æ ‡é¢˜ä¸ºç”¨æˆ·å ï¼šè¡¨ç¤ºå¯èƒ½ä¸ºæ‰‹åŠ¨ç™»å½•æ‰“å¼€å¤–æŒ‚ï¼æ”¹çŠ¶æ€ä¸ºapæ–¹ä¾¿å­çº¿ç¨‹è¯»å–å†…å­˜æ•°æ®ï¼ ï¼Ÿè´¦å·å†…å°å·å‘¢ï¼Ÿå¾…å®šï¼Ÿ 
 						If Plugin.Window.Find("D3D Window", name) <> 0 Then 
-							//getItemTextÎª×Ö·û´®£¬ÈôÓëÊı×Ö±È½Ï±ØĞë×ª»»£¿
+							//getItemTextä¸ºå­—ç¬¦ä¸²ï¼Œè‹¥ä¸æ•°å­—æ¯”è¾ƒå¿…é¡»è½¬æ¢ï¼Ÿ
 							If Plugin.Window.Find("D3D Window", name) = hwnd Then 
-								addLogT  "[" & name & "]±êÌâ¿Í»§¶Ë´æÔÚ£¬ÒÑ¿ª¹Ò£¡"
-								iSetItemText i, "actualLine", dm.ReadString(hwnd, actualLineBaseAddr, 0, 2)	//Êµ¼Ê½øÈëÏßÂ· ¶ÁÈ¡ÄÚ´æ
-								iSetItemText i, "state", hState(4)//×´Ì¬¸ÄÎªap
-								iSetItemBkColor i, "state", "FFFFFF"	//±³¾°¸Ä°×É«
+								addLogT  "[" & name & "]æ ‡é¢˜å®¢æˆ·ç«¯å­˜åœ¨ï¼Œå·²å¼€æŒ‚ï¼"
+								iSetItemText i, "actualLine", dm.ReadString(hwnd, actualLineBaseAddr, 0, 2)	//å®é™…è¿›å…¥çº¿è·¯ è¯»å–å†…å­˜
+								iSetItemText i, "state", hState(4)//çŠ¶æ€æ”¹ä¸ºap
+								iSetItemBkColor i, "state", "FFFFFF"	//èƒŒæ™¯æ”¹ç™½è‰²
 							Else 
-								addLogT "hwnd²»·û£¡ÊÖ¶¯ĞÂ¿ª/Î´ÍêÈ«¹Ø±Õ£¬²Ù×÷´ı¶¨²âÊÔ£¡"
+								addLogT "hwndä¸ç¬¦ï¼æ‰‹åŠ¨æ–°å¼€/æœªå®Œå…¨å…³é—­ï¼Œæ“ä½œå¾…å®šæµ‹è¯•ï¼"
 								addLogT "nameHwnd="& Plugin.Window.Find("D3D Window", name) & " itemHwnd=" & hwnd
 							End If
 						End If
 						
-						//ÓĞ×´Ì¬ig´°¿Ú & ÉÏÏßºó²Ù×÷Îª´óÓÚ0£¬·¢´ôÒ²¿ª¹Ò(0Í£Áô½øÈëÒ³Ãæ|1·¢´ô|2¹Ò»ú)	ÈôÊ§°ÜÔòÑ­»·»áÒ»Ö±ÑéÖ¤£¿£¿£¿£¿£¿£¿					
+						//æœ‰çŠ¶æ€igçª—å£ & ä¸Šçº¿åæ“ä½œä¸ºå¤§äº0ï¼Œå‘å‘†ä¹Ÿå¼€æŒ‚(0åœç•™è¿›å…¥é¡µé¢|1å‘å‘†|2æŒ‚æœº)	è‹¥å¤±è´¥åˆ™å¾ªç¯ä¼šä¸€ç›´éªŒè¯ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ					
 						If iGetItemText(i, "state") = hState(3) and afterLine > 0 Then 
-							//ÅĞ¶Ï´°¿ÚÊÇ·ñ»¹ÔÚÎ´ÏìÓ¦(ÉÏÒ»ÅĞ¶ÏºóÕıÔÚ½øÈëÓÎÏ· ĞèÒª½Ï³¤Ê±¼ä)
-							If Plugin.Window.GetWindowState(hwnd, 6) = False Then //ÒÑÏìÓ¦
-								loadingAccount = loadingAccount - 1	//Í¬Ê±½øÓÎ¼ÓÔØÖĞÕËºÅ-1
+							//åˆ¤æ–­çª—å£æ˜¯å¦è¿˜åœ¨æœªå“åº”(ä¸Šä¸€åˆ¤æ–­åæ­£åœ¨è¿›å…¥æ¸¸æˆ éœ€è¦è¾ƒé•¿æ—¶é—´)
+							If Plugin.Window.GetWindowState(hwnd, 6) = False Then //å·²å“åº”
+								loadingAccount = loadingAccount - 1	//åŒæ—¶è¿›æ¸¸åŠ è½½ä¸­è´¦å·-1
 								
-								iSetItemText i, "state", hState(4) //³É¹¦Óë·ñ¶¼Ö±½ÓĞŞ¸ÄÒ³Ãæ×´Ì¬Îªap	 ±ÜÃâÖØ¸´½øÈë£¡Êµ¼ÊÓ¦ÔÚactivePlugin()ÄÚĞŞ¸Ä£¡Ôİ¶¨£¿
-								iSetItemBkColor i, "state", "FFFFFF"	//±³¾°¸Ä°×É«	/»òÊÖ¶¯¸Ä×´Ì¬²»¸Ä±³¾°
+								iSetItemText i, "state", hState(4) //æˆåŠŸä¸å¦éƒ½ç›´æ¥ä¿®æ”¹é¡µé¢çŠ¶æ€ä¸ºap	 é¿å…é‡å¤è¿›å…¥ï¼å®é™…åº”åœ¨activePlugin()å†…ä¿®æ”¹ï¼æš‚å®šï¼Ÿ
+								iSetItemBkColor i, "state", "FFFFFF"	//èƒŒæ™¯æ”¹ç™½è‰²	/æˆ–æ‰‹åŠ¨æ”¹çŠ¶æ€ä¸æ”¹èƒŒæ™¯
 								
 								actualLine = iGetItemText(i, "actualLine")
-								addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¼¤»îÍâ¹Ò£¡"
-								//¼¤»îÍâ¹Ò¹Ò»ú
-								//Ê¹ÓÃ²ÎÊı£ºÕËºÅaccount¡¢½ÇÉ«Ãûname¡¢ÕËºÅĞĞÊıi(¹©ĞŞ¸Ä×´Ì¬À¸Î»)¡¢ÉÏÏßºó²Ù×÷afterLine¡¢¿Í»§¶Ë¾ä±úhwnd
-								Call activePlugin()//ĞŞ¸Ä×´Ì¬ÎªapÔİ¶¨ÔÚÅĞ¶ÏÌåÊ×ĞĞ ±ÜÃâÖØ¸´½øÈë£¡
+								addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]æ¿€æ´»å¤–æŒ‚ï¼"
+								//æ¿€æ´»å¤–æŒ‚æŒ‚æœº
+								//ä½¿ç”¨å‚æ•°ï¼šè´¦å·accountã€è§’è‰²ånameã€è´¦å·è¡Œæ•°i(ä¾›ä¿®æ”¹çŠ¶æ€æ ä½)ã€ä¸Šçº¿åæ“ä½œafterLineã€å®¢æˆ·ç«¯å¥æŸ„hwnd
+								Call activePlugin()//ä¿®æ”¹çŠ¶æ€ä¸ºapæš‚å®šåœ¨åˆ¤æ–­ä½“é¦–è¡Œ é¿å…é‡å¤è¿›å…¥ï¼
 							End If
 						End If
 						
-					//Else 		//·ÅÖ÷Ïß³Ì²éÏßÔİÆútest£¡
-						//tcpCheckLineFlag = False		//·ÅÖ÷Ïß³Ì²éÏßÔİÆútest£¡
-					End If	//×´Ì¬ÊÇ·ñÎªapÅĞ¶Ï
+					//Else 		//æ”¾ä¸»çº¿ç¨‹æŸ¥çº¿æš‚å¼ƒtestï¼
+						//tcpCheckLineFlag = False		//æ”¾ä¸»çº¿ç¨‹æŸ¥çº¿æš‚å¼ƒtestï¼
+					End If	//çŠ¶æ€æ˜¯å¦ä¸ºapåˆ¤æ–­
 					
-				End If  //¹´Ñ¡ÕËºÅÅĞ¶Ï½áÊø    	
+				End If  //å‹¾é€‰è´¦å·åˆ¤æ–­ç»“æŸ    	
 			Next	
-		End If	//×Ô¶¯µÇÂ¼¿ªÆô ÅĞ¶Ï½áÊø
+		End If	//è‡ªåŠ¨ç™»å½•å¼€å¯ åˆ¤æ–­ç»“æŸ
 		
-    	//ÑÓ³Ù1sÑ­»·
+    	//å»¶è¿Ÿ1så¾ªç¯
 		Delay 1000
 		
 		
-    	//Ö÷Ñ­»·´ÎÊı¼ÆÊı  ×¢Òâ¾ßÌålogin²Ù×÷ÏûºÄÊ±¼ä²»¼ÆËãÔÚÄÚ£¡ ¹©login3()Ñ¡½Ç½øÓÎ¼ÆËãµÈ´ıÊ±¼äÊ¹ÓÃ£¡
+    	//ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°  æ³¨æ„å…·ä½“loginæ“ä½œæ¶ˆè€—æ—¶é—´ä¸è®¡ç®—åœ¨å†…ï¼ ä¾›login3()é€‰è§’è¿›æ¸¸è®¡ç®—ç­‰å¾…æ—¶é—´ä½¿ç”¨ï¼
     	If waitCount <> - 1  Then 
-    		//Ê¹ÓÃÊµ¼ÊÕËºÅ¸öÊı¼ÆËã³¬Ê±ÖØÖÃ£¬Ã¿¸öºÅ¸ø1minÓ¦¸Ã´Â´ÂÓĞÓà
-    	 	If waitCount >= UBound(user) * 60 Then //	¼ÙÉèÏŞÖÆ3¸öºÅÒ»Æğ½øÈë 10¸öºÅÒª4ÂÖ		ÏŞÖÆ1¸öºÅ 100¸öºÅ 100*30 (½øÈëÓÎÏ·Ò»Ö±ÔÚÑ­»·++ loadingAccount)		5s¹Òap()²»ĞèÒªËãÔÚ¼ÆÊıÄÚ	
-    	 		waitCount = - 1 	'³¬Ê±ÖØÖÃÖ÷Ñ­»·´ÎÊı¼ÆÊı
-    	 		'³¬Ê±ÖØÖÃ·şÎñÆ÷ÏßÂ·µÇÂ¼Ê§°Ü¼ÆÊıÊı×é È«²¿Îª0	//ÒòÎªÓĞÇé¿öÊÇ¿ªÏßµ«Ò»Ö±Ã»½øÈ¥£¡¼Ó¸öÈßÓà£¡
+    		//ä½¿ç”¨å®é™…è´¦å·ä¸ªæ•°è®¡ç®—è¶…æ—¶é‡ç½®ï¼Œæ¯ä¸ªå·ç»™1minåº”è¯¥ç»°ç»°æœ‰ä½™
+    	 	If waitCount >= UBound(user) * 60 Then //	å‡è®¾é™åˆ¶3ä¸ªå·ä¸€èµ·è¿›å…¥ 10ä¸ªå·è¦4è½®		é™åˆ¶1ä¸ªå· 100ä¸ªå· 100*30 (è¿›å…¥æ¸¸æˆä¸€ç›´åœ¨å¾ªç¯++ loadingAccount)		5sæŒ‚ap()ä¸éœ€è¦ç®—åœ¨è®¡æ•°å†…	
+    	 		waitCount = - 1 	'è¶…æ—¶é‡ç½®ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°
+    	 		'è¶…æ—¶é‡ç½®æœåŠ¡å™¨çº¿è·¯ç™»å½•å¤±è´¥è®¡æ•°æ•°ç»„ å…¨éƒ¨ä¸º0	//å› ä¸ºæœ‰æƒ…å†µæ˜¯å¼€çº¿ä½†ä¸€ç›´æ²¡è¿›å»ï¼åŠ ä¸ªå†—ä½™ï¼
     	 		Call initServerLineFailCount(UBound(serverLineFailCount, 1), UBound(serverLineFailCount, 2))
     	 	Else 
     	 		waitCount = waitCount + 1
@@ -850,12 +850,12 @@ Sub aaloginInit()
 	Loop
 
 	Rem exitLogin
-		addLogT "login½áÊø£¬Í£Ö¹½Å±¾ÔËĞĞ£¡"
-		LogStop //¼ÇÂ¼ÈÕÖ¾Í£Ö¹
+		addLogT "loginç»“æŸï¼Œåœæ­¢è„šæœ¬è¿è¡Œï¼"
+		LogStop //è®°å½•æ—¥å¿—åœæ­¢
 End Sub
 
-//³õÊ¼»¯·şÎñÆ÷ÏßÂ·µÇÂ¼Ê§°Ü¼ÆÊı¶şÎ¬Êı×é È«²¿Îª0	//´ÓÏÂ±ê1¿ªÓÃ
-'a b ÎªµÚÒ»Î¬µÚ¶şÎ¬×î´óĞ¡±ê
+//åˆå§‹åŒ–æœåŠ¡å™¨çº¿è·¯ç™»å½•å¤±è´¥è®¡æ•°äºŒç»´æ•°ç»„ å…¨éƒ¨ä¸º0	//ä»ä¸‹æ ‡1å¼€ç”¨
+'a b ä¸ºç¬¬ä¸€ç»´ç¬¬äºŒç»´æœ€å¤§å°æ ‡
 Sub initServerLineFailCount(a, b)
 	Dim mm, nn
 	For mm = 0 To a
@@ -865,13 +865,13 @@ Sub initServerLineFailCount(a, b)
 	Next
 End Sub
 
-//Î¬»¤ÈÕ½Å±¾ĞèµÈµ½¾ßÌåÊ±¼äºóÔÙÆô¶¯ÔÙ×Ô¶¯¸üĞÂ£¬±ÜÃâ17/SQÎ´Íê³É¸üĞÂ·¢²¼£¡
+//ç»´æŠ¤æ—¥è„šæœ¬éœ€ç­‰åˆ°å…·ä½“æ—¶é—´åå†å¯åŠ¨å†è‡ªåŠ¨æ›´æ–°ï¼Œé¿å…17/SQæœªå®Œæˆæ›´æ–°å‘å¸ƒï¼
 Sub waitTime2Upd()
 	If Form1.CheckBoxMaintenance.Value = 1 and Weekday(now) = Form1.ComboBoxMTWeek.ListIndex + 1 Then 
-		addLogT "Î¬»¤ÈÕµÈµ½ "& Form1.ComboBoxMTHour.ListIndex & "µãºóÔÙÆô¶¯¸üĞÂ£¡Ã¿·ÖÑ­»·¿ÉÈ¡Ïû¹´Ñ¡£¡"
-		If Hour(now) <= 6 Then //Hour(now)·¶Î§0-23
-			addLogT "0-6µãÖ±½ÓÅÅ³ı£¡Ôİ¶¨£¿£¡"
-			Exit Sub//Ò»°ãÎ¬»¤ÊÇ6µã¿ªÊ¼ Ö±½ÓÅÅ³ı0-6£¿	//ºÃÏñÓĞ0µãÎ¬»¤µÄ£¿´ı¶¨£¿
+		addLogT "ç»´æŠ¤æ—¥ç­‰åˆ° "& Form1.ComboBoxMTHour.ListIndex & "ç‚¹åå†å¯åŠ¨æ›´æ–°ï¼æ¯åˆ†å¾ªç¯å¯å–æ¶ˆå‹¾é€‰ï¼"
+		If Hour(now) <= 6 Then //Hour(now)èŒƒå›´0-23
+			addLogT "0-6ç‚¹ç›´æ¥æ’é™¤ï¼æš‚å®šï¼Ÿï¼"
+			Exit Sub//ä¸€èˆ¬ç»´æŠ¤æ˜¯6ç‚¹å¼€å§‹ ç›´æ¥æ’é™¤0-6ï¼Ÿ	//å¥½åƒæœ‰0ç‚¹ç»´æŠ¤çš„ï¼Ÿå¾…å®šï¼Ÿ
 		End If
 		Do
 			If Hour(now) >=  Form1.ComboBoxMTHour.ListIndex or Form1.CheckBoxMaintenance.Value = 0 Then 
@@ -882,7 +882,7 @@ Sub waitTime2Upd()
 	End If
 End Sub
 
-//»ñÈ¡allServersArrayÊı×éÖĞserver¶ÔÓ¦µÄindex¹©serverLineFailCountÊı×éÊ¹ÓÃ£¬Ê§°Ü·µ»ØUBound(allServersArray)=40
+//è·å–allServersArrayæ•°ç»„ä¸­serverå¯¹åº”çš„indexä¾›serverLineFailCountæ•°ç»„ä½¿ç”¨ï¼Œå¤±è´¥è¿”å›UBound(allServersArray)=40
 Function getServerIndex(server)
 	Dim index
 	For index = 0 To UBound(allServersArray)
@@ -891,153 +891,153 @@ Function getServerIndex(server)
 			Exit Function
 		End If
 	Next
-	getServerIndex = UBound(allServersArray)	//Ê§°Ü·µ»ØUBound(allServersArray)=40		//·µ»Ø-1¶à¼ÓÅĞ¶ÏÆú£¡
+	getServerIndex = UBound(allServersArray)	//å¤±è´¥è¿”å›UBound(allServersArray)=40		//è¿”å›-1å¤šåŠ åˆ¤æ–­å¼ƒï¼
 End Function
 
-////tcp²éÏß×ÓÏß³Ì		·ÅÖ÷Ïß³Ì²éÏß¿ÉÊÊÅä²»Í¬ÇøºÅ£¡´Ë´¦Æú£¡
+////tcpæŸ¥çº¿å­çº¿ç¨‹		æ”¾ä¸»çº¿ç¨‹æŸ¥çº¿å¯é€‚é…ä¸åŒåŒºå·ï¼æ­¤å¤„å¼ƒï¼
 //Sub tcpCheckLineThread()
 //	Do
-//		//×èÈû²éÏß ÈôÎ´¿ª·ş»á¿¨Ö÷Ïß³ÌÑ­»· so·Å×ÓÏß³Ì
+//		//é˜»å¡æŸ¥çº¿ è‹¥æœªå¼€æœä¼šå¡ä¸»çº¿ç¨‹å¾ªç¯ soæ”¾å­çº¿ç¨‹
 //		If tcpCheckLineFlag = True Then 
 //			
-//			//¶ÏÍø¼ì²â£¬·ÀÖ¹¿ªÏß×Ö·û´®ÔÚ¶ÏÍøÊ±²»¸üĞÂÒ»Ö±µÇÂ¼£¡
+//			//æ–­ç½‘æ£€æµ‹ï¼Œé˜²æ­¢å¼€çº¿å­—ç¬¦ä¸²åœ¨æ–­ç½‘æ—¶ä¸æ›´æ–°ä¸€ç›´ç™»å½•ï¼
 //			/*If isOnline() = False Then 
 //				alStates = ""
 //			Else 
-//				alStates = Plugin.RxSocket.getPartServerLines("µçĞÅÎåÇø", "³ÁÏã")
+//				alStates = Plugin.RxSocket.getPartServerLines("ç”µä¿¡äº”åŒº", "æ²‰é¦™")
 //			End If*/
 //			
-//			//SocketDllÉèÖÃÁ¬½Ó³¬Ê±ÁË  Á¬½Ó·¢ËÍ½ÓÊÕ¶¼ÉèÖÃµÄ500ms
-//			//ÈôÊı¾İ²»¶Ô¿Éµ÷ÓÃgetByteArray()È·¶¨·şÎñÆ÷IdÎ»ÖÃºóÔÙµ÷ÓÃgetPartServerLines2()´«Öµ
-//			alStates = Plugin.RxSocket.getPartServerLines("µçĞÅÎåÇø", "³ÁÏã")
+//			//SocketDllè®¾ç½®è¿æ¥è¶…æ—¶äº†  è¿æ¥å‘é€æ¥æ”¶éƒ½è®¾ç½®çš„500ms
+//			//è‹¥æ•°æ®ä¸å¯¹å¯è°ƒç”¨getByteArray()ç¡®å®šæœåŠ¡å™¨Idä½ç½®åå†è°ƒç”¨getPartServerLines2()ä¼ å€¼
+//			alStates = Plugin.RxSocket.getPartServerLines("ç”µä¿¡äº”åŒº", "æ²‰é¦™")
 //		End If
 //		
 //		Delay 1000
 //	Loop
 //End Sub
 
-//×ÓÏß³Ì Ä¬ÈÏ10sÑ­»· ±¾µØ¶ÏÏß¼ì²â(·ÅÖ÷Ïß³ÌÖĞÃ¿Ãë¼ì²â)¡¢¸üĞÂÒ³Ãæ±äÁ¿Êı¾İ...
+//å­çº¿ç¨‹ é»˜è®¤10så¾ªç¯ æœ¬åœ°æ–­çº¿æ£€æµ‹(æ”¾ä¸»çº¿ç¨‹ä¸­æ¯ç§’æ£€æµ‹)ã€æ›´æ–°é¡µé¢å˜é‡æ•°æ®...
 Sub subThread()
-	//Èç¹ûÊÇ¶àÏß³ÌÊ¹ÓÃ´óÄ®²å¼ş£¬±ØĞëÃ¿¸öÏß³Ì¶¼Òª´´½¨Ò»¸ödm¶ÔÏó
+	//å¦‚æœæ˜¯å¤šçº¿ç¨‹ä½¿ç”¨å¤§æ¼ æ’ä»¶ï¼Œå¿…é¡»æ¯ä¸ªçº¿ç¨‹éƒ½è¦åˆ›å»ºä¸€ä¸ªdmå¯¹è±¡
 	Call useDM()	//Set dm = createobject("dm.dmsoft")
-	Delay 1000//ÑÓ³Ù1sÆô¶¯Ñ­»·	´í¿ª²¢·¢
+	Delay 1000//å»¶è¿Ÿ1så¯åŠ¨å¾ªç¯	é”™å¼€å¹¶å‘
 	Do
-		user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
+		user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
 		
-		If Form1.CheckBoxNoReadMemoryData.Value = 0 Then //¶ÁÈ¡ÄÚ´æ
-			//Ò³ÃæÊı¾İ¸üĞÂ(½ğÇ®¡¢µÈ¼¶¡¢ÈË²Î¡¢Ç¿»¯µÈ)
-			allMoney = 0//×Ü½ğ¶îÖØÖÃÎª0	
+		If Form1.CheckBoxNoReadMemoryData.Value = 0 Then //è¯»å–å†…å­˜
+			//é¡µé¢æ•°æ®æ›´æ–°(é‡‘é’±ã€ç­‰çº§ã€äººå‚ã€å¼ºåŒ–ç­‰)
+			allMoney = 0//æ€»é‡‘é¢é‡ç½®ä¸º0	
 		
-			For i = 1 To UBound(user)//ÕËºÅÑ­»·
+			For i = 1 To UBound(user)//è´¦å·å¾ªç¯
 				hwnd = Clng(iGetItemText(i, "hwnd"))
-				If hwnd > 0 Then //ÕËºÅ¾ä±ú´æÔÚ						
-					// ×´Ì¬Îªig/apÕËºÅÔò¸üĞÂÒ³ÃæÊı¾İ(ÔİÊ±£¿¿ÉÅĞ¶ÏÊı×éÏÂ±ê)
+				If hwnd > 0 Then //è´¦å·å¥æŸ„å­˜åœ¨						
+					// çŠ¶æ€ä¸ºig/apè´¦å·åˆ™æ›´æ–°é¡µé¢æ•°æ®(æš‚æ—¶ï¼Ÿå¯åˆ¤æ–­æ•°ç»„ä¸‹æ ‡)
 					If iGetItemText(i, "state") = hState(3) or iGetItemText(i, "state") = hState(4) Then 
-						m = getRoleInfo(hwnd, "money", 0)//Ô­Ê¼½ğÇ®
-						allMoney = allMoney + m			//×Ü½ğÇ®µş¼Ó
-						iSetItemText i, "money", formatMoney(m, 1) 	//¸üĞÂ¸ñÊ½»¯½ğÇ®					
-						iSetItemText i, "level", getRoleInfo(hwnd, "level", 0)	//¸üĞÂµÈ¼¶
+						m = getRoleInfo(hwnd, "money", 0)//åŸå§‹é‡‘é’±
+						allMoney = allMoney + m			//æ€»é‡‘é’±å åŠ 
+						iSetItemText i, "money", formatMoney(m, 1) 	//æ›´æ–°æ ¼å¼åŒ–é‡‘é’±					
+						iSetItemText i, "level", getRoleInfo(hwnd, "level", 0)	//æ›´æ–°ç­‰çº§
 						iSetItemText i, "ginseng", getRoleStoreList(hwnd, "pack", 1, "number") _
-							& "/" & getRoleStoreList(hwnd, "pstore", 60, "number") + getRoleStoreList(hwnd, "cstore", 60, "number")		//¸üĞÂÈË²Î
-						iSetItemText i, "stone", getRoleStoreList(hwnd, "pack", 31, "number")//¸üĞÂÇ¿»¯
+							& "/" & getRoleStoreList(hwnd, "pstore", 60, "number") + getRoleStoreList(hwnd, "cstore", 60, "number")		//æ›´æ–°äººå‚
+						iSetItemText i, "stone", getRoleStoreList(hwnd, "pack", 31, "number")//æ›´æ–°å¼ºåŒ–
 					End If
 				End If
-				Delay 100	//¼õÉÙµãcpuÕ¼ÓÃ£¡
+				Delay 100	//å‡å°‘ç‚¹cpuå ç”¨ï¼
 			Next
 			
-			//ÕËºÅÑ­»·Íê³É	ÔİÊ±²»·Åµ½Ñ­»·ÌåÄÚÅĞ¶Ï×îºóÒ»¸öÕËºÅÔò¸üĞÂ×Ü½ğÇ® Èô²»¹´Ñ¡¶ÁÈ¡ÄÚ´æÊı¾İÔò×Ü½ğÇ®Îª0·½±ã·¢ÏÖºó¿ª¹Ø£¡
-			Form1.LabelAllMoney.Caption = formatMoney(allMoney, 0)	//¸üĞÂ¸ñÊ½»¯×Ü½ğÇ®
+			//è´¦å·å¾ªç¯å®Œæˆ	æš‚æ—¶ä¸æ”¾åˆ°å¾ªç¯ä½“å†…åˆ¤æ–­æœ€åä¸€ä¸ªè´¦å·åˆ™æ›´æ–°æ€»é‡‘é’± è‹¥ä¸å‹¾é€‰è¯»å–å†…å­˜æ•°æ®åˆ™æ€»é‡‘é’±ä¸º0æ–¹ä¾¿å‘ç°åå¼€å…³ï¼
+			Form1.LabelAllMoney.Caption = formatMoney(allMoney, 0)	//æ›´æ–°æ ¼å¼åŒ–æ€»é‡‘é’±
 			
-			//²ÖÓàµ¥¶ÀÅĞ¶ÏÑ­»·¸üĞÂÒ»´Î
+			//ä»“ä½™å•ç‹¬åˆ¤æ–­å¾ªç¯æ›´æ–°ä¸€æ¬¡
 			If lastStoresFlag = True Then 
-				Delay 1000//ÑÓ³Ù1s¸üĞÂ
-				Call buttonSound("¸üĞÂ²ÖÓà.mp3")	//Ëæ±ã¼Ó¸öÉùÒô·½±ã²é¿´ ºóÆÚ¸ü»»
-				TracePrint "¸üĞÂ²ÖÓà..."
+				Delay 1000//å»¶è¿Ÿ1sæ›´æ–°
+				Call buttonSound("æ›´æ–°ä»“ä½™.mp3")	//éšä¾¿åŠ ä¸ªå£°éŸ³æ–¹ä¾¿æŸ¥çœ‹ åæœŸæ›´æ¢
+				TracePrint "æ›´æ–°ä»“ä½™..."
 				For i = 1 To UBound(user)	
 					hwnd = Clng(iGetItemText(i, "hwnd"))
-					If hwnd > 0 Then //ÕËºÅ¾ä±ú´æÔÚ
-						If iGetItemText(i, "state") = hState(3) or iGetItemText(i, "state") = hState(4) Then //ÇÒ×´Ì¬Îªig/ap(ÔİÊ±£¿¿ÉÅĞ¶ÏÊı×éÏÂ±ê)
-							iSetItemBkColor i, "lastStores", "00FFFF"	//±³¾°¸ÄÎª»ÆÉ«
+					If hwnd > 0 Then //è´¦å·å¥æŸ„å­˜åœ¨
+						If iGetItemText(i, "state") = hState(3) or iGetItemText(i, "state") = hState(4) Then //ä¸”çŠ¶æ€ä¸ºig/ap(æš‚æ—¶ï¼Ÿå¯åˆ¤æ–­æ•°ç»„ä¸‹æ ‡)
+							iSetItemBkColor i, "lastStores", "00FFFF"	//èƒŒæ™¯æ”¹ä¸ºé»„è‰²
 							Call updateLastStores(hwnd)
-							iSetItemBkColor i, "lastStores", "FFFFFF"	//±³¾°¸ÄÎª°×É«
+							iSetItemBkColor i, "lastStores", "FFFFFF"	//èƒŒæ™¯æ”¹ä¸ºç™½è‰²
 							Delay 100
 						End If
 					End If
 				Next
 				
-				lastStoresFlag = False	//¸üĞÂ²ÖÓà¸ÄÎªfalse	Ä¿µÄÆô¶¯»ò½çÃæ°´Å¥µã»÷ºó¸ÄÎªtrueÖµÖ»¸üĞÂÒ»´Î (ÒòÎª½ÏÎªºÄÊ±£¡)
+				lastStoresFlag = False	//æ›´æ–°ä»“ä½™æ”¹ä¸ºfalse	ç›®çš„å¯åŠ¨æˆ–ç•Œé¢æŒ‰é’®ç‚¹å‡»åæ”¹ä¸ºtrueå€¼åªæ›´æ–°ä¸€æ¬¡ (å› ä¸ºè¾ƒä¸ºè€—æ—¶ï¼)
 			End If
 		Else 
-			Form1.LabelAllMoney.Caption = 0	//²»¶ÁÄÚ´æÔò×Ü½ğ¶îÉèÖÃÎª0·½±ã·¢ÏÖºó¿ª¹Ø£¡
+			Form1.LabelAllMoney.Caption = 0	//ä¸è¯»å†…å­˜åˆ™æ€»é‡‘é¢è®¾ç½®ä¸º0æ–¹ä¾¿å‘ç°åå¼€å…³ï¼
 		End If
 		
 		
-		//¶¨Ê±ÈÎÎñ
+		//å®šæ—¶ä»»åŠ¡
 		If Form1.CheckBoxSchedule.Value = 1 Then 
-			//ÖÜÈÕ·µ»ØÖµÎª1
+			//å‘¨æ—¥è¿”å›å€¼ä¸º1
 			If Weekday(now) = Form1.ComboBoxWeek.ListIndex + 1 and Hour(now) =  Form1.ComboBoxHour.ListIndex  Then 
-				If Minute(now) >= Form1.ComboBoxMinute.ListIndex and Minute(now) <= Form1.ComboBoxMinute.ListIndex + 1 Then //×ÓÏß³ÌÃ¿·ÖÖÓ/ÆäËûÊ±¼äÑ­»· ¶¨Ê±ÈÎÎñ·ÖÖÓ²»ÓÃ¿¨Ì«ËÀ ·¶Î§·Å´óµã 
-					Form1.CheckBoxSchedule.Value = 0//¹Ø±Õ¶¨Ê±ÈÎÎñ£¬±ÜÃâÖØ¸´½øÈë
+				If Minute(now) >= Form1.ComboBoxMinute.ListIndex and Minute(now) <= Form1.ComboBoxMinute.ListIndex + 1 Then //å­çº¿ç¨‹æ¯åˆ†é’Ÿ/å…¶ä»–æ—¶é—´å¾ªç¯ å®šæ—¶ä»»åŠ¡åˆ†é’Ÿä¸ç”¨å¡å¤ªæ­» èŒƒå›´æ”¾å¤§ç‚¹ 
+					Form1.CheckBoxSchedule.Value = 0//å…³é—­å®šæ—¶ä»»åŠ¡ï¼Œé¿å…é‡å¤è¿›å…¥
 					
-					If Form1.ComboBoxTask.ListIndex = 0 Then //¹Ø»ú
-						addLogT "¶¨Ê±ÈÎÎñ´¥·¢£º10sºó¹Ø»ú£¡"
-						//´´½¨shell //¹Ø»úÁË¾Í²»ÓÃÊÍ·ÅwsÁË ·ñÔò Set ws = nothing
+					If Form1.ComboBoxTask.ListIndex = 0 Then //å…³æœº
+						addLogT "å®šæ—¶ä»»åŠ¡è§¦å‘ï¼š10såå…³æœºï¼"
+						//åˆ›å»ºshell //å…³æœºäº†å°±ä¸ç”¨é‡Šæ”¾wsäº† å¦åˆ™ Set ws = nothing
 						Set ws = createObject("WScript.shell")
-						ws.Run "shutdown /f /s /t 10"	//force /shutdown /rÖØÆôreboot /time		/l ×¢Ïú /h ĞİÃß
-					ElseIf Form1.ComboBoxTask.ListIndex = 1 Then//¹Ø±ÕËùÓĞ¿Í»§¶Ë
-						addLogT "¶¨Ê±ÈÎÎñ´¥·¢£º¹Ø±ÕËùÓĞ¿Í»§¶Ë£¡2m10sºó¿ªÆô×Ô¶¯µÇÂ¼£¡"
-						autoLoginFlag = False//¹Ø±ÕÖ÷Ïß³Ì×Ô¶¯µÇÂ¼
-						Form1.ButtonOpenAutoLogin.Visible = 1	//¿ªÆô°´Å¥ÏÔÊ¾
+						ws.Run "shutdown /f /s /t 10"	//force /shutdown /ré‡å¯reboot /time		/l æ³¨é”€ /h ä¼‘çœ 
+					ElseIf Form1.ComboBoxTask.ListIndex = 1 Then//å…³é—­æ‰€æœ‰å®¢æˆ·ç«¯
+						addLogT "å®šæ—¶ä»»åŠ¡è§¦å‘ï¼šå…³é—­æ‰€æœ‰å®¢æˆ·ç«¯ï¼2m10såå¼€å¯è‡ªåŠ¨ç™»å½•ï¼"
+						autoLoginFlag = False//å…³é—­ä¸»çº¿ç¨‹è‡ªåŠ¨ç™»å½•
+						Form1.ButtonOpenAutoLogin.Visible = 1	//å¼€å¯æŒ‰é’®æ˜¾ç¤º
 						For i = 1 To UBound(user)
 							hwndC = Clng(iGetItemText(i, "hwnd"))
 							If hwndC > 0 Then 
-								//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+								//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 								Call clearAccount(hwndC)
 								Delay 10
 							End If
 						Next
 						Delay 130000	//2min+
-						autoLoginFlag = True//´ò¿ªÖ÷Ïß³Ì×Ô¶¯µÇÂ¼
-						Form1.ButtonOpenAutoLogin.Visible = 0//¿ªÆô°´Å¥Òş²Ø
-					ElseIf Form1.ComboBoxTask.ListIndex = 2 Then//¹Ø±ÕËùÓĞ¿Í»§¶ËÇÒÍ£Ö¹×Ô¶¯µÇÂ¼
-						addLogT "¶¨Ê±ÈÎÎñ´¥·¢£º¹Ø±ÕËùÓĞ¿Í»§¶ËÇÒÍ£Ö¹×Ô¶¯µÇÂ¼£¡"
-						autoLoginFlag = False//¹Ø±ÕÖ÷Ïß³Ì×Ô¶¯µÇÂ¼
-						Form1.ButtonOpenAutoLogin.Visible = 1	//¿ªÆô°´Å¥ÏÔÊ¾
+						autoLoginFlag = True//æ‰“å¼€ä¸»çº¿ç¨‹è‡ªåŠ¨ç™»å½•
+						Form1.ButtonOpenAutoLogin.Visible = 0//å¼€å¯æŒ‰é’®éšè—
+					ElseIf Form1.ComboBoxTask.ListIndex = 2 Then//å…³é—­æ‰€æœ‰å®¢æˆ·ç«¯ä¸”åœæ­¢è‡ªåŠ¨ç™»å½•
+						addLogT "å®šæ—¶ä»»åŠ¡è§¦å‘ï¼šå…³é—­æ‰€æœ‰å®¢æˆ·ç«¯ä¸”åœæ­¢è‡ªåŠ¨ç™»å½•ï¼"
+						autoLoginFlag = False//å…³é—­ä¸»çº¿ç¨‹è‡ªåŠ¨ç™»å½•
+						Form1.ButtonOpenAutoLogin.Visible = 1	//å¼€å¯æŒ‰é’®æ˜¾ç¤º
 						For i = 1 To UBound(user)
 							hwndC = Clng(iGetItemText(i, "hwnd"))
 							If hwndC > 0 Then 
-								//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+								//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 								Call clearAccount(hwndC)
 								Delay 10
 							End If
 						Next
 					Else 
-						//TODO:´ı¶¨
+						//TODO:å¾…å®š
 					End If
 				End If
 			End If
 		End If
 		
 		If Clng(Form1.InputBoxSubTime.Text) < 2 Then 
-			Delay 2000//¸ø2s»º³åÊ±¼ä ·ÀÖ¹½çÃæÊä´íÑ­»·Ê±¼ä cpu¹ı¸ß£¡
+			Delay 2000//ç»™2sç¼“å†²æ—¶é—´ é˜²æ­¢ç•Œé¢è¾“é”™å¾ªç¯æ—¶é—´ cpuè¿‡é«˜ï¼
 		Else 
-			Delay Clng(Form1.InputBoxSubTime.Text) * 1000	//Ä¬ÈÏÃ¿10sÒ»Ñ­»·		ĞèÒªÓÃabs()È¡¾ø¶ÔÖµÂğ£¿
+			Delay Clng(Form1.InputBoxSubTime.Text) * 1000	//é»˜è®¤æ¯10sä¸€å¾ªç¯		éœ€è¦ç”¨abs()å–ç»å¯¹å€¼å—ï¼Ÿ
 		End If
 	Loop	
 End Sub
 
-//¶ÁÄÚ´æ¸üĞÂ²ÖÓà
+//è¯»å†…å­˜æ›´æ–°ä»“ä½™
 Sub updateLastStores(hwnd)	
 	xcount = 0
 	For c = 1 To 60
 		//addr = pstore & " + " & hex((c - 1) * 4 + &H53C)
 		//addr2 = cstore & " + " & hex((c - 1) * 4 + &H53C)
-		addr = "[" & packBaseAddr & pstoreGap & "] + " & hex((c - 1) * 4 + &H53C)	//dm []ºóÖ»¶ÁÈ¡µÚÒ»¸ö¼ÓºÅÊı¾İ£¬ĞèÏÈ¼ÆËã³öÀ´£¡
+		addr = "[" & packBaseAddr & pstoreGap & "] + " & hex((c - 1) * 4 + &H53C)	//dm []ååªè¯»å–ç¬¬ä¸€ä¸ªåŠ å·æ•°æ®ï¼Œéœ€å…ˆè®¡ç®—å‡ºæ¥ï¼
 		addr2 = "[" & packBaseAddr & cstoreGap & "] + " & hex((c - 1) * 4 + &H53C)
 		
-		value = dm.ReadData(hwnd, addr, 4)	//Ğ¡¶Ë¶ÁÈ¡£¿£¿£¿ »¹ÊÇreadInt ´ı¶¨£¿
+		value = dm.ReadData(hwnd, addr, 4)	//å°ç«¯è¯»å–ï¼Ÿï¼Ÿï¼Ÿ è¿˜æ˜¯readInt å¾…å®šï¼Ÿ
 		If value = "00 00 00 00" Then 
-			If c = 1 Then //pstoreµÚÒ»¸ñÎª¿ÕËµÃ÷»¹Î´³õÊ¼»¯ Ö±½ÓÍË³ösub ½çÃæ²ÖÓàÖÃ¿Õ ²»²éÊ£Óà¸ñ×Ó£¡
+			If c = 1 Then //pstoreç¬¬ä¸€æ ¼ä¸ºç©ºè¯´æ˜è¿˜æœªåˆå§‹åŒ– ç›´æ¥é€€å‡ºsub ç•Œé¢ä»“ä½™ç½®ç©º ä¸æŸ¥å‰©ä½™æ ¼å­ï¼
 				iSetItemText i, "lastStores", ""
 				Exit Sub
 			End If		
@@ -1050,28 +1050,28 @@ Sub updateLastStores(hwnd)
 		End If
 		Delay 10
 	Next
-	iSetItemText i, "lastStores", xcount//²ÖÓà	
+	iSetItemText i, "lastStores", xcount//ä»“ä½™	
 End Sub
 
-//×Ô¶¯¸üĞÂÓÎÏ·²¹¶¡
+//è‡ªåŠ¨æ›´æ–°æ¸¸æˆè¡¥ä¸
 Function autoPatch()
 	
-	autoPatch = False//Ä¬ÈÏ·µ»Øfalse ÈôÕı³£ÔòÉèÎªtrueÔÙÍË³öfunction
-	tryLauncherD2 = false//Èô×Ô¶¯¸üĞÂzipÊ§°Ü£¬Ôò³¢ÊÔµÈ´ıµç¶ş¿ª·ş²¢Æô¶¯launcherµã»÷µç¶ş¸üĞÂ
+	autoPatch = False//é»˜è®¤è¿”å›false è‹¥æ­£å¸¸åˆ™è®¾ä¸ºtrueå†é€€å‡ºfunction
+	tryLauncherD2 = false//è‹¥è‡ªåŠ¨æ›´æ–°zipå¤±è´¥ï¼Œåˆ™å°è¯•ç­‰å¾…ç”µäºŒå¼€æœå¹¶å¯åŠ¨launcherç‚¹å‡»ç”µäºŒæ›´æ–°
 	
-	//¼ì²âÊÇ·ñÓĞÍø
+	//æ£€æµ‹æ˜¯å¦æœ‰ç½‘
 	If isOnline() = False Then 
-		addLogT "Çë¼ì²éÊÇ·ñÁ¬½ÓÍøÂç£¡£¡£¡"
+		addLogT "è¯·æ£€æŸ¥æ˜¯å¦è¿æ¥ç½‘ç»œï¼ï¼ï¼"
 		Exit Function
 	End If
 
-	addLogT "¼ì²âÓÎÏ·°æ±¾ÖĞ..."
-	addLogT "[1]³¢ÊÔ3mÄÚÏÂÔØzip×Ô¶¯¸üĞÂ..."
-	//¶ÁÈ¡ launcher.ini ÖĞ version ĞÅÏ¢
+	addLogT "æ£€æµ‹æ¸¸æˆç‰ˆæœ¬ä¸­..."
+	addLogT "[1]å°è¯•3må†…ä¸‹è½½zipè‡ªåŠ¨æ›´æ–°..."
+	//è¯»å– launcher.ini ä¸­ version ä¿¡æ¯
 	rxVersion = Plugin.File.ReadINI("YB_ONLINE", "VERSION", rxRootDirPath & "launcher.ini")	
-	//³¢ÊÔ¸üĞÂ°æ±¾ºÅ
+	//å°è¯•æ›´æ–°ç‰ˆæœ¬å·
 	updVersion = rxVersion + 1
-	waitForResponseTimeOutLogBool = true//±ÜÃâWinHttp.WaitForResponse³¬Ê±ÈÕÖ¾Ë¢ÆÁ
+	waitForResponseTimeOutLogBool = true//é¿å…WinHttp.WaitForResponseè¶…æ—¶æ—¥å¿—åˆ·å±
 	
 	s1 = Plugin.Sys.GetTime()
 	Do
@@ -1085,80 +1085,80 @@ Function autoPatch()
 		
 		Rem chooseUrl
 		
-		If Plugin.Sys.GetTime() - s1 >= 180000 Then // 3m³¬Ê±     		
-     	 	addLogT "ÏÂÔØzip×Ô¶¯¸üĞÂ³¬Ê±3m£¡"
+		If Plugin.Sys.GetTime() - s1 >= 180000 Then // 3mè¶…æ—¶     		
+     	 	addLogT "ä¸‹è½½zipè‡ªåŠ¨æ›´æ–°è¶…æ—¶3mï¼"
      	 	
      	 	Set WinHttp = Nothing
-     	 	tryLauncherD2 = True	//×Ô¶¯¸üĞÂÊ§°Ü£¬³¢ÊÔµÈ´ıµç¶ş¿ª·ş²¢Æô¶¯launcherµã»÷µç¶ş¸üĞÂ
-        	Exit Do		//ÏÂÔØzip¸üĞÂ³¬Ê±£¬½«³¢ÊÔÆô¶¯launcher¸üĞÂ
+     	 	tryLauncherD2 = True	//è‡ªåŠ¨æ›´æ–°å¤±è´¥ï¼Œå°è¯•ç­‰å¾…ç”µäºŒå¼€æœå¹¶å¯åŠ¨launcherç‚¹å‡»ç”µäºŒæ›´æ–°
+        	Exit Do		//ä¸‹è½½zipæ›´æ–°è¶…æ—¶ï¼Œå°†å°è¯•å¯åŠ¨launcheræ›´æ–°
      	End If
      	
 		Select Case n
 			Case 0
-				chUrl = "autopatchn1"	//ÉñÆ÷ÁªÍ¨		//s1µçĞÅ n1ÁªÍ¨
+				chUrl = "autopatchn1"	//ç¥å™¨è”é€š		//s1ç”µä¿¡ n1è”é€š
 			Case 1
-				chUrl = "autopatchs3"	//ÉñÆ÷µçĞÅ ÀÏÊÇ³¬Ê±·ÅºóÃæ£¡
+				chUrl = "autopatchs3"	//ç¥å™¨ç”µä¿¡ è€æ˜¯è¶…æ—¶æ”¾åé¢ï¼
 			Case 2
-				chUrl = "downloads1"	//±¦±¦µçĞÅ
+				chUrl = "downloads1"	//å®å®ç”µä¿¡
 			Case 3
-				chUrl = "downloadn1"	//±¦±¦ÁªÍ¨
+				chUrl = "downloadn1"	//å®å®è”é€š
 			Case Else
 			 	Goto nextLoop
 		End Select
 		
 		dlUrl = "http://" & chUrl & ".rxjh.cdcgames.net/rxjh/rxjhauto/" & patchName
-		TracePrint "³¢ÊÔÏÂÔØzipµØÖ·: " & dlUrl
+		TracePrint "å°è¯•ä¸‹è½½zipåœ°å€: " & dlUrl
 		
 		WinHttp.Open "GET", dlUrl, True
 		WinHttp.Send
-		If WinHttp.WaitForResponse(10) Then //10s³¬Ê±
+		If WinHttp.WaitForResponse(10) Then //10sè¶…æ—¶
 			If WinHttp.Status = 200 Then 
-				addLogT "ÕıÔÚÏÂÔØpatch×Ô¶¯¸üĞÂ..."
+				addLogT "æ­£åœ¨ä¸‹è½½patchè‡ªåŠ¨æ›´æ–°..."
 				Set ObjStream = CreateObject("Adodb.Stream")
-        		ObjStream.Type = 1	//1-¶ş½øÖÆ 2-ÎÄ±¾
-        		ObjStream.Mode = 3	//¶ÁĞ´
+        		ObjStream.Type = 1	//1-äºŒè¿›åˆ¶ 2-æ–‡æœ¬
+        		ObjStream.Mode = 3	//è¯»å†™
         		ObjStream.Open
-				ObjStream.Write WinHttp.ResponseBody	//½«»º´æbufferĞ´ÈëStream¶ÔÏó
-				ObjStream.SaveToFile savePatchPath, 2	//½«Stream¶ÔÏó±£´æÎªÎÄ¼ş 2-¸²¸Ç
+				ObjStream.Write WinHttp.ResponseBody	//å°†ç¼“å­˜bufferå†™å…¥Streamå¯¹è±¡
+				ObjStream.SaveToFile savePatchPath, 2	//å°†Streamå¯¹è±¡ä¿å­˜ä¸ºæ–‡ä»¶ 2-è¦†ç›–
 				ObjStream.Close
 				Set ObjStream = Nothing
 				
 				If Plugin.File.IsFileExist(savePatchPath) = True Then 
 					//RunApp "cmd.exe /c " & chr(34) & "cd /d " & testDir & " && tar -xf " & patchName & chr(34)
 					
-					//shellÔËĞĞ¿ÉÒş²Øcmd´°¿Ú
+					//shellè¿è¡Œå¯éšè—cmdçª—å£
 					Set ws = createObject("WScript.shell")
-					//cmd ½âÑ¹Íê³ÉºóÉ¾³ızipÎÄ¼ş		
+					//cmd è§£å‹å®Œæˆååˆ é™¤zipæ–‡ä»¶		
 					ws.Run "cmd /c cd /d " & rxRootDirPath & " && tar -xf " & patchName & " && del /q " & patchName, 0
 					Set ws = Nothing
 					
-					updVersion = updVersion + 1//³É¹¦¸üĞÂºó°æ±¾ºÅµİÔö
-					Goto nextLoop	//¸üĞÂÏÂÒ»°æ±¾
+					updVersion = updVersion + 1//æˆåŠŸæ›´æ–°åç‰ˆæœ¬å·é€’å¢
+					Goto nextLoop	//æ›´æ–°ä¸‹ä¸€ç‰ˆæœ¬
 					
-				Else //ÏÂÔØ±£´æzipÎÄ¼ş³ö´í Ô­ÍøÖ·Ã»ÎÊÌâ Ö±½ÓÖØÊÔ
-					addLogT "ÏÂÔØ±£´æzipÎÄ¼ş³ö´í£¡½«ÖØÊÔ£¡"
+				Else //ä¸‹è½½ä¿å­˜zipæ–‡ä»¶å‡ºé”™ åŸç½‘å€æ²¡é—®é¢˜ ç›´æ¥é‡è¯•
+					addLogT "ä¸‹è½½ä¿å­˜zipæ–‡ä»¶å‡ºé”™ï¼å°†é‡è¯•ï¼"
 					Goto chooseUrl
 				End If
 			ElseIf WinHttp.Status = 404 Then
-				//·ÃÎÊÎÄ¼ş²»´æÔÚ£¡ËµÃ÷¼ì²âÇ°/ÉÏÒ»ÂÖÒÑÊÇ×îĞÂ°æ±¾ºÅ¡£
-				addLogT "ÓÎÏ·ÒÑÊÇ×îĞÂ°æ±¾ " & updVersion - 1 & "£¡"
+				//è®¿é—®æ–‡ä»¶ä¸å­˜åœ¨ï¼è¯´æ˜æ£€æµ‹å‰/ä¸Šä¸€è½®å·²æ˜¯æœ€æ–°ç‰ˆæœ¬å·ã€‚
+				addLogT "æ¸¸æˆå·²æ˜¯æœ€æ–°ç‰ˆæœ¬ " & updVersion - 1 & "ï¼"
 				
-				If updVersion > rxVersion + 1 Then //ÖÁÉÙÓĞ¸üĞÂ²ÅĞŞ¸Ä¼üÖµ
-					//¸üĞÂlauncher.iniÖĞµÄVERSIONÎª updVersion - 1
+				If updVersion > rxVersion + 1 Then //è‡³å°‘æœ‰æ›´æ–°æ‰ä¿®æ”¹é”®å€¼
+					//æ›´æ–°launcher.iniä¸­çš„VERSIONä¸º updVersion - 1
 					Call Plugin.File.writeINI("YB_ONLINE", "VERSION", updVersion - 1, rxRootDirPath & "launcher.ini")
 				End If
 				
 				Set WinHttp = Nothing
 				autoPatch = True
-				Exit Function		//ÏÂÔØzip¸üĞÂÒÑÍê³ÉÎŞĞèÔÙ¸üĞÂ
+				Exit Function		//ä¸‹è½½zipæ›´æ–°å·²å®Œæˆæ— éœ€å†æ›´æ–°
 			Else 
-				addLogT "HTTP×´Ì¬ " & WinHttp.Status & " Òì³££¡½«»»Ö·ÖØÊÔ£¡"
+				addLogT "HTTPçŠ¶æ€ " & WinHttp.Status & " å¼‚å¸¸ï¼å°†æ¢å€é‡è¯•ï¼"
 				n = n + 1
 				Goto chooseUrl
 			End If	
 		Else 
-     		If waitForResponseTimeOutLogBool = True Then //±ÜÃâµÈ´ıÏìÓ¦³¬Ê±ÈÕÖ¾Ë¢ÆÁ
-     			addLogT "µÈ´ıÏìÓ¦³¬Ê±10sÊ§°Ü£¡½«»»Ö·ÖØÊÔ£¡"
+     		If waitForResponseTimeOutLogBool = True Then //é¿å…ç­‰å¾…å“åº”è¶…æ—¶æ—¥å¿—åˆ·å±
+     			addLogT "ç­‰å¾…å“åº”è¶…æ—¶10så¤±è´¥ï¼å°†æ¢å€é‡è¯•ï¼"
      			waitForResponseTimeOutLogBool = False
      		End If
 			
@@ -1172,83 +1172,83 @@ Function autoPatch()
 	Loop
 	
 
-	//×Ô¶¯¸üĞÂÊ§°Ü£¬³¢ÊÔµÈ´ıµç¶ş¿ª·ş²¢Æô¶¯launcherµã»÷µç¶ş¸üĞÂ
+	//è‡ªåŠ¨æ›´æ–°å¤±è´¥ï¼Œå°è¯•ç­‰å¾…ç”µäºŒå¼€æœå¹¶å¯åŠ¨launcherç‚¹å‡»ç”µäºŒæ›´æ–°
 	If tryLauncherD2 = True Then 
-		addLogT "[2]³¢ÊÔµÈ´ıµç¶ş¿ª·şÔÙÆô¶¯launcher 10mÄÚ¸üĞÂ..."
+		addLogT "[2]å°è¯•ç­‰å¾…ç”µäºŒå¼€æœå†å¯åŠ¨launcher 10må†…æ›´æ–°..."
 		Do
-			//ĞèÒªµ¥¶À·Å×ÓÏß³ÌÂğ£¿ ´ËÑ­»·ÎŞÆäËû²Ù×÷£¬ÈôÎ´¿ª·ş¿¨ÕâÎŞËùÎ½£¿£¡ test£¿£¿£¿£¿£¿
-			If Plugin.RxSocket.getPartServerLines("µçĞÅ¶şÇø", "¶«ÔÀ") <> "" Then 
-				//TODO: Æô¶¯launcher°´¼üµã»÷µç¶ş¸üĞÂ
+			//éœ€è¦å•ç‹¬æ”¾å­çº¿ç¨‹å—ï¼Ÿ æ­¤å¾ªç¯æ— å…¶ä»–æ“ä½œï¼Œè‹¥æœªå¼€æœå¡è¿™æ— æ‰€è°“ï¼Ÿï¼ testï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+			If Plugin.RxSocket.getPartServerLines("ç”µä¿¡äºŒåŒº", "ä¸œå²³") <> "" Then 
+				//TODO: å¯åŠ¨launcheræŒ‰é”®ç‚¹å‡»ç”µäºŒæ›´æ–°
 				
-				addLogT "µç¶şÒÑ¿ª·ş£¬³¢ÊÔÆô¶¯launcher¸üĞÂ..."
+				addLogT "ç”µäºŒå·²å¼€æœï¼Œå°è¯•å¯åŠ¨launcheræ›´æ–°..."
 				
 				rem ReOpenLauncher
-				//RunApp "E:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\launcher.exe"		//vbNullString
+				//RunApp "E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\launcher.exe"		//vbNullString
 				ShellExecute 0, "open", "launcher.exe", "", rxRootDirPath, 1
 				
-				//Ñ­»·×¥È¡ÈÈÑª½­ºşµÄÆô¶¯Æ÷´°¿Ú¾ä±úhwnd1
+				//å¾ªç¯æŠ“å–çƒ­è¡€æ±Ÿæ¹–çš„å¯åŠ¨å™¨çª—å£å¥æŸ„hwnd1
     			s1 = Plugin.Sys.GetTime()
     			Do
         			hwnd1 = Plugin.Window.Find(0, "Yulgang_File_Update")
-        			//´°¿Ú´æÔÚÇÒ¿É¼û
+        			//çª—å£å­˜åœ¨ä¸”å¯è§
         			If hwnd1 > 0 and Plugin.Window.GetWindowState(hwnd1, 2) = True Then 
         				Exit Do
         			End If
-        			If Plugin.Sys.GetTime() - s1 >= 5000 Then //5sÆô¶¯³¬Ê±
-     	 				addLogT "Æô¶¯Æ÷Æô¶¯³¬Ê±5s£¡ÖØ¿ª£¡"
+        			If Plugin.Sys.GetTime() - s1 >= 5000 Then //5så¯åŠ¨è¶…æ—¶
+     	 				addLogT "å¯åŠ¨å™¨å¯åŠ¨è¶…æ—¶5sï¼é‡å¼€ï¼"
      	 				Call Plugin.Window.CloseEx(hwnd1)
         				Goto ReOpenLauncher
      				End If
      				Delay 200
     			Loop
-    			//»¹Ô­¼¤»î
+    			//è¿˜åŸæ¿€æ´»
     			Call Plugin.Window.Restore(hwnd1)
     			Call Plugin.Window.Active(hwnd1)
     			sRect1 = Plugin.Window.GetWindowRect(hwnd1)
-    			//µÃµ½Æô¶¯Æ÷´°¿ÚÆğÊ¼xy×ø±ê
+    			//å¾—åˆ°å¯åŠ¨å™¨çª—å£èµ·å§‹xyåæ ‡
     			x1 = Clng(Split(sRect1, "|")(0)) : y1 = Clng(Split(sRect1, "|")(1))
     			Delay 200
-    			//µã»÷ µçĞÅ¶şÇø
+    			//ç‚¹å‡» ç”µä¿¡äºŒåŒº
     			MoveTo x1 + 222, y1 + 263
     			LeftClick 1
-    			//Ñ­»·ÅĞ¶ÏÆô¶¯Æ÷×¼±¸¾ÍĞ÷
+    			//å¾ªç¯åˆ¤æ–­å¯åŠ¨å™¨å‡†å¤‡å°±ç»ª
     			s1 = Plugin.Sys.GetTime()
     			updTimeOut = 30000
     			Do
-        			If Plugin.Window.Find(0, "YBOnline") <> 0 Then 	//Óë·şÎñÆ÷µÄÁ¬½Ó×´Ì¬²»ÎÈ¶¨ µ¯´°ÌáĞÑ ±êÌâÎªYBOnline
-        				addLogT "Óë·şÎñÆ÷µÄÁ¬½Ó×´Ì¬²»ÎÈ¶¨£¬ÖØ¿ªÆô¶¯Æ÷£¡"
-        				Call Plugin.Window.CloseEx(hwnd1)	//Ö±½Ó¹Øµ×²ã´°¿Ú¼´¿É
-        				Goto ReOpenLauncher	//¿ª¿ìÁË/ÍøÂç×´Ì¬ »áÓĞ²»ÎÈ¶¨ ÖØ¿ªlauncher£¡
+        			If Plugin.Window.Find(0, "YBOnline") <> 0 Then 	//ä¸æœåŠ¡å™¨çš„è¿æ¥çŠ¶æ€ä¸ç¨³å®š å¼¹çª—æé†’ æ ‡é¢˜ä¸ºYBOnline
+        				addLogT "ä¸æœåŠ¡å™¨çš„è¿æ¥çŠ¶æ€ä¸ç¨³å®šï¼Œé‡å¼€å¯åŠ¨å™¨ï¼"
+        				Call Plugin.Window.CloseEx(hwnd1)	//ç›´æ¥å…³åº•å±‚çª—å£å³å¯
+        				Goto ReOpenLauncher	//å¼€å¿«äº†/ç½‘ç»œçŠ¶æ€ ä¼šæœ‰ä¸ç¨³å®š é‡å¼€launcherï¼
         			End If
-        			//Í¨¹ıÇøÓòÕÒ×ÖÅĞ¶ÏÒ³Ãæ×¼±¸¾ÍĞ÷
-        			If Plugin.Pic.FindWordShape(x1, y1 + 480, x1 + 420, y1 + 550, "Çë°´ÓÎÏ·¿ªÊ¼¼ü¡£", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-        				addLogT "ÒÑÍê³Élauncher¸üĞÂ£¡"
+        			//é€šè¿‡åŒºåŸŸæ‰¾å­—åˆ¤æ–­é¡µé¢å‡†å¤‡å°±ç»ª
+        			If Plugin.Pic.FindWordShape(x1, y1 + 480, x1 + 420, y1 + 550, "è¯·æŒ‰æ¸¸æˆå¼€å§‹é”®ã€‚", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+        				addLogT "å·²å®Œæˆlauncheræ›´æ–°ï¼"
         				Call Plugin.Window.CloseEx(hwnd1)
         				autoPatch = True
-            			Exit Function	//launcher¸üĞÂÒÑÍê³ÉÎŞĞèÔÙ¸üĞÂ
+            			Exit Function	//launcheræ›´æ–°å·²å®Œæˆæ— éœ€å†æ›´æ–°
         			End If
-        			//¸üĞÂÖĞ²é×Ö"KB"Ñ­»·µÈ´ı¾ÍĞ÷		²âÊÔ??? ²é²»µ½£¡£¡£¡
-        			//If Plugin.Pic.FindWordShape(x1, y1 + 480, x1 + 420, y1 + 550, "KB", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
+        			//æ›´æ–°ä¸­æŸ¥å­—"KB"å¾ªç¯ç­‰å¾…å°±ç»ª		æµ‹è¯•??? æŸ¥ä¸åˆ°ï¼ï¼ï¼
+        			//If Plugin.Pic.FindWordShape(x1, y1 + 480, x1 + 420, y1 + 550, "KB", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
         			//dm RGB,aj BGR (cr1=Plugin.Color.GetPixelColor(x,y,1))
-        			If dm.GetColor(116, 528) = "0a0000" Then //ºÚÉ«¸üĞÂ½ø¶ÈÌõ
-        				If updTimeOut <> 600000 Then //10min¸üĞÂÓÎÏ·
+        			If dm.GetColor(116, 528) = "0a0000" Then //é»‘è‰²æ›´æ–°è¿›åº¦æ¡
+        				If updTimeOut <> 600000 Then //10minæ›´æ–°æ¸¸æˆ
         					updTimeOut = 600000
         				End If
         			End If
-        			If Plugin.Sys.GetTime() - s1 >= updTimeOut Then //¿ÉÄÜ»á¸üĞÂ£¡ 30s¾ÍĞ÷³¬Ê±
+        			If Plugin.Sys.GetTime() - s1 >= updTimeOut Then //å¯èƒ½ä¼šæ›´æ–°ï¼ 30så°±ç»ªè¶…æ—¶
      				    If updTimeOut = 30000 Then 
-     				    	addLogT "30sÄÚÎ´¿ªÊ¼¸üĞÂ£¡Ö±½Ó½áÊø£¡"
+     				    	addLogT "30så†…æœªå¼€å§‹æ›´æ–°ï¼ç›´æ¥ç»“æŸï¼"
      				    Else 
-     				    	addLogT "10mÄÚ¸üĞÂÓÎÏ·Ê§°Ü£¡Ö±½Ó½áÊø£¡"
+     				    	addLogT "10må†…æ›´æ–°æ¸¸æˆå¤±è´¥ï¼ç›´æ¥ç»“æŸï¼"
      				    End If
      	 				
      	 				Call Plugin.Window.CloseEx(hwnd1)
-        				Exit Function	//¿ÉÄÜ¶ÏÍøÎŞ·¨Á¬½Ó·şÎñÆ÷ Ö±½Ó½áÊø±ÜÃâÒ»Ö±ÖØ¿ªÆô¶¯Æ÷
+        				Exit Function	//å¯èƒ½æ–­ç½‘æ— æ³•è¿æ¥æœåŠ¡å™¨ ç›´æ¥ç»“æŸé¿å…ä¸€ç›´é‡å¼€å¯åŠ¨å™¨
      				End If
      				Delay 200
     			Loop
 	
-			End If	//²éÑ¯µç¶ş¿ª·şÅĞ¶Ï½áÊø
+			End If	//æŸ¥è¯¢ç”µäºŒå¼€æœåˆ¤æ–­ç»“æŸ
 			
 			Delay 1000
 		Loop
@@ -1256,16 +1256,16 @@ Function autoPatch()
 	
 End Function
 
-//¶ÏÍø¼ì²â	//3ÖÖ·½Ê½¼ì²â¶ÏÍø
+//æ–­ç½‘æ£€æµ‹	//3ç§æ–¹å¼æ£€æµ‹æ–­ç½‘
 Function isOnline()
 	isOnline = False
 	
 	//1 get webTime
-	If Lib.ÍøÂç.»ñÈ¡ÍøÂçÊ±¼ä_ÔöÇ¿°æ("www.baidu.com") <> "" Then 
+	If Lib.ç½‘ç»œ.è·å–ç½‘ç»œæ—¶é—´_å¢å¼ºç‰ˆ("www.baidu.com") <> "" Then 
 		isOnline = True
 		Exit Function
 	End If
-	Exit Function	//ÔİÊ±È¡µÚÒ»ÖÖ·½Ê½ Òò²âÊÔºÄÊ±×îÉÙ
+	Exit Function	//æš‚æ—¶å–ç¬¬ä¸€ç§æ–¹å¼ å› æµ‹è¯•è€—æ—¶æœ€å°‘
 	
 	//2 ping baidu
 	Set objPing = GetObject("winmgmts:{impersonationLevel=impersonate}").ExecQuery("select * from Win32_PingStatus where address = 'www.baidu.com'")
@@ -1294,140 +1294,140 @@ Function isOnline()
 End Function
 
 
-//ÒÔÏÂÊÇÖ»¶Ô¡¾¶àÏß³ÌÍ£Ö¹Ê±¡¿²úÉúµÄÊÂ¼ş
+//ä»¥ä¸‹æ˜¯åªå¯¹ã€å¤šçº¿ç¨‹åœæ­¢æ—¶ã€‘äº§ç”Ÿçš„äº‹ä»¶
 Sub OnThreadExit()
 	Dim threadID   
-    threadID = GetThreadID() //µÃµ½µ±Ç°Í£Ö¹×ÓÏß³ÌµÄID   
+    threadID = GetThreadID() //å¾—åˆ°å½“å‰åœæ­¢å­çº¿ç¨‹çš„ID   
     Select Case threadID
 		//Case tcpCheckLineThreadId
-        	//ÕâÑù¾Í¿ÉÒÔÕë¶ÔÄ³¸öÏß³Ì½øĞĞ²Ù×÷	±ÈÈç£ºÊÍ·Å´óÄ®²å¼ş¶ÔÏó   
-        	//addLogT "µ±Ç°×ÓÏß³ÌtcpCheckLineThread(" & tcpCheckLineThreadId & ")ÒÑÍ£Ö¹£¡"
-    		//Call buttonSound("ÌáÊ¾ÉùÒô.wav")
+        	//è¿™æ ·å°±å¯ä»¥é’ˆå¯¹æŸä¸ªçº¿ç¨‹è¿›è¡Œæ“ä½œ	æ¯”å¦‚ï¼šé‡Šæ”¾å¤§æ¼ æ’ä»¶å¯¹è±¡   
+        	//addLogT "å½“å‰å­çº¿ç¨‹tcpCheckLineThread(" & tcpCheckLineThreadId & ")å·²åœæ­¢ï¼"
+    		//Call buttonSound("æç¤ºå£°éŸ³.wav")
     	Case subThreadId
-        	//ÕâÑù¾Í¿ÉÒÔÕë¶ÔÄ³¸öÏß³Ì½øĞĞ²Ù×÷	±ÈÈç£ºÊÍ·Å´óÄ®²å¼ş¶ÔÏó   
-        	addLogT "µ±Ç°×ÓÏß³ÌSubThread(" & subThreadID & ")ÒÑÍ£Ö¹£¡"
-    		//Call buttonSound("ÌáÊ¾ÉùÒô.wav")
+        	//è¿™æ ·å°±å¯ä»¥é’ˆå¯¹æŸä¸ªçº¿ç¨‹è¿›è¡Œæ“ä½œ	æ¯”å¦‚ï¼šé‡Šæ”¾å¤§æ¼ æ’ä»¶å¯¹è±¡   
+        	addLogT "å½“å‰å­çº¿ç¨‹SubThread(" & subThreadID & ")å·²åœæ­¢ï¼"
+    		//Call buttonSound("æç¤ºå£°éŸ³.wav")
     	//Case mainId
-    		//addLogT "µ±Ç°Ö÷Ïß³Ì(" & subThreadID & ")ÒÑÍ£Ö¹£¡"
-    		//Call buttonSound("ÌáÊ¾ÉùÒô.wav")   		
+    		//addLogT "å½“å‰ä¸»çº¿ç¨‹(" & subThreadID & ")å·²åœæ­¢ï¼"
+    		//Call buttonSound("æç¤ºå£°éŸ³.wav")   		
     End Select
 End Sub
-//ÔÚ½Å±¾Í£Ö¹½áÊøºó×Ô¶¯²úÉúÈçÏÂ½Å±¾×Ó³ÌĞò   
+//åœ¨è„šæœ¬åœæ­¢ç»“æŸåè‡ªåŠ¨äº§ç”Ÿå¦‚ä¸‹è„šæœ¬å­ç¨‹åº   
 Sub OnScriptExit()	
-    addLogT "½Å±¾ÒÑÍ£Ö¹£¡"
-    Form1.ButtonOpenAutoLogin.Visible = 1	//¿ªÆô×Ô¶¯µÇÂ¼ °´Å¥ÏÔÊ¾¸´Ô­
-    Call buttonSound("ÌáÊ¾ÉùÒô.wav")
+    addLogT "è„šæœ¬å·²åœæ­¢ï¼"
+    Form1.ButtonOpenAutoLogin.Visible = 1	//å¼€å¯è‡ªåŠ¨ç™»å½• æŒ‰é’®æ˜¾ç¤ºå¤åŸ
+    Call buttonSound("æç¤ºå£°éŸ³.wav")
 End Sub  
 
-' ³õÊ¼»¯Ê¹ÓÃÂ·¾¶Êı×é
+' åˆå§‹åŒ–ä½¿ç”¨è·¯å¾„æ•°ç»„
 Sub initUseDir()
-	//³õÊ¼È«²¿ÖÃ0
+	//åˆå§‹å…¨éƒ¨ç½®0
 	For u = 0 To UBound(useDir)
 		useDir(u) = 0
 	Next
 
-	' ²éÕÒÔËĞĞÖĞµÄClient.exeµÄÂ·¾¶ÏÂ±êÉèÖÃ¶ÔÓ¦useDirÊı×é
+	' æŸ¥æ‰¾è¿è¡Œä¸­çš„Client.exeçš„è·¯å¾„ä¸‹æ ‡è®¾ç½®å¯¹åº”useDiræ•°ç»„
 	HwndEx = Plugin.Window.SearchEx("D3D Window", 0, 1)
 	HwndExArray = Split(HwndEx, "|")	
 	For ej=0 to UBound(HwndExArray)
 		If HwndExArray(ej) <> "" Then
 			rindex = getDirIndex(HwndExArray(ej))
 			If Clng(rindex) <> -1 Then
-				useDir(rindex) = 1	//±ê¼ÇÊı×é¶ÔÓ¦Â·¾¶ÒÑÊ¹ÓÃ
+				useDir(rindex) = 1	//æ ‡è®°æ•°ç»„å¯¹åº”è·¯å¾„å·²ä½¿ç”¨
 			End If
 		End If
 	Next
 End Sub
-' È¡ÎÄ¼ş¼ĞÂ·¾¶ÏÂ±ê
+' å–æ–‡ä»¶å¤¹è·¯å¾„ä¸‹æ ‡
 Function getDirIndex(hwnd)
 	If hwnd > 0 Then
-		spath = Plugin.Window.GetExePath(hwnd) 'E:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\clien0\Client.exe
-		pindex = InStrRev(spath, "\")' ·´Ïò²éÕÒÕıÏò¼ÆÊıindex  Ã»ÕÒµ½·µ»Ø0
+		spath = Plugin.Window.GetExePath(hwnd) 'E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\clien0\Client.exe
+		pindex = InStrRev(spath, "\")' åå‘æŸ¥æ‰¾æ­£å‘è®¡æ•°index  æ²¡æ‰¾åˆ°è¿”å›0
 		If pindex > 0 Then 
-			DirPathx = Left(spath, pindex - 1)	' ÎÄ¼şÂ·¾¶²»º¬×îºó\ ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\clien0
+			DirPathx = Left(spath, pindex - 1)	' æ–‡ä»¶è·¯å¾„ä¸å«æœ€å\ å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\clien0
 			xindex = InStrRev(DirPathx, "\")
 			If xindex > 0 Then 
-				getDirIndex = Right(DirPathx, Len(DirPathx) - xindex - 5)'È¡clien0Ä©Î²µÄÏÂ±ê0
+				getDirIndex = Right(DirPathx, Len(DirPathx) - xindex - 5)'å–clien0æœ«å°¾çš„ä¸‹æ ‡0
 				Exit Function
 			End If	
 		End If
 	End If	
-	getDirIndex = -1	//Òì³£·µ»Ø-1
+	getDirIndex = -1	//å¼‚å¸¸è¿”å›-1
 End Function
-' shellExecuteÖ±½ÓÆô¶¯Client.exe
+' shellExecuteç›´æ¥å¯åŠ¨Client.exe
 Sub iRunClient()
 	For u = 0 To UBound(useDir)
 		If useDir(u) = 0 Then 
-			If cpdFile(u) = 0 Then //½Å±¾ÔËĞĞÆÚ¼äÖ»Ğè¸´ÖÆÒ»´Î¶ÔÓ¦ÏÂ±êClientÎÄ¼ş¼Ğ
-				Call cpFile(u)		'´´½¨Ä¿Â¼clien & u ²¢¸´ÖÆÔ´Ä¿Â¼client
+			If cpdFile(u) = 0 Then //è„šæœ¬è¿è¡ŒæœŸé—´åªéœ€å¤åˆ¶ä¸€æ¬¡å¯¹åº”ä¸‹æ ‡Clientæ–‡ä»¶å¤¹
+				Call cpFile(u)		'åˆ›å»ºç›®å½•clien & u å¹¶å¤åˆ¶æºç›®å½•client
 			End If
 			
-			//Æô¶¯Ç°ÏÈÇå³ı¶ÔÓ¦Ä¿Â¼ÏÂµÄÀ¬»øÈÕÖ¾ÎÄ¼ş
+			//å¯åŠ¨å‰å…ˆæ¸…é™¤å¯¹åº”ç›®å½•ä¸‹çš„åƒåœ¾æ—¥å¿—æ–‡ä»¶
 			Set ws = createObject("WScript.shell")
 			ws.Run "cmd /c cd /d " & rxRootDirPath  & "clien" & u  & " && del /q /f log*.txt", 0
 			Set ws = Nothing
 			
-			//·ÖÇø¶ÔÓ¦ÍøÖ·±êÊ¶
+			//åˆ†åŒºå¯¹åº”ç½‘å€æ ‡è¯†
 			Select Case part
-				Case "ÍøÍ¨Ò»Çø"
+				Case "ç½‘é€šä¸€åŒº"
 					p = "w1"
-				Case "ÍøÍ¨¶şÇø"
+				Case "ç½‘é€šäºŒåŒº"
 					p = "w2"
-				Case "ÍøÍ¨ÈıÇø"
+				Case "ç½‘é€šä¸‰åŒº"
 					p = "w3"
-				Case "ÍøÍ¨ËÄÇø"
+				Case "ç½‘é€šå››åŒº"
 					p = "w4"
-				Case "µçĞÅÒ»Çø"
+				Case "ç”µä¿¡ä¸€åŒº"
 					p = "d1"
-				Case "µçĞÅ¶şÇø"
+				Case "ç”µä¿¡äºŒåŒº"
 					p = "d2"
-				Case "µçĞÅÈıÇø"
+				Case "ç”µä¿¡ä¸‰åŒº"
 					p = "d3"
-				Case "µçĞÅËÄÇø"
+				Case "ç”µä¿¡å››åŒº"
 					p = "d4"
-				Case "µçĞÅÎåÇø"
+				Case "ç”µä¿¡äº”åŒº"
 					p = "d5"
-				Case "µçĞÅÁùÇø"
+				Case "ç”µä¿¡å…­åŒº"
 					p = "d6"
-				Case "Ë«ÏßÒ»Çø"
+				Case "åŒçº¿ä¸€åŒº"
 					p = "sx"
 				Case Else
-					p = "d5"	//Ä¬ÈÏ¸ø¸öµçÎå
+					p = "d5"	//é»˜è®¤ç»™ä¸ªç”µäº”
 			End Select
 			
-			//¶Ë¿Ú·¶Î§13100-13104 Ëæ»ú ÊÖ¶¯¸ºÔØ¾ùºâÏÂ
+			//ç«¯å£èŒƒå›´13100-13104 éšæœº æ‰‹åŠ¨è´Ÿè½½å‡è¡¡ä¸‹
 			ShellExecute 0, "open", "Client.exe", "session" & p & ".rxjh.cdcgames.net 1310" & irnd(), rxRootDirPath & "clien" & u, 1
 			
-			//useDir(u) = 1	//±ê¼ÇÊı×é¶ÔÓ¦Â·¾¶ÒÑÊ¹ÓÃ	Æô¶¯¿ÉÄÜÊ§°Ü/login1()ÖĞÒì³£¹Ø±Õ£¬Õı³£Íê³Élogin1()Ê±ÔÙÉèÖÃ
+			//useDir(u) = 1	//æ ‡è®°æ•°ç»„å¯¹åº”è·¯å¾„å·²ä½¿ç”¨	å¯åŠ¨å¯èƒ½å¤±è´¥/login1()ä¸­å¼‚å¸¸å…³é—­ï¼Œæ­£å¸¸å®Œæˆlogin1()æ—¶å†è®¾ç½®
 			Exit For
 		End If
 	Next
 End Sub
-'¸´ÖÆclientÄ¿Â¼ÏÂËùÓĞÄÚÈİ ¾Í2²ãÄ¿Â¼½á¹¹µÚ¶ş²ãÓĞ2¸ö×ÓÄ¿Â¼	Ã¿´Î¸´ÖÆ±£Ö¤×îĞÂ ºÄÊ±Ô¼300+ms
+'å¤åˆ¶clientç›®å½•ä¸‹æ‰€æœ‰å†…å®¹ å°±2å±‚ç›®å½•ç»“æ„ç¬¬äºŒå±‚æœ‰2ä¸ªå­ç›®å½•	æ¯æ¬¡å¤åˆ¶ä¿è¯æœ€æ–° è€—æ—¶çº¦300+ms
 Sub cpFile(n)
 	srcPath = rxRootDirPath & "Client"
 	desPath = rxRootDirPath & "clien" & n
 	
-	'´´½¨Ä¿±êÄ¿Â¼
+	'åˆ›å»ºç›®æ ‡ç›®å½•
 	If Plugin.File.ExistFile(desPath) = 0 Then 
 		Call Plugin.File.CreateFolder(desPath)
 	End If
-	'¸´ÖÆÔ´Ä¿Â¼ÏÂÎÄ¼ş
-	For Each ck In Lib.ÎÄ¼ş.±éÀúÖ¸¶¨Ä¿Â¼ÏÂËùÓĞÎÄ¼şÃû(srcPath)
-		If ck <> "" Then '²é³öÊı×é×îºóÒ»¸öÎª¿Õ£¬»ò¿ÉÓÃfor i=0 to UBound(srcPath) -1 À´Ñ­»·
+	'å¤åˆ¶æºç›®å½•ä¸‹æ–‡ä»¶
+	For Each ck In Lib.æ–‡ä»¶.éå†æŒ‡å®šç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶å(srcPath)
+		If ck <> "" Then 'æŸ¥å‡ºæ•°ç»„æœ€åä¸€ä¸ªä¸ºç©ºï¼Œæˆ–å¯ç”¨for i=0 to UBound(srcPath) -1 æ¥å¾ªç¯
 			Call Plugin.File.CopyFile(srcPath & "\" & ck, desPath &"\" & ck)
 		End If
 	Next
 		
-	'Ô´×ÓÄ¿Â¼²Ù×÷
-	For Each ci In Lib.ÎÄ¼ş.±éÀúÖ¸¶¨Ä¿Â¼ÏÂËùÓĞÎÄ¼ş¼ĞÃû(srcPath)
+	'æºå­ç›®å½•æ“ä½œ
+	For Each ci In Lib.æ–‡ä»¶.éå†æŒ‡å®šç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶å¤¹å(srcPath)
 		If ci <> "" Then 
-			'´´½¨Ä¿±ê×ÓÄ¿Â¼
+			'åˆ›å»ºç›®æ ‡å­ç›®å½•
 			If Plugin.File.ExistFile(desPath & "\" & ci) = 0 Then 
 				Call Plugin.File.CreateFolder(desPath & "\" & ci)
 			End If
-			'¸´ÖÆÔ´×ÓÄ¿Â¼ÏÂÎÄ¼ş
-			For Each cj In Lib.ÎÄ¼ş.±éÀúÖ¸¶¨Ä¿Â¼ÏÂËùÓĞÎÄ¼şÃû(srcPath & "\" & ci)
+			'å¤åˆ¶æºå­ç›®å½•ä¸‹æ–‡ä»¶
+			For Each cj In Lib.æ–‡ä»¶.éå†æŒ‡å®šç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶å(srcPath & "\" & ci)
 				If cj <> "" Then 
 					Call Plugin.File.CopyFile(srcPath  & "\" & ci & "\" & cj, desPath  & "\" & ci &"\" & cj)
 				End If
@@ -1435,33 +1435,33 @@ Sub cpFile(n)
 		End If
 	Next
 	
-	cpdFile(n) = 1//±ê¼ÇÒÑ¸´ÖÆ¶ÔÓ¦ÏÂ±êClientÎÄ¼ş¼Ğ
+	cpdFile(n) = 1//æ ‡è®°å·²å¤åˆ¶å¯¹åº”ä¸‹æ ‡Clientæ–‡ä»¶å¤¹
 	
 End Sub
-'È¡0-4µÄËæ»úÕûÊıÖµ	Int((Max - Min + 1) * Rnd() + Min)
+'å–0-4çš„éšæœºæ•´æ•°å€¼	Int((Max - Min + 1) * Rnd() + Min)
 Function irnd()
 	Randomize
 	irnd = Int((4-0+1)*Rnd()+0)
 End Function
 
-//Æô¶¯ÓÎÏ·µÈ´ıµÇÂ¼
+//å¯åŠ¨æ¸¸æˆç­‰å¾…ç™»å½•
 Sub login1()
 	Rem openLauncher
 	
-	//shellExecute Ö±½ÓÆô¶¯Client.exe
+	//shellExecute ç›´æ¥å¯åŠ¨Client.exe
 	Call iRunClient()
 
-	 //2 ==========¿Í»§¶ËµÇÂ¼½øÏßÇ° ²Ù×÷ ==========
-    //´°¿Ú¾ÍĞ÷×´Ì¬¼ì²â
+	 //2 ==========å®¢æˆ·ç«¯ç™»å½•è¿›çº¿å‰ æ“ä½œ ==========
+    //çª—å£å°±ç»ªçŠ¶æ€æ£€æµ‹
     s1 = Plugin.Sys.GetTime()
     Do
-    	//?ÊÖ¶¯µÇÂ¼Î´¸ÄÔò³ö´í£¡ÓĞ¹Ò×ÅµÈ´ıµÇÂ¼µÄ»áÖ±½Ó±»ĞŞ¸Ä¡£so¾¡Á¿²»ÒªÊÖ¶¯µÇÂ¼ÓÎÏ·£¡
-        hwnd = Plugin.Window.Find("D3D Window", "ÈÈÑª½­ºş")
-        If hwnd > 0 and Plugin.Window.GetWindowState(hwnd, 6) = False Then //´°¿Ú´æÔÚÇÒÒÑÏìÓ¦£¡
+    	//?æ‰‹åŠ¨ç™»å½•æœªæ”¹åˆ™å‡ºé”™ï¼æœ‰æŒ‚ç€ç­‰å¾…ç™»å½•çš„ä¼šç›´æ¥è¢«ä¿®æ”¹ã€‚soå°½é‡ä¸è¦æ‰‹åŠ¨ç™»å½•æ¸¸æˆï¼
+        hwnd = Plugin.Window.Find("D3D Window", "çƒ­è¡€æ±Ÿæ¹–")
+        If hwnd > 0 and Plugin.Window.GetWindowState(hwnd, 6) = False Then //çª—å£å­˜åœ¨ä¸”å·²å“åº”ï¼
          	Exit Do
         End If
         If Plugin.Sys.GetTime() - s1 >= 10000 Then 
-     	 	addLogT "¿Í»§¶ËÆô¶¯ÏìÓ¦³¬Ê±10s!ÖØ¿ª£¡"
+     	 	addLogT "å®¢æˆ·ç«¯å¯åŠ¨å“åº”è¶…æ—¶10s!é‡å¼€ï¼"
      	 	//Call Plugin.Window.CloseEx(hwnd)
      	 	Call clearAccount(hwnd)
         	//Exit Sub
@@ -1470,31 +1470,31 @@ Sub login1()
      	Delay 200
     Loop
 	
-    //»¹Ô­¼¤»î
+    //è¿˜åŸæ¿€æ´»
     Call Plugin.Window.Restore(hwnd)
     Call Plugin.Window.Active(hwnd)
     //Call Plugin.Window.Top(hwnd, 0)
     sRect2 = Plugin.Window.GetWindowRect(hwnd)
-    //µÃµ½ÈÈÑª½­ºşÓÎÏ·´°¿ÚÆğÊ¼xy×ø±ê   
+    //å¾—åˆ°çƒ­è¡€æ±Ÿæ¹–æ¸¸æˆçª—å£èµ·å§‹xyåæ ‡   
     x2 = Clng(Split(sRect2, "|")(0)) : y2 = Clng(Split(sRect2, "|")(1))
     
-    //¼ì²âCapsLock×´Ì¬£¬Èô¼¤»îÔòÈ¡Ïû
+    //æ£€æµ‹CapsLockçŠ¶æ€ï¼Œè‹¥æ¿€æ´»åˆ™å–æ¶ˆ
     If GetKeyState(20) = 1 Then 
     	KeyPress "CapsLock", 1
     End If
     
-    //ÊäÈëÕËºÅÃÜÂë
+    //è¾“å…¥è´¦å·å¯†ç 
     Delay 200
     SayString account
     KeyPress "Tab", 1
     
-    //°´¼ü¾«ÁéµÄ°´¼üÂëÃ»ÓĞĞ¡Ğ´×ÖÄ¸ÓëAscii²»Ì«Ò»ÖÂ£¬Ğè×¢Òâ£¡£¡£¡£¡£¡£¡£¡Èçasc("a"£©=97,SendKeyPress·¢ËÍ97Îª·¢Êı×Ö1
-    //Lib.¼üÅÌ.KeyList(pass, 0, 50)	//50Îªms		//ÈôÓĞÌØÊâ×Ö·û»ò¿ÉÊ¹ÓÃlib²å¼ş ´ı¶¨test£¿£¿£¿
+    //æŒ‰é”®ç²¾çµçš„æŒ‰é”®ç æ²¡æœ‰å°å†™å­—æ¯ä¸Asciiä¸å¤ªä¸€è‡´ï¼Œéœ€æ³¨æ„ï¼ï¼ï¼ï¼ï¼ï¼ï¼å¦‚asc("a"ï¼‰=97,SendKeyPresså‘é€97ä¸ºå‘æ•°å­—1
+    //Lib.é”®ç›˜.KeyList(pass, 0, 50)	//50ä¸ºms		//è‹¥æœ‰ç‰¹æ®Šå­—ç¬¦æˆ–å¯ä½¿ç”¨libæ’ä»¶ å¾…å®štestï¼Ÿï¼Ÿï¼Ÿ
     pass = Plugin.Encrypt.StringDecode(iGetItemText(i, "password"), cipher)		//getUserInfo(i, "password")
     For i2 = 1 To len(pass)
-        j2 = MID(pass, i2, 1)//×Ö·û´®£¬¿ªÊ¼Î»ÖÃ£¬·µ»Ø×Ö·ûÊı
-        If Asc(j2) <= 90 and Asc(j2) >= 65 Then //´óĞ´×Ö·û	ÈôÊÇĞ¡Ğ´×Ö·û97+°Ñ'Z'·ÅÇ°ÉÙ´ÎÅĞ¶Ï
-        	KeyDown 16, 1	//ÆÕÍ¨Ä£Äâ	°´×¡Shift
+        j2 = MID(pass, i2, 1)//å­—ç¬¦ä¸²ï¼Œå¼€å§‹ä½ç½®ï¼Œè¿”å›å­—ç¬¦æ•°
+        If Asc(j2) <= 90 and Asc(j2) >= 65 Then //å¤§å†™å­—ç¬¦	è‹¥æ˜¯å°å†™å­—ç¬¦97+æŠŠ'Z'æ”¾å‰å°‘æ¬¡åˆ¤æ–­
+        	KeyDown 16, 1	//æ™®é€šæ¨¡æ‹Ÿ	æŒ‰ä½Shift
             KeyPress j2, 1
             KeyUp 16, 1
         Else 
@@ -1503,94 +1503,94 @@ Sub login1()
         //Delay 10
     Next
     
-    //²é×Ö	"×Ô¶¯¸üĞÂÓÎÏ·²¹¶¡¡£ÇëÖØĞÂÔËĞĞÓÎÏ·¡£"
-    //ĞèÔÚÒ³Ãæ¼ÓÔØºó²ÅÄÜ²é£¬³õÊ¼Îª°×É«½çÃæ²é²»µ½£¬so·Åµ½ÊäÈëÕËÃÜºóÔÙ²é¡£
-    iCoordPack = Plugin.Pic.FindWordShape(x2 + 572, y2 + 336, x2 + 697, y2 + 382, "²¹¶¡", "ËÎÌå", 9, 0, 0.9)
+    //æŸ¥å­—	"è‡ªåŠ¨æ›´æ–°æ¸¸æˆè¡¥ä¸ã€‚è¯·é‡æ–°è¿è¡Œæ¸¸æˆã€‚"
+    //éœ€åœ¨é¡µé¢åŠ è½½åæ‰èƒ½æŸ¥ï¼Œåˆå§‹ä¸ºç™½è‰²ç•Œé¢æŸ¥ä¸åˆ°ï¼Œsoæ”¾åˆ°è¾“å…¥è´¦å¯†åå†æŸ¥ã€‚
+    iCoordPack = Plugin.Pic.FindWordShape(x2 + 572, y2 + 336, x2 + 697, y2 + 382, "è¡¥ä¸", "å®‹ä½“", 9, 0, 0.9)
 	If iCoordPack <> "-1|-1" Then 
-        addLogT "×Ô¶¯¸üĞÂÓÎÏ·²¹¶¡,ÖØ¿ªÆô¶¯Æ÷µÇÂ¼!"
-    	//Call Plugin.Window.CloseEx(hwnd)//¹Ø±ÕÓÎÏ·½ø³Ì
+        addLogT "è‡ªåŠ¨æ›´æ–°æ¸¸æˆè¡¥ä¸,é‡å¼€å¯åŠ¨å™¨ç™»å½•!"
+    	//Call Plugin.Window.CloseEx(hwnd)//å…³é—­æ¸¸æˆè¿›ç¨‹
     	Call clearAccount(hwnd)
-    	Goto openLauncher	// ÖØ¿ªÆô¶¯Æ÷
+    	Goto openLauncher	// é‡å¼€å¯åŠ¨å™¨
     End If
     
-    //¿Í»§¶Ë¸Ä´°¿Ú±êÌâÎªÕËºÅ+×´Ì¬rd ÏÔÊ¾ÍêÈ«¹Ø±ÕÇÒÒş²ØµÈ´ı²éÏß¿ªÆôºó½øĞĞºóĞø²Ù×÷
+    //å®¢æˆ·ç«¯æ”¹çª—å£æ ‡é¢˜ä¸ºè´¦å·+çŠ¶æ€rd æ˜¾ç¤ºå®Œå…¨å…³é—­ä¸”éšè—ç­‰å¾…æŸ¥çº¿å¼€å¯åè¿›è¡Œåç»­æ“ä½œ
     Call Plugin.Window.SetText(hwnd, account & hState(1))
-    iSetItemText i, "state", hState(1)//¼ì²â¹´Ñ¡ÕËºÅ´«ÈëĞĞÊıi ¸ÄÒ³Ãæ×´Ì¬rd
-    iSetItemText i, "hwnd", hwnd//¼ì²â¹´Ñ¡ÕËºÅ´«ÈëĞĞÊıi ĞŞ¸ÄÒ³Ãæ¾ä±ú
+    iSetItemText i, "state", hState(1)//æ£€æµ‹å‹¾é€‰è´¦å·ä¼ å…¥è¡Œæ•°i æ”¹é¡µé¢çŠ¶æ€rd
+    iSetItemText i, "hwnd", hwnd//æ£€æµ‹å‹¾é€‰è´¦å·ä¼ å…¥è¡Œæ•°i ä¿®æ”¹é¡µé¢å¥æŸ„
     
-    //±ê¼ÇÊı×é¶ÔÓ¦Â·¾¶ÒÑÊ¹ÓÃ
+    //æ ‡è®°æ•°ç»„å¯¹åº”è·¯å¾„å·²ä½¿ç”¨
     rindex = getDirIndex(hwnd)
 	If Clng(rindex) <> -1 Then useDir(rindex) = 1
 
-	//ÏÔÊ¾ÍêÈ«¹Ø±Õ
+	//æ˜¾ç¤ºå®Œå…¨å…³é—­
 	Call displayClose(hwnd, 0)
-	Call Plugin.Window.Hide(hwnd) //ĞèÒªµ÷2´Î£¿ ´°¿Ú½¹µãÔ­Òò£¿»Ø°´¼ü¾«Áé£¡¿É²âÊÔdmµÄÒş²Ø£¿£¿£¿£¿£¿
+	Call Plugin.Window.Hide(hwnd) //éœ€è¦è°ƒ2æ¬¡ï¼Ÿ çª—å£ç„¦ç‚¹åŸå› ï¼Ÿå›æŒ‰é”®ç²¾çµï¼å¯æµ‹è¯•dmçš„éšè—ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
    	Call Plugin.Window.Hide(hwnd)
    	
    	
-   	//¸üĞÂ»ùÖ·	client.exe´ò¿ª¾ÍÄÜ²éµ½µÄ»ùÖ· ¼´rd×´Ì¬¿É²é
+   	//æ›´æ–°åŸºå€	client.exeæ‰“å¼€å°±èƒ½æŸ¥åˆ°çš„åŸºå€ å³rdçŠ¶æ€å¯æŸ¥
 	Call updateBaseAddr(hwnd)
-	//¶¨ÖÆÕËºÅ Èç¶¨µã¡¢ĞŞ¸Ä¹¥»÷¾àÀë		Ğè»ùÖ·so·Å¸üĞÂ»ùÖ·Ö®ºó
+	//å®šåˆ¶è´¦å· å¦‚å®šç‚¹ã€ä¿®æ”¹æ”»å‡»è·ç¦»		éœ€åŸºå€soæ”¾æ›´æ–°åŸºå€ä¹‹å
 	Call customizeAccount(hwnd, i)
-	//RxkdDllĞŞ¸Ä²¿·Ö½ûÓÃ×´Ì¬style¡¢È¥³ı¶¨µãº¯Í£µÈ
+	//RxkdDllä¿®æ”¹éƒ¨åˆ†ç¦ç”¨çŠ¶æ€styleã€å»é™¤å®šç‚¹å‡½åœç­‰
 	Call modifyRxkdDll(hwnd)
 	
 End Sub
 
-//µÇÂ¼½øÏß	ÏÔÊ¾13
+//ç™»å½•è¿›çº¿	æ˜¾ç¤º13
 Sub login2()
-	//µÇÂ¼½øÏßÌáÊ¾ÉùÒô
-	Call buttonSound("½øÏß-¼ÓÑªÉù.wav")
-	//ÏÔÊ¾»¹Ô­¼¤»î
+	//ç™»å½•è¿›çº¿æç¤ºå£°éŸ³
+	Call buttonSound("è¿›çº¿-åŠ è¡€å£°.wav")
+	//æ˜¾ç¤ºè¿˜åŸæ¿€æ´»
 	Call Plugin.Window.Show(hwnd)
 	Call Plugin.Window.Restore(hwnd)
 	Call Plugin.Window.Active(hwnd)
-	//ÏÔÊ¾13
+	//æ˜¾ç¤º13
 	Call displayOpen(hwnd, 1)
 	KeyPress "Enter", 1
-	//ÅĞ¶ÏÒÑ½øÈëÏßÂ·½çÃæ	²é×Ö server³ÁÏã
+	//åˆ¤æ–­å·²è¿›å…¥çº¿è·¯ç•Œé¢	æŸ¥å­— serveræ²‰é¦™
 	s1 = Plugin.Sys.GetTime()
 	Do
-		iCoordServer = Plugin.Pic.FindWordShape(430, 374, 600, 545, server, "ËÎÌå", 9, 0, 0.9)
+		iCoordServer = Plugin.Pic.FindWordShape(430, 374, 600, 545, server, "å®‹ä½“", 9, 0, 0.9)
 		If iCoordServer <> "-1|-1" Then 
-			//addLogT "µÇÂ¼²é×Ö»¨·ÑÊ±¼ä£º" & Plugin.Sys.GetTime() - s1
-			//Ä¬ÈÏÑ¡ÖĞÁË³ÁÏã·şÎñÆ÷ Ê¡ÂÔµã»÷£¿
+			//addLogT "ç™»å½•æŸ¥å­—èŠ±è´¹æ—¶é—´ï¼š" & Plugin.Sys.GetTime() - s1
+			//é»˜è®¤é€‰ä¸­äº†æ²‰é¦™æœåŠ¡å™¨ çœç•¥ç‚¹å‡»ï¼Ÿ
 			MoveTo Clng(Split(iCoordServer, "|")(0)) + 6, Clng(Split(iCoordServer, "|")(1)) + 6
 			LeftClick 1
 			Delay 200
 			Exit Do
 		End If
 		
-		If Plugin.Pic.FindWordShape(566, 336, 606, 355, "ÕËºÅ", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-			addLogT "¡¾" & account & "¡¿µÇÂ¼Ê§°Ü£¡ÕËºÅÒì³££¡"
+		If Plugin.Pic.FindWordShape(566, 336, 606, 355, "è´¦å·", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+			addLogT "ã€" & account & "ã€‘ç™»å½•å¤±è´¥ï¼è´¦å·å¼‚å¸¸ï¼"
 			Call clearAccount(hwnd)
 			Exit Sub
 		End If
-		If Plugin.Pic.FindWordShape(591, 366, 686, 386, "ÃÜÂë", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-			addLogT "¡¾" & account & "¡¿µÇÂ¼Ê§°Ü£¡ÃÜÂë´íÎó£¡"
+		If Plugin.Pic.FindWordShape(591, 366, 686, 386, "å¯†ç ", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+			addLogT "ã€" & account & "ã€‘ç™»å½•å¤±è´¥ï¼å¯†ç é”™è¯¯ï¼"
 			Call clearAccount(hwnd)
 			Exit Sub
 		End If
 		
 		If Plugin.Sys.GetTime() - s1 >= 3000 Then
-			addLogT "¡¾" & account & "¡¿µÇÂ¼Ê§°Ü£¡3s³¬Ê±£¡"
+			addLogT "ã€" & account & "ã€‘ç™»å½•å¤±è´¥ï¼3sè¶…æ—¶ï¼"
 			Call clearAccount(hwnd)
 			Exit Sub
 		End If
 		Delay 100
 	Loop
 
-	//Ë«»÷½øÏß	´«Èë¿ª·ÅÏßÂ·jx	//Ã¿ÌõÏßÂ·20¸öÏñËØµã+¼ä¸ô1ÏñËØ
+	//åŒå‡»è¿›çº¿	ä¼ å…¥å¼€æ”¾çº¿è·¯jx	//æ¯æ¡çº¿è·¯20ä¸ªåƒç´ ç‚¹+é—´éš”1åƒç´ 
 	MoveTo 760, (402 + 21 * (jx - 1))
 	LeftDoubleClick 1
-	//±ÜÃâ¾ßÌåÏßÂ·×ø±êÒ»Ö±±ä£¬»¹ÊÇ²é×Ö±È½Ï¿¿Æ×	test
-	//ĞÎ×´ÕÒ×ÖÎª²»Çø·ÖÑÕÉ«ÇÒ×Ö±¾ÉíÖ»ÄÜÊÇÒ»ÖÖÑÕÉ«¡£¶øVIPÏßÊÇÂÌÉ« ÆÕÍ¨ÏßÎª°×É«£¬Èç²é1Ïß»á²éµ½10ÏßÈ¥ ÔİÆú´ı¶¨£¡£¡£¡£¡£¡
-	//addLogT "½øÏßÏÖ×ø±ê=760|" & (402 + 21 * (jx - 1))
-	//icLine = Plugin.Pic.FindWordShape(620, 374, 808, 690, server & "-" & jx, "ËÎÌå", 9, 0, 0.9)
-	//icLine2 = Plugin.Pic.FindWordShape(620, 374, 808, 690, server & "-" & jx, "ËÎÌå", 9, 0, 1.0)
-	//icLine1 = Plugin.Pic.FindWordShape(620, 374, 808, 690, jx, "ËÎÌå", 9, 0, 0.9)
-	//icLine2 = Plugin.Pic.FindWordShape(620, 374, 808, 690, jx, "ËÎÌå", 9, 0, 1.0)
-	//addLogT "[test]½øÏß[" & jx & "Ïß] 0.9=" & icLine1 & " 1.0="  & icLine2 
+	//é¿å…å…·ä½“çº¿è·¯åæ ‡ä¸€ç›´å˜ï¼Œè¿˜æ˜¯æŸ¥å­—æ¯”è¾ƒé è°±	test
+	//å½¢çŠ¶æ‰¾å­—ä¸ºä¸åŒºåˆ†é¢œè‰²ä¸”å­—æœ¬èº«åªèƒ½æ˜¯ä¸€ç§é¢œè‰²ã€‚è€ŒVIPçº¿æ˜¯ç»¿è‰² æ™®é€šçº¿ä¸ºç™½è‰²ï¼Œå¦‚æŸ¥1çº¿ä¼šæŸ¥åˆ°10çº¿å» æš‚å¼ƒå¾…å®šï¼ï¼ï¼ï¼ï¼
+	//addLogT "è¿›çº¿ç°åæ ‡=760|" & (402 + 21 * (jx - 1))
+	//icLine = Plugin.Pic.FindWordShape(620, 374, 808, 690, server & "-" & jx, "å®‹ä½“", 9, 0, 0.9)
+	//icLine2 = Plugin.Pic.FindWordShape(620, 374, 808, 690, server & "-" & jx, "å®‹ä½“", 9, 0, 1.0)
+	//icLine1 = Plugin.Pic.FindWordShape(620, 374, 808, 690, jx, "å®‹ä½“", 9, 0, 0.9)
+	//icLine2 = Plugin.Pic.FindWordShape(620, 374, 808, 690, jx, "å®‹ä½“", 9, 0, 1.0)
+	//addLogT "[test]è¿›çº¿[" & jx & "çº¿] 0.9=" & icLine1 & " 1.0="  & icLine2 
 	//If icLine <> "-1|-1" Then 
 		//MoveTo Clng(Split(icLine, "|")(0)) + 6, Clng(Split(icLine, "|")(1)) + 6
 		//LeftDoubleClick 1
@@ -1599,94 +1599,94 @@ Sub login2()
 	
 	
 	
-	//²é×ÖÌáĞÑ¿ò ÏÈÏÔÊ¾£º "ÇëÉÔºò¡£	ÏµÍ³³ÌĞòÔËĞĞĞèÒªÒ»¶¨Ê±¼ä¡£"	ÈôÊ§°ÜÔÙÏÔÊ¾"µÇÂ½"... 
-	//ÎªÁË¾¡¿ìÓÅÏÈ½øÏß£¡£¡£¡£¡£¡¹Ê²»ÔÚ´ËdoloopµÈ´ı²é×Ö£¬ÔÚlogin3()²é×Ö²éÉ«×öÅĞ¶Ï
+	//æŸ¥å­—æé†’æ¡† å…ˆæ˜¾ç¤ºï¼š "è¯·ç¨å€™ã€‚	ç³»ç»Ÿç¨‹åºè¿è¡Œéœ€è¦ä¸€å®šæ—¶é—´ã€‚"	è‹¥å¤±è´¥å†æ˜¾ç¤º"ç™»é™†"... 
+	//ä¸ºäº†å°½å¿«ä¼˜å…ˆè¿›çº¿ï¼ï¼ï¼ï¼ï¼æ•…ä¸åœ¨æ­¤doloopç­‰å¾…æŸ¥å­—ï¼Œåœ¨login3()æŸ¥å­—æŸ¥è‰²åšåˆ¤æ–­
 	
-	//ÏÔÊ¾¹Ø±Õ13²»Òş²Ø¼õÉÙcpuÕ¼ÓÃ
+	//æ˜¾ç¤ºå…³é—­13ä¸éšè—å‡å°‘cpuå ç”¨
 	Call displayClose(hwnd, 1)
-	//½øÏßÍê³É	¸üĞÂÕËºÅÏàÓ¦Êı¾İ
-	Call Plugin.Window.SetText(hwnd, account & hState(2))	//¸Ä¿Í»§¶Ë±êÌâÎªÕËºÅ+×´Ì¬sc
-	iSetItemText i, "state", hState(2)//¹´Ñ¡ÕËºÅ´«ÈëĞĞÊıi ¸ÄÒ³Ãæ×´Ì¬sc
-	iSetItemBkColor i, "state", "FFFFFF"	//¸Ä×´Ì¬±³¾°Îª°×É«
-	iSetItemText i, "actualLine", jx//¸ÄÊµ¼ÊÏßÂ·ÎªjxÖµ
+	//è¿›çº¿å®Œæˆ	æ›´æ–°è´¦å·ç›¸åº”æ•°æ®
+	Call Plugin.Window.SetText(hwnd, account & hState(2))	//æ”¹å®¢æˆ·ç«¯æ ‡é¢˜ä¸ºè´¦å·+çŠ¶æ€sc
+	iSetItemText i, "state", hState(2)//å‹¾é€‰è´¦å·ä¼ å…¥è¡Œæ•°i æ”¹é¡µé¢çŠ¶æ€sc
+	iSetItemBkColor i, "state", "FFFFFF"	//æ”¹çŠ¶æ€èƒŒæ™¯ä¸ºç™½è‰²
+	iSetItemText i, "actualLine", jx//æ”¹å®é™…çº¿è·¯ä¸ºjxå€¼
 	
-	waitCount = 0//Ö÷Ñ­»·´ÎÊı¼ÆÊı  ÓĞÕËºÅ½øÏß³É¹¦¾ÍÖØÖÃÎª0Æô¶¯¼ÆÊı	//·Åµ½º¯ÊıÌåÄÚ¸³ÖµÒò¿ÉÄÜ²Ù×÷Ê§°ÜÎŞĞèÖÃ0£¡
+	waitCount = 0//ä¸»å¾ªç¯æ¬¡æ•°è®¡æ•°  æœ‰è´¦å·è¿›çº¿æˆåŠŸå°±é‡ç½®ä¸º0å¯åŠ¨è®¡æ•°	//æ”¾åˆ°å‡½æ•°ä½“å†…èµ‹å€¼å› å¯èƒ½æ“ä½œå¤±è´¥æ— éœ€ç½®0ï¼
 	
-	Call updateBaseAddr2(hwnd)//½øÏß³É¹¦¸üĞÂ»ùÖ·2		ÈçÊµ¼ÊÏßÂ·»ùÖ·
+	Call updateBaseAddr2(hwnd)//è¿›çº¿æˆåŠŸæ›´æ–°åŸºå€2		å¦‚å®é™…çº¿è·¯åŸºå€
 	
 End Sub
 
-//Ñ¡Ôñ½ÇÉ«½øÈëÓÎÏ· ÏÔÊ¾13		ÏÈ²é½ÇÉ«Ãû´æÔÚ·ñÔòÓÃÈËÎïË³Ğò
+//é€‰æ‹©è§’è‰²è¿›å…¥æ¸¸æˆ æ˜¾ç¤º13		å…ˆæŸ¥è§’è‰²åå­˜åœ¨å¦åˆ™ç”¨äººç‰©é¡ºåº
 Sub login3()
-	//¼¤»îhwnd
+	//æ¿€æ´»hwnd
 	Call Plugin.Window.Active(hwnd)
-    //ÏÔÊ¾13
+    //æ˜¾ç¤º13
 	Call displayOpen(hwnd, 1)
 	
-	//ÅĞ¶ÏÊÇ·ñÎª¿¨ÏßÇé¿ö½øÈë
+	//åˆ¤æ–­æ˜¯å¦ä¸ºå¡çº¿æƒ…å†µè¿›å…¥
 	isLag = false
 	If CInt(actualLine) = CInt(lagLine) Then 
 		For Each jja In split(iGetItemText(i, "line"), "-")
-			If CInt(jja)  = CInt(lagLine) Then //ÊÖÑ¡µÄvipÏßÂ·
+			If CInt(jja)  = CInt(lagLine) Then //æ‰‹é€‰çš„vipçº¿è·¯
 				goto notLag
 			End If
 		Next
-		isLag = true	//½øÏßÎªVIPÏßÂ·(1Ïß)µ«·ÇÊÖÑ¡ÏßÂ·£¬´ËÊ±Îª¿¨ÏßÇé¿ö½øÈë
-	Else //ÆäËûÑ¡ÔñÏßÂ·
+		isLag = true	//è¿›çº¿ä¸ºVIPçº¿è·¯(1çº¿)ä½†éæ‰‹é€‰çº¿è·¯ï¼Œæ­¤æ—¶ä¸ºå¡çº¿æƒ…å†µè¿›å…¥
+	Else //å…¶ä»–é€‰æ‹©çº¿è·¯
 		Rem notLag
 		isLag = false
 	End If
 	
-	//ÅĞ¶ÏÊÇ·ñ½øÈëÑ¡½Ç½çÃæ
-	//Ë«»÷½øÏßÏÈÏÔÊ¾£º "ÇëÉÔºò¡£	ÏµÍ³³ÌĞòÔËĞĞĞèÒªÒ»¶¨Ê±¼ä¡£"
-		//ÈôÊ§°ÜÔÙÏÔÊ¾"µÇÂ½"... ÎªÁË¾¡¿ìÓÅÏÈ½øÏß£¬¹Ê²»ÔÚlogin2()µÈ´ı²é×Ö£¬ÔÚ´Ë²é×Ö²éÉ«×öÅĞ¶Ï
+	//åˆ¤æ–­æ˜¯å¦è¿›å…¥é€‰è§’ç•Œé¢
+	//åŒå‡»è¿›çº¿å…ˆæ˜¾ç¤ºï¼š "è¯·ç¨å€™ã€‚	ç³»ç»Ÿç¨‹åºè¿è¡Œéœ€è¦ä¸€å®šæ—¶é—´ã€‚"
+		//è‹¥å¤±è´¥å†æ˜¾ç¤º"ç™»é™†"... ä¸ºäº†å°½å¿«ä¼˜å…ˆè¿›çº¿ï¼Œæ•…ä¸åœ¨login2()ç­‰å¾…æŸ¥å­—ï¼Œåœ¨æ­¤æŸ¥å­—æŸ¥è‰²åšåˆ¤æ–­
 	s1 = Plugin.Sys.GetTime()
 	Do
 		//dm RGB,aj BGR (cr1=Plugin.Color.GetPixelColor(x,y,1))
-		If dm.GetColor(582, 701) = "ffffff" Then //²éÉ«µ×²¿"½øÈë½­ºş"xy
-			//¿¨ÏßÇé¿ö½øÈëÊµ¼ÊÄÚ´æÊµÏß»¹ÊÇÎªlagLine=1ËµÃ÷¿¨ÏßÊ§°ÜÁË£¡·ñÔò³É¹¦Ôò¸ü¸ÄÊµÏßÎªÄÚ´æÊı¾İ
+		If dm.GetColor(582, 701) = "ffffff" Then //æŸ¥è‰²åº•éƒ¨"è¿›å…¥æ±Ÿæ¹–"xy
+			//å¡çº¿æƒ…å†µè¿›å…¥å®é™…å†…å­˜å®çº¿è¿˜æ˜¯ä¸ºlagLine=1è¯´æ˜å¡çº¿å¤±è´¥äº†ï¼å¦åˆ™æˆåŠŸåˆ™æ›´æ”¹å®çº¿ä¸ºå†…å­˜æ•°æ®
 			If isLag = true Then 
-				If CInt(dm.ReadString(hwnd, actualLineBaseAddr, 0, 2)) = CInt(lagLine) Then //Êµ¼ÊÏßÂ·=1Ïß ¿¨ÏßÊ§°Ü
-					addLogT "¡¾" & account & "¡¿¿¨Ïß³¢ÊÔÊ§°Ü£¡"
-					Call clearAccount(hwnd)//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+				If CInt(dm.ReadString(hwnd, actualLineBaseAddr, 0, 2)) = CInt(lagLine) Then //å®é™…çº¿è·¯=1çº¿ å¡çº¿å¤±è´¥
+					addLogT "ã€" & account & "ã€‘å¡çº¿å°è¯•å¤±è´¥ï¼"
+					Call clearAccount(hwnd)//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 					Exit Sub
-				Else //¿¨Ïß³É¹¦¸üĞÂ¶ÔÓ¦ÕËºÅµÄÊµÏß 1->ÄÚ´æÕıÈ·Êı¾İ
+				Else //å¡çº¿æˆåŠŸæ›´æ–°å¯¹åº”è´¦å·çš„å®çº¿ 1->å†…å­˜æ­£ç¡®æ•°æ®
 					iSetItemText i, "actualLine", dm.ReadString(hwnd, actualLineBaseAddr, 0, 2)
-					addLogT "¡¾" & account & "¡¿[" & dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "Ïß" & name & "/" & userOrder & "]Ñ¡½Ç½øÓÎ£¡¿¨Ïß³¢ÊÔ³É¹¦£¡"
+					addLogT "ã€" & account & "ã€‘[" & dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "çº¿" & name & "/" & userOrder & "]é€‰è§’è¿›æ¸¸ï¼å¡çº¿å°è¯•æˆåŠŸï¼"
 				End If
-			Else //Õı³£Çé¿ö³É¹¦
-				addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "/" & userOrder & "]Ñ¡½Ç½øÓÎ£¡"
+			Else //æ­£å¸¸æƒ…å†µæˆåŠŸ
+				addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "/" & userOrder & "]é€‰è§’è¿›æ¸¸ï¼"
 			End If
 			
 			Exit Do
 		End If
-		//Ä¿Ç°µÇÂ½ÓÃ»§¹ı¶à¡£	ÇëµÇÂ½ÆäËû·şÎñÆ÷¡£(25)
-		//ÄúÔÚ¶ÌÊ±¼äÄÚµÇÂ½´ÎÊı¹ı¶à£¬ÇëÉÔºóÔÙÊÔ		//¹ı¼¸·ÖÖÓËæ±ã½øÌõÏß¶¼ÊÇ½ø´Ë´ÎÑ¡ÔñµÄÏß£¡Ìí¼ÓÂß¼­£¿£¿£¿£¿£¿
-		//ÇëÖØĞÂµÇÂ¼¡£	//£¿¿¨Ïß£¿
-		If Plugin.Pic.FindWordShape(550, 335, 730, 380, "ÇëÖØĞÂµÇÂ¼¡£", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-			//Õı³£Çé¿ö±ê¼ÇÓë¼ÆÊı£¬¿¨ÏßÇé¿öÅÅ³ı
+		//ç›®å‰ç™»é™†ç”¨æˆ·è¿‡å¤šã€‚	è¯·ç™»é™†å…¶ä»–æœåŠ¡å™¨ã€‚(25)
+		//æ‚¨åœ¨çŸ­æ—¶é—´å†…ç™»é™†æ¬¡æ•°è¿‡å¤šï¼Œè¯·ç¨åå†è¯•		//è¿‡å‡ åˆ†é’Ÿéšä¾¿è¿›æ¡çº¿éƒ½æ˜¯è¿›æ­¤æ¬¡é€‰æ‹©çš„çº¿ï¼æ·»åŠ é€»è¾‘ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+		//è¯·é‡æ–°ç™»å½•ã€‚	//ï¼Ÿå¡çº¿ï¼Ÿ
+		If Plugin.Pic.FindWordShape(550, 335, 730, 380, "è¯·é‡æ–°ç™»å½•ã€‚", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+			//æ­£å¸¸æƒ…å†µæ ‡è®°ä¸è®¡æ•°ï¼Œå¡çº¿æƒ…å†µæ’é™¤
 			If isLag = false Then 
-				addLogT "¡¾" & account & "¡¿ÇëÖØĞÂµÇÂ¼¡£¿¨Ïß½«5mºó½øVIP³¢ÊÔ£¡"
+				addLogT "ã€" & account & "ã€‘è¯·é‡æ–°ç™»å½•ã€‚å¡çº¿å°†5måè¿›VIPå°è¯•ï¼"
 				//If Form1.CheckBox5.Value = 1 Then 
-				iSetItemBkColor i, "actualLine", "4F4FFF"//ÊµÏß±³¾°¸Äºì
+				iSetItemBkColor i, "actualLine", "4F4FFF"//å®çº¿èƒŒæ™¯æ”¹çº¢
 				//End If
-				serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1//NÏßµÇÂ½Ê§°Ü¼ÆÊı+1
+				serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1//Nçº¿ç™»é™†å¤±è´¥è®¡æ•°+1
 			Else 
-				addLogT "¡¾" & account & "¡¿ÇëÖØĞÂµÇÂ¼¡£¿¨Ïß½øVIPÔÙ´Î¿¨Ïß£¡Òì³£´ı¶¨£¿"
+				addLogT "ã€" & account & "ã€‘è¯·é‡æ–°ç™»å½•ã€‚å¡çº¿è¿›VIPå†æ¬¡å¡çº¿ï¼å¼‚å¸¸å¾…å®šï¼Ÿ"
 			End If
-			Call clearAccount(hwnd)	//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+			Call clearAccount(hwnd)	//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 			Exit Sub
 		End If
 		
-		//login3()Ô­ÅĞ¶ÏÌåÓÃµÄ4sµÈ´ıÊµ¼ÊÖ»Ğè3s  ´Ë´¦ÅĞ¶ÏÌå2s+³¬Ê±2s=4s ÓÃ²»Íê¿É·Å´ó
-		If Plugin.Pic.FindWordShape(550, 335, 730, 380, "µÇÂ½", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" or _
+		//login3()åŸåˆ¤æ–­ä½“ç”¨çš„4sç­‰å¾…å®é™…åªéœ€3s  æ­¤å¤„åˆ¤æ–­ä½“2s+è¶…æ—¶2s=4s ç”¨ä¸å®Œå¯æ”¾å¤§
+		If Plugin.Pic.FindWordShape(550, 335, 730, 380, "ç™»é™†", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" or _
 		Plugin.Sys.GetTime() - s1 >= 2000 Then 
-			addLogT "¡¾" & account & "¡¿½øÏßÊ§°Ü£¡"
-			//Õı³£Çé¿ö²Å¼ÆÊı£¬¿¨ÏßÇé¿öÅÅ³ı
+			addLogT "ã€" & account & "ã€‘è¿›çº¿å¤±è´¥ï¼"
+			//æ­£å¸¸æƒ…å†µæ‰è®¡æ•°ï¼Œå¡çº¿æƒ…å†µæ’é™¤
 			If isLag = false Then 
-				serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1//NÏßµÇÂ½Ê§°Ü¼ÆÊı+1
+				serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1//Nçº¿ç™»é™†å¤±è´¥è®¡æ•°+1
 			End If
-			Call clearAccount(hwnd)	//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+			Call clearAccount(hwnd)	//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 			Exit Sub
 		End If
 		Delay 200
@@ -1694,96 +1694,96 @@ Sub login3()
 	
 	s1 = Plugin.Sys.GetTime()
 	Do
-		//ÒÆ¶¯µ½Ñ¡Ôñ½ÇÉ«Î»ÖÃ Ê¹ÓÃÃû×Ö»òÈËÎïË³Ğò
-		iCoordName = Plugin.Pic.FindWordShape(100, 205, 262, 382, name, "ËÎÌå", 9, 0, 0.9)
+		//ç§»åŠ¨åˆ°é€‰æ‹©è§’è‰²ä½ç½® ä½¿ç”¨åå­—æˆ–äººç‰©é¡ºåº
+		iCoordName = Plugin.Pic.FindWordShape(100, 205, 262, 382, name, "å®‹ä½“", 9, 0, 0.9)
 		If iCoordName <> "-1|-1" Then 
         	MoveTo Clng(Split(iCoordName, "|")(0)) + 6, Clng(Split(iCoordName, "|")(1)) + 6
-        	//TracePrint "Ñ¡Ôñ½ÇÉ«Ãû"
+        	//TracePrint "é€‰æ‹©è§’è‰²å"
         	Exit Do
         End If
 		If Plugin.Sys.GetTime() - s1 >= 2000 Then 
 			MoveTo 180, 232 + 40 * (userOrder - 1)
-			addLogT "¡¾" & account & "¡¿Ñ¡ÔñµÄÈËÎïË³Ğò£¡"
+			addLogT "ã€" & account & "ã€‘é€‰æ‹©çš„äººç‰©é¡ºåºï¼"
 			Exit Do
 		End If
 		Delay 200
 	Loop	
-    //µã»÷Ñ¡Ôñ½ÇÉ«
+    //ç‚¹å‡»é€‰æ‹©è§’è‰²
 	LeftClick 1
 	Delay 200
-    //µã»÷ ½øÈëÓÎÏ·
+    //ç‚¹å‡» è¿›å…¥æ¸¸æˆ
     MoveTo 642, 706
     
-    //½øÓÎ³É¹¦ ¸üĞÂÕËºÅÏàÓ¦Êı¾İ
-    Call Plugin.Window.SetText(hwnd, account & hState(3))	//¸Ä¿Í»§¶Ë±êÌâÎªÕËºÅ+×´Ì¬ig
-	iSetItemText i, "state", hState(3)	//¹´Ñ¡ÕËºÅ´«ÈëĞĞÊıi ¸ÄÒ³Ãæ×´Ì¬Îªig
-	iSetItemBkColor i, "state", "FFFFFF"	//±³¾°¸Ä°×É«
-    //ÏÔÊ¾¹Ø±Õ13
+    //è¿›æ¸¸æˆåŠŸ æ›´æ–°è´¦å·ç›¸åº”æ•°æ®
+    Call Plugin.Window.SetText(hwnd, account & hState(3))	//æ”¹å®¢æˆ·ç«¯æ ‡é¢˜ä¸ºè´¦å·+çŠ¶æ€ig
+	iSetItemText i, "state", hState(3)	//å‹¾é€‰è´¦å·ä¼ å…¥è¡Œæ•°i æ”¹é¡µé¢çŠ¶æ€ä¸ºig
+	iSetItemBkColor i, "state", "FFFFFF"	//èƒŒæ™¯æ”¹ç™½è‰²
+    //æ˜¾ç¤ºå…³é—­13
 	Call displayClose(hwnd, 1)
-    LeftClick 1		//½øÈëÓÎÏ·µÈ´ı½Ï³¤Ê±¼ä¾ÍĞ÷ºó²ÅÄÜ¸ü¸Ä soÏÈ¸Ä¿Í»§¶Ë±êÌâÔÙ½øÈë
+    LeftClick 1		//è¿›å…¥æ¸¸æˆç­‰å¾…è¾ƒé•¿æ—¶é—´å°±ç»ªåæ‰èƒ½æ›´æ”¹ soå…ˆæ”¹å®¢æˆ·ç«¯æ ‡é¢˜å†è¿›å…¥
     
 	
 	s1 = Plugin.Sys.GetTime()
-	Do	//Ìí¼ÓµÈ´ı£¿ÅĞ¶Ï¿ª¹ÒÂß¼­ĞèÒª´°¿ÚÏìÓ¦×´Ì¬
-		If Plugin.Window.GetWindowState(hwnd, 6) = True Then //Î´ÏìÓ¦ËµÃ÷loadingÁË
-			serverLineFailCount(sIndex, actualLine) = 0	//½øÏß³É¹¦ ·şÎñÆ÷NÏßµÇÂ¼Ê§°Ü¼ÆÊıÖØÖÃÎª0
-			loadingAccount = loadingAccount + 1//Í¬Ê±½øÓÎ¼ÓÔØÖĞÕËºÅ+1
+	Do	//æ·»åŠ ç­‰å¾…ï¼Ÿåˆ¤æ–­å¼€æŒ‚é€»è¾‘éœ€è¦çª—å£å“åº”çŠ¶æ€
+		If Plugin.Window.GetWindowState(hwnd, 6) = True Then //æœªå“åº”è¯´æ˜loadingäº†
+			serverLineFailCount(sIndex, actualLine) = 0	//è¿›çº¿æˆåŠŸ æœåŠ¡å™¨Nçº¿ç™»å½•å¤±è´¥è®¡æ•°é‡ç½®ä¸º0
+			loadingAccount = loadingAccount + 1//åŒæ—¶è¿›æ¸¸åŠ è½½ä¸­è´¦å·+1
 			Exit Do
 		End If
-		If Plugin.Sys.GetTime() - s1 >= 4000 Then //Ê±¼älimit ¶à´Î²âÊÔÒ»°ãĞèÒª3s+ Ôİ¶¨4s!
-        	serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1	//·şÎñÆ÷NÏßµÇÂ¼Ê§°Ü¼ÆÊı+1
-     	 	addLogT "¡¾" & account & "¡¿Ñ¡½Ç½øÓÎÊ§°Ü£¡¹Ø±ÕÓÎÏ·¿Í»§¶Ë£¡"
-			Call clearAccount(hwnd)	//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
-        	//Goto checkServerFail	//Ö±½Ó½øÈëÅĞ¶ÏÌåÄÚÖØµÇlogin1	£¿
-        	Exit Do	//Ó¦·ÅÆúÖ±½ÓÖØµÇµÈ´ıÏÂÒ»´ÎÑ­»· ÈÃÆäËûÕËºÅ¿ÉÒÔ²Ù×÷ ·ñÔòÒ»Ö±¿¨×ÅÆäËûºÅ¿ÉÄÜÒ»Ö±µÈ´ı£¿
+		If Plugin.Sys.GetTime() - s1 >= 4000 Then //æ—¶é—´limit å¤šæ¬¡æµ‹è¯•ä¸€èˆ¬éœ€è¦3s+ æš‚å®š4s!
+        	serverLineFailCount(sIndex, actualLine) = serverLineFailCount(sIndex, actualLine) + 1	//æœåŠ¡å™¨Nçº¿ç™»å½•å¤±è´¥è®¡æ•°+1
+     	 	addLogT "ã€" & account & "ã€‘é€‰è§’è¿›æ¸¸å¤±è´¥ï¼å…³é—­æ¸¸æˆå®¢æˆ·ç«¯ï¼"
+			Call clearAccount(hwnd)	//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
+        	//Goto checkServerFail	//ç›´æ¥è¿›å…¥åˆ¤æ–­ä½“å†…é‡ç™»login1	ï¼Ÿ
+        	Exit Do	//åº”æ”¾å¼ƒç›´æ¥é‡ç™»ç­‰å¾…ä¸‹ä¸€æ¬¡å¾ªç¯ è®©å…¶ä»–è´¦å·å¯ä»¥æ“ä½œ å¦åˆ™ä¸€ç›´å¡ç€å…¶ä»–å·å¯èƒ½ä¸€ç›´ç­‰å¾…ï¼Ÿ
      	End If
 		Delay 200
 	Loop
     
 End Sub
-//ÕËºÅ²Ù×÷Ê§°Ü	¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+//è´¦å·æ“ä½œå¤±è´¥	å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 Sub clearAccount(hwnd)
-	//Call Plugin.Window.CloseEx(hwnd)//¹Ø±Õ¿Í»§¶Ë
-	Call Plugin.Memory.TerminateProc(hwnd)//½áÊø´°¿Ú¾ä±ú¶ÔÓ¦½ø³Ì
+	//Call Plugin.Window.CloseEx(hwnd)//å…³é—­å®¢æˆ·ç«¯
+	Call Plugin.Memory.TerminateProc(hwnd)//ç»“æŸçª—å£å¥æŸ„å¯¹åº”è¿›ç¨‹
 	
 	//hexist = Plugin.Window.Find("D3D Window", iGetItemText(i, "name"))
-	//addLogT "clearAccÔ­=" & hwnd & " ¹Ø±ÕºóÔÙ²éÃûhwnd=" & hexist	//²»ĞèÒªÁË ÔÚ==4sºóhwndÓ¦¸ÃÎª0£¬ÕÒname¿Í»§¶Ë·ÅÖ÷Ñ­»·×îºó/==Ö®ºóÅĞ¶Ï ´ı¶¨£¿£¿£¿£¿£¿
+	//addLogT "clearAccåŸ=" & hwnd & " å…³é—­åå†æŸ¥åhwnd=" & hexist	//ä¸éœ€è¦äº† åœ¨==4såhwndåº”è¯¥ä¸º0ï¼Œæ‰¾nameå®¢æˆ·ç«¯æ”¾ä¸»å¾ªç¯æœ€å/==ä¹‹ååˆ¤æ–­ å¾…å®šï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
 	
 	/*rindex = getDirIndex(hwnd)
 	If Clng(rindex) <> -1 Then
-		useDir(rindex) = 0	//±ê¼ÇÊı×é¶ÔÓ¦Â·¾¶Î´Ê¹ÓÃ
+		useDir(rindex) = 0	//æ ‡è®°æ•°ç»„å¯¹åº”è·¯å¾„æœªä½¿ç”¨
 	End If*/
-	//Éè0ÖØÖÃ²»Ò»¶¨ÓÉ×Ô¼º¿ØÖÆ£¬¿ÉÄÜÍâ¹Ò£¿soÖ±½ÓÖØĞÂ³õÊ¼»¯
+	//è®¾0é‡ç½®ä¸ä¸€å®šç”±è‡ªå·±æ§åˆ¶ï¼Œå¯èƒ½å¤–æŒ‚ï¼Ÿsoç›´æ¥é‡æ–°åˆå§‹åŒ–
 	Call initUseDir()
 	
-	iSetItemText i, "actualLine", ""	//Êµ¼Ê½øÈëÏßÂ·Çå¿Õ
-	iSetItemText i, "state", hState(0)	//×´Ì¬ÉèÖÃÎª¿Õ
-	iSetItemBkColor i, "state", "4F4FFF"	//±³¾°¸ÄÎªºìÉ«
-	iSetItemText i, "hwnd", 0//¾ä±úÉèÖÃÎª0
+	iSetItemText i, "actualLine", ""	//å®é™…è¿›å…¥çº¿è·¯æ¸…ç©º
+	iSetItemText i, "state", hState(0)	//çŠ¶æ€è®¾ç½®ä¸ºç©º
+	iSetItemBkColor i, "state", "4F4FFF"	//èƒŒæ™¯æ”¹ä¸ºçº¢è‰²
+	iSetItemText i, "hwnd", 0//å¥æŸ„è®¾ç½®ä¸º0
 End Sub
 
-//¼¤»îÍâ¹Ò
-//½Ólogin3½øÈëÓÎÏ·ºó×Ô¶¯¼¤»îÍâ¹Ò / ÊÖ¶¯µÇÂ¼ÁËÍâ¹Ò
+//æ¿€æ´»å¤–æŒ‚
+//æ¥login3è¿›å…¥æ¸¸æˆåè‡ªåŠ¨æ¿€æ´»å¤–æŒ‚ / æ‰‹åŠ¨ç™»å½•äº†å¤–æŒ‚
 Sub activePlugin()
-	Delay 200//¶à¸öÕËºÅÍ¬Ò»ÏßÂ· »áÍ¬Ê±Íê³É½øÓÎÏìÓ¦¼¤»î£¿ so delayÊÔÊÔ
+	Delay 200//å¤šä¸ªè´¦å·åŒä¸€çº¿è·¯ ä¼šåŒæ—¶å®Œæˆè¿›æ¸¸å“åº”æ¿€æ´»ï¼Ÿ so delayè¯•è¯•
 	Call Plugin.Window.Active(hwnd)
 
 	KeyPress "End", 1
 	s1 = Plugin.Sys.GetTime()
     Do
-    	hwndCode = Plugin.Window.Foreground()	//È¡¶¥²¿´°¿Ú
+    	hwndCode = Plugin.Window.Foreground()	//å–é¡¶éƒ¨çª—å£
         If Plugin.Window.GetClass(hwndCode) = "#32770" Then 
             Exit Do
         End If
-        If Plugin.Sys.GetTime() - s1 >= 2000 Then //³¬Ê±2s
-        	//²éÍ¼ ·¶Î§ÎªÑéÖ¤ÂëÍ¼Æ¬Ğ¡·¶Î§
-        	iCoordre = Plugin.Pic.FindPic(640, 370, 820, 480, alFreeDirPath & "Ë¢ĞÂµÇÈë°´Å¥.bmp", 0, 1.0)	
-			If iCoordre <> "-1|-1" Then //²éµ½ËµÃ÷ÒÑ´ò¿ªÑéÖ¤Âë´°¿Úµ«2sÄÚÎ´È¡µ½
-				//ÒÆ¶¯µ½ÑéÖ¤Âë´°¿Ú±êÌâÀ¸µã»÷Ê¹Ö®ÖÃÇ°
+        If Plugin.Sys.GetTime() - s1 >= 2000 Then //è¶…æ—¶2s
+        	//æŸ¥å›¾ èŒƒå›´ä¸ºéªŒè¯ç å›¾ç‰‡å°èŒƒå›´
+        	iCoordre = Plugin.Pic.FindPic(640, 370, 820, 480, alFreeDirPath & "åˆ·æ–°ç™»å…¥æŒ‰é’®.bmp", 0, 1.0)	
+			If iCoordre <> "-1|-1" Then //æŸ¥åˆ°è¯´æ˜å·²æ‰“å¼€éªŒè¯ç çª—å£ä½†2så†…æœªå–åˆ°
+				//ç§»åŠ¨åˆ°éªŒè¯ç çª—å£æ ‡é¢˜æ ç‚¹å‡»ä½¿ä¹‹ç½®å‰
 				MoveTo Clng(Split(iCoordre, "|")(0)), Clng(Split(iCoordre, "|")(1)) - 20
 				LeftClick 1
 				hwndCode = Plugin.Window.Foreground()	
-			Else	//Ã»ÓĞ´°¿ÚÔÙÊäÒ»´Î"End"³¢ÊÔ
+			Else	//æ²¡æœ‰çª—å£å†è¾“ä¸€æ¬¡"End"å°è¯•
 				KeyPress "End", 1
 				s2 = Plugin.Sys.GetTime()
 				Do
@@ -1792,61 +1792,61 @@ Sub activePlugin()
 						Exit Do
 					End If
 					If Plugin.Sys.GetTime() - s2 >= 2000 Then 
-						addLogT "¡¾" & account & "¡¿ÑéÖ¤Âë´°¿Ú×¥È¡Ê§°Ü£¡¹Ø±Õ¿Í»§¶Ë£¡´ı¶¨£¿"
-						Call clearAccount(hwnd)	//¹Ø±Õ¿Í»§¶Ë£¬ÖØÖÃ½çÃæÊı¾İ
+						addLogT "ã€" & account & "ã€‘éªŒè¯ç çª—å£æŠ“å–å¤±è´¥ï¼å…³é—­å®¢æˆ·ç«¯ï¼å¾…å®šï¼Ÿ"
+						Call clearAccount(hwnd)	//å…³é—­å®¢æˆ·ç«¯ï¼Œé‡ç½®ç•Œé¢æ•°æ®
 						Exit Sub
 					End If
 					Delay 200
 				Loop
 			End If
 			
-			Exit Do	//Ìø³öÍâ²ãÑ­»·
+			Exit Do	//è·³å‡ºå¤–å±‚å¾ªç¯
      	End If
      	Delay 200
     Loop
 
-	//ÄÃµ½µÄÊÇÍâ¹ÒÖ÷½çÃæ´°¿ÚËµÃ÷ÊÖ¶¯¼¤»îÍâ¹ÒÁËÔòÖ±½Ó½áÊøsub
+	//æ‹¿åˆ°çš„æ˜¯å¤–æŒ‚ä¸»ç•Œé¢çª—å£è¯´æ˜æ‰‹åŠ¨æ¿€æ´»å¤–æŒ‚äº†åˆ™ç›´æ¥ç»“æŸsub
 	If Plugin.Window.GetText(hwndCode) = "~" & name & "~" Then 
-	 	addLogT "¡¾" & account & "¡¿ÒÑÊÖ¶¯¼¤»îÍâ¹Ò£¡"
-	 	iSetItemText i, "state", hState(4)	//ÉèÖÃ×´Ì¬ap
+	 	addLogT "ã€" & account & "ã€‘å·²æ‰‹åŠ¨æ¿€æ´»å¤–æŒ‚ï¼"
+	 	iSetItemText i, "state", hState(4)	//è®¾ç½®çŠ¶æ€ap
 		Exit Sub
 	End If
 
-	//ocrÊ¶×Ö¹ıÑéÖ¤Âë´°¿Ú
+	//ocrè¯†å­—è¿‡éªŒè¯ç çª—å£
 	If ocrThroughCode(hwndCode) = False Then 
 		Exit Sub
 	End If
 
     s1 = Plugin.Sys.GetTime()
     Do
-    	//Íâ¹ÒÖ÷´°¿ÚhwndMain
+    	//å¤–æŒ‚ä¸»çª—å£hwndMain
        	hwndMain = Plugin.Window.Find("#32770", "~" & name & "~")
         If hwndMain > 0 Then 
             Exit Do   
         End If
         If Plugin.Sys.GetTime() - s1 >= 3000 Then //3s
         	If name <> getRoleInfo(hwnd, "name", 0) Then 
-				addLogT "¡¾" & account & "¡¿½ÇÉ«Ñ¡Ôñ²»ÕıÈ·£¡´ı¶¨Ìí¼Ó´úÂëÖØÑ¡½ÇÉ«£¡"
-				//TODO ºóÆÚ¿ÉÌí¼ÓÖ´ĞĞÏà¹Ø²Ù×÷ÖØÑ¡½ÇÉ«½øÈëÓÎÏ·¼¤»îÍâ¹Ò£¡´ı¶¨£¿
+				addLogT "ã€" & account & "ã€‘è§’è‰²é€‰æ‹©ä¸æ­£ç¡®ï¼å¾…å®šæ·»åŠ ä»£ç é‡é€‰è§’è‰²ï¼"
+				//TODO åæœŸå¯æ·»åŠ æ‰§è¡Œç›¸å…³æ“ä½œé‡é€‰è§’è‰²è¿›å…¥æ¸¸æˆæ¿€æ´»å¤–æŒ‚ï¼å¾…å®šï¼Ÿ
 //				Call Plugin.Window.Show(hwnd)	//
 //				Delay 200
-//				MoveTo 1263, 719	//x2 y2 ¶¼Îª0 ÔİÊ¡ÂÔ	 µã»÷ È«²¿¹¦ÄÜ
+//				MoveTo 1263, 719	//x2 y2 éƒ½ä¸º0 æš‚çœç•¥	 ç‚¹å‡» å…¨éƒ¨åŠŸèƒ½
 //				LeftClick 1
 //				Delay 200
-//				MoveTo 808, 598		//µã»÷ Ñ¡ÔñÈËÎï
+//				MoveTo 808, 598		//ç‚¹å‡» é€‰æ‹©äººç‰©
 //				LeftClick 1
 //				Delay 200
-//				MoveTo 605, 485		//µã»÷ È·ÈÏ °´Å¥
+//				MoveTo 605, 485		//ç‚¹å‡» ç¡®è®¤ æŒ‰é’®
 //				LeftClick 1
-//				Delay 10000		//»Øµ½Ñ¡ÔñÈËÎï½çÃæĞèÒª5s+  ¸ø10s£¿ ¶à»¹ÊÇÉÙ£¿
-//				MoveTo 180, 232 + 40 * (iGetItemText(i, "order") - 1)	//ÖØÑ¡ÈËÎï
+//				Delay 10000		//å›åˆ°é€‰æ‹©äººç‰©ç•Œé¢éœ€è¦5s+  ç»™10sï¼Ÿ å¤šè¿˜æ˜¯å°‘ï¼Ÿ
+//				MoveTo 180, 232 + 40 * (iGetItemText(i, "order") - 1)	//é‡é€‰äººç‰©
 //				LeftClick 1    
 //    			Delay 200    
-//    			MoveTo 642, 706	//µã»÷ ½øÈëÓÎÏ·		//´Ë´¦Ò²ĞèÒª30s+(²âÊÔ1´Î17s)Âğ£¿»¹ÊÇÖ±½ÓÔÚ´ËµÈ´ı£¿
-//				iSetItemText i, "state", hState(3)	//¸Ä×´Ì¬Îªig·½±ãÖØ½øactivePlugin()·½·¨£¿ÄÇÃ´ocrĞèÒªµ÷Õû+Çå¿ÕÊäÈë¿ò£¿/Ö±½Óµã»÷µÇÈë£¿
+//    			MoveTo 642, 706	//ç‚¹å‡» è¿›å…¥æ¸¸æˆ		//æ­¤å¤„ä¹Ÿéœ€è¦30s+(æµ‹è¯•1æ¬¡17s)å—ï¼Ÿè¿˜æ˜¯ç›´æ¥åœ¨æ­¤ç­‰å¾…ï¼Ÿ
+//				iSetItemText i, "state", hState(3)	//æ”¹çŠ¶æ€ä¸ºigæ–¹ä¾¿é‡è¿›activePlugin()æ–¹æ³•ï¼Ÿé‚£ä¹ˆocréœ€è¦è°ƒæ•´+æ¸…ç©ºè¾“å…¥æ¡†ï¼Ÿ/ç›´æ¥ç‚¹å‡»ç™»å…¥ï¼Ÿ
 //				LeftClick 1	
 			Else 
-				addLogT ("3sÄÚÆô¶¯Íâ¹ÒÊ§°Ü£¡Çë¼ì²é£¡")
+				addLogT ("3så†…å¯åŠ¨å¤–æŒ‚å¤±è´¥ï¼è¯·æ£€æŸ¥ï¼")
 			End If
 			
         	Exit Sub
@@ -1855,398 +1855,398 @@ Sub activePlugin()
     Loop	
 
 	Call Plugin.Window.Active(hwndMain)
-	//Íâ¹ÒÖ÷´°¿ÚÒÆ¶¯µ½ÓÒ²àÌØ¶¨Î»ÖÃ
+	//å¤–æŒ‚ä¸»çª—å£ç§»åŠ¨åˆ°å³ä¾§ç‰¹å®šä½ç½®
 	Call Plugin.Window.Move(hwndMain, 1300, 0)//160)
 	Delay 200
 	
 	sRectMain = Plugin.Window.GetWindowRect(hwndMain)   
     MyArrayMain = Split(sRectMain, "|")   
-    //µÃµ½Íâ¹ÒÖ÷´°¿ÚÆğÊ¼xy×ø±ê
+    //å¾—åˆ°å¤–æŒ‚ä¸»çª—å£èµ·å§‹xyåæ ‡
     xm1 = Clng(MyArrayMain(0)) : ym1 = Clng(MyArrayMain(1))
 
-	//afterLineArray = Array("Í£Áô½øÈëÒ³Ãæ", "·¢´ô", "¹Ò»ú", "¶¨", "·À", "½Å", "¶¨·À", "¶¨½Å", "·À½Å", "¶¨·À½Å", "¿ªµê")
-    //ÉÏÏßºó²Ù×÷=1·¢´ô2¹Ò»ú3¶¨4·À5½Å6¶¨·À7¶¨½Å8·À½Å9¶¨·À½Å10¿ªµê
-    //ÓëformloadÖĞµÄÊı×é afterLineArray index¶ÔÓ¦£¡»ò¿ÉÖ±½Ó¶¨ÒåafterLineArrayÎª»·¾³±äÁ¿£¿DimEnv afterLineArray(10) ĞèÈç´ËĞ´ÔÙ³õÊ¼»¯£¡
-    	//ÄÇÃ´´Ë´¦»ò¿ÉÓÃ afterLineArray(afterLine) ÅĞ¶Ï¾ßÌåÃû³ÆÈç"¹Ò»ú"	´ı¶¨£¿
+	//afterLineArray = Array("åœç•™è¿›å…¥é¡µé¢", "å‘å‘†", "æŒ‚æœº", "å®š", "é˜²", "è„š", "å®šé˜²", "å®šè„š", "é˜²è„š", "å®šé˜²è„š", "å¼€åº—")
+    //ä¸Šçº¿åæ“ä½œ=1å‘å‘†2æŒ‚æœº3å®š4é˜²5è„š6å®šé˜²7å®šè„š8é˜²è„š9å®šé˜²è„š10å¼€åº—
+    //ä¸formloadä¸­çš„æ•°ç»„ afterLineArray indexå¯¹åº”ï¼æˆ–å¯ç›´æ¥å®šä¹‰afterLineArrayä¸ºç¯å¢ƒå˜é‡ï¼ŸDimEnv afterLineArray(10) éœ€å¦‚æ­¤å†™å†åˆå§‹åŒ–ï¼
+    	//é‚£ä¹ˆæ­¤å¤„æˆ–å¯ç”¨ afterLineArray(afterLine) åˆ¤æ–­å…·ä½“åç§°å¦‚"æŒ‚æœº"	å¾…å®šï¼Ÿ
     Select Case  Clng(afterLine)
-    	Case 1	//·¢´ô
-    		addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼·¢´ô£¡"
-    	Case 2	//¹Ò»ú
-			//»ò¿ÉÊ¹ÓÃ²é×Ö"¹Ò»ú¿ªÊ¼"À´½øĞĞÏàÓ¦²Ù×÷£¿ Ê×´Î½øÈë¿Ï¶¨Ö±½Ó¾ÍÊÇ"¹Ò»ú¿ªÊ¼" Ôİ¶¨£¡
+    	Case 1	//å‘å‘†
+    		addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹å‘å‘†ï¼"
+    	Case 2	//æŒ‚æœº
+			//æˆ–å¯ä½¿ç”¨æŸ¥å­—"æŒ‚æœºå¼€å§‹"æ¥è¿›è¡Œç›¸åº”æ“ä½œï¼Ÿ é¦–æ¬¡è¿›å…¥è‚¯å®šç›´æ¥å°±æ˜¯"æŒ‚æœºå¼€å§‹" æš‚å®šï¼
 			Call clickStart()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú£¡"
-		Case 3	//¶¨
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœºï¼"
+		Case 3	//å®š
 			Call setFixedPoint()
 			Call clickStart()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(¶¨¿ì)£¡"
-		Case 4	//·À
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(å®šå¿«)ï¼"
+		Case 4	//é˜²
 			Call setDefendEnemy()
 			Call clickStart()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(·À)£¡"
-		Case 5	//½Å		//ÓĞ½Å±¾ÔËĞĞµÄ¶¼ĞèÒªÔÚµã»÷"¹Ò»ú¿ªÊ¼"ºóÔËĞĞ£¡£¡£¡£¡£¡
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(é˜²)ï¼"
+		Case 5	//è„š		//æœ‰è„šæœ¬è¿è¡Œçš„éƒ½éœ€è¦åœ¨ç‚¹å‡»"æŒ‚æœºå¼€å§‹"åè¿è¡Œï¼ï¼ï¼ï¼ï¼
 			Call clickStart()
 			Call setRunScript()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(½Å)£¡"
-		Case 6	//¶¨·À
-			Call setFixedPoint()
-			Call setDefendEnemy()
-			Call clickStart()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(¶¨¿ì·À)£¡"
-		Case 7//¶¨½Å
-			Call setFixedPoint()
-			Call clickStart()
-			Call setRunScript()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(¶¨¿ì½Å)£¡"
-		Case 8	//·À½Å
-			Call setDefendEnemy()
-			Call clickStart()
-			Call setRunScript()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(·À½Å)£¡"
-		Case 9//¶¨·À½Å
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(è„š)ï¼"
+		Case 6	//å®šé˜²
 			Call setFixedPoint()
 			Call setDefendEnemy()
 			Call clickStart()
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(å®šå¿«é˜²)ï¼"
+		Case 7//å®šè„š
+			Call setFixedPoint()
+			Call clickStart()
 			Call setRunScript()
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú(¶¨¿ì·À½Å)£¡"	
-		Case 10	//¿ªµê
-			addLogT "¡¾" & account & "¡¿[" & actualLine & "Ïß" & name & "]¿ªÊ¼¹Ò»ú¿ªµê£¡´ı¶¨£¿£¡"
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(å®šå¿«è„š)ï¼"
+		Case 8	//é˜²è„š
+			Call setDefendEnemy()
+			Call clickStart()
+			Call setRunScript()
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(é˜²è„š)ï¼"
+		Case 9//å®šé˜²è„š
+			Call setFixedPoint()
+			Call setDefendEnemy()
+			Call clickStart()
+			Call setRunScript()
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœº(å®šå¿«é˜²è„š)ï¼"	
+		Case 10	//å¼€åº—
+			addLogT "ã€" & account & "ã€‘[" & actualLine & "çº¿" & name & "]å¼€å§‹æŒ‚æœºå¼€åº—ï¼å¾…å®šï¼Ÿï¼"
 		Case Else
-    		addLogT "ÉÏÏßºó²Ù×÷²ÎÊı´íÎó£¡Çë¼ì²é£¡"
+    		addLogT "ä¸Šçº¿åæ“ä½œå‚æ•°é”™è¯¯ï¼è¯·æ£€æŸ¥ï¼"
     End Select
     
-    //Delay 200		//·ÅclickStart()Àï
-    //MoveTo xm1 + 128, ym1 + 66	//±£³ÖÔÚ ³¬¼¶ÈÈÑª ±êÇ©Ò³ Òª²Ù×÷¿Ï¶¨Òª´ò¿ªºÚÆÁÆÁÄ»
+    //Delay 200		//æ”¾clickStart()é‡Œ
+    //MoveTo xm1 + 128, ym1 + 66	//ä¿æŒåœ¨ è¶…çº§çƒ­è¡€ æ ‡ç­¾é¡µ è¦æ“ä½œè‚¯å®šè¦æ‰“å¼€é»‘å±å±å¹•
 	//LeftClick 1
 	
-	//¿Í»§¶Ë±êÌâÍâ¹Ò»á¸Ä Ôò´Ë´¦Ê¡ÂÔ£¡
-	//iSetItemText i, "state", hState(4) //¼¤»îÍâ¹Ò³É¹¦ĞŞ¸ÄÒ³Ãæ×´Ì¬Îªap ÔİÊ±ÔÚÖ÷Ñ­»·ÅĞ¶ÏÄÚÖ±½ÓĞŞ¸Ä±ÜÃâÖØ¸´½øÈë£¡
+	//å®¢æˆ·ç«¯æ ‡é¢˜å¤–æŒ‚ä¼šæ”¹ åˆ™æ­¤å¤„çœç•¥ï¼
+	//iSetItemText i, "state", hState(4) //æ¿€æ´»å¤–æŒ‚æˆåŠŸä¿®æ”¹é¡µé¢çŠ¶æ€ä¸ºap æš‚æ—¶åœ¨ä¸»å¾ªç¯åˆ¤æ–­å†…ç›´æ¥ä¿®æ”¹é¿å…é‡å¤è¿›å…¥ï¼
 End Sub
 
-// ocrÊ¶×Ö¹ıÑéÖ¤Âë´°¿Ú
+// ocrè¯†å­—è¿‡éªŒè¯ç çª—å£
 Function ocrThroughCode(hwndCode)
 	chance2 = 1
 	Rem tryThroughAgain
 	If chance2 <= 2 Then 
-		//ÑéÖ¤Âë´°¿ÚeditÇøÓòÍ¼Æ¬ÆğÊ¼xyÏà¶Ô´°¿Ú×ø±ê=9,30	Ïà¶Ô¿Í»§Çø×ø±ê=8,4
-		//4×Ö·ûÏà¶Ô´°¿Úµ÷Õûºóx×ø±ê·¶Î§ 1428 2841 4154 5468 £¨²å¼ş²éÑ¯ĞèÍâ¿ò£º1329 2742 4055 5369£©	//ÏñËØ¿í¶È  15 14 14 15	
-		//4×Ö·ûÏà¶Ô´°¿Úy×ø±ê·¶Î§ 31->50	(º¬Íâ¿ò 30->51)
+		//éªŒè¯ç çª—å£editåŒºåŸŸå›¾ç‰‡èµ·å§‹xyç›¸å¯¹çª—å£åæ ‡=9,30	ç›¸å¯¹å®¢æˆ·åŒºåæ ‡=8,4
+		//4å­—ç¬¦ç›¸å¯¹çª—å£è°ƒæ•´åxåæ ‡èŒƒå›´ 1428 2841 4154 5468 ï¼ˆæ’ä»¶æŸ¥è¯¢éœ€å¤–æ¡†ï¼š1329 2742 4055 5369ï¼‰	//åƒç´ å®½åº¦  15 14 14 15	
+		//4å­—ç¬¦ç›¸å¯¹çª—å£yåæ ‡èŒƒå›´ 31->50	(å«å¤–æ¡† 30->51)
 			
 		Call Plugin.Window.Active(hwndCode)
-		//Ê¹ÓÃGetWindowRectÆ«²îºÜ´ó£¬×ó±ßÎ´Öª²¿·Ö½ØÍ¼²»ÄÜÏÔÊ¾£¡¹Ê¸ÄÓÃGetClientRect
+		//ä½¿ç”¨GetWindowRectåå·®å¾ˆå¤§ï¼Œå·¦è¾¹æœªçŸ¥éƒ¨åˆ†æˆªå›¾ä¸èƒ½æ˜¾ç¤ºï¼æ•…æ”¹ç”¨GetClientRect
 		sRectCode = Plugin.Window.GetClientRect(hwndCode)
-		xc1 = Clng(Split(sRectCode, "|")(0)) : yc1 = Clng(Split(sRectCode, "|")(1))		//testÊ×´ÎµÇÂ¼ocrÊÇ·ñÒÀÈ»»á´íÎó£¡£¡£¡
-		//xc1 yc1 ÎªÑéÖ¤Âë¿Í»§ÇøÇøÆğÊ¼×ø±ê	Ïà¶Ô1,31  //·½±ã»­Í¼ÖĞÕÒ×ø±ê£ºÏÈÈ¡Ïà¶Ô´°¿ÚµÄÔÙ¼õÈ¥¿Í»§ÇøµÄÆğÊ¼xy
-		ox = xc1 + 9 - 1 : oy = yc1 + 35 - 31	//editÇøÓòÍ¼Æ¬ÆğÊ¼xy¾ø¶Ô×ø±ê
+		xc1 = Clng(Split(sRectCode, "|")(0)) : yc1 = Clng(Split(sRectCode, "|")(1))		//testé¦–æ¬¡ç™»å½•ocræ˜¯å¦ä¾ç„¶ä¼šé”™è¯¯ï¼ï¼ï¼
+		//xc1 yc1 ä¸ºéªŒè¯ç å®¢æˆ·åŒºåŒºèµ·å§‹åæ ‡	ç›¸å¯¹1,31  //æ–¹ä¾¿ç”»å›¾ä¸­æ‰¾åæ ‡ï¼šå…ˆå–ç›¸å¯¹çª—å£çš„å†å‡å»å®¢æˆ·åŒºçš„èµ·å§‹xy
+		ox = xc1 + 9 - 1 : oy = yc1 + 35 - 31	//editåŒºåŸŸå›¾ç‰‡èµ·å§‹xyç»å¯¹åæ ‡
 		
-		//y×ø±ê·¶Î§ÖĞ¼äĞĞºáÏòxÒ»¶¨ÓĞ²é×ÖµÄÑÕÉ«  Èç oy+1+10
+		//yåæ ‡èŒƒå›´ä¸­é—´è¡Œæ¨ªå‘xä¸€å®šæœ‰æŸ¥å­—çš„é¢œè‰²  å¦‚ oy+1+10
 		s2 = Plugin.Sys.GetTime()
     	Do
-			For o1 = 1 To 15//µÚ1×Ö
-				//ÄÚ²¿ ×ÖÌå·¶Î§ÖĞ¼äĞĞx´Ó×óµ½ÓÒÑ­»· Ò»¶¨ÓĞ×ÖÌåÏñËØµã£¡
+			For o1 = 1 To 15//ç¬¬1å­—
+				//å†…éƒ¨ å­—ä½“èŒƒå›´ä¸­é—´è¡Œxä»å·¦åˆ°å³å¾ªç¯ ä¸€å®šæœ‰å­—ä½“åƒç´ ç‚¹ï¼
 				col1 = dm.GetColor(ox + 5 + o1 - 1, oy + 1 + 10)
-				If col1 <> "ffffff" Then //°×É«±³¾°ÅÅ³ı
-					//º¬Íâ¿ò ·¶Î§ÄÚ¸ù¾İ²éÕÒ³öµÄÑÕÉ«1.0¾«È·²é×Ö
-     				w1 = dm.Ocr(ox + 4, oy, ox + 20, oy + 21, col1, 1.0)//Ã²ËÆ4¸ö×ÖµÄÑÕÉ«¶¼²»Í¬ x·¶Î§¿É·Å´ó£¿ÔİÊ±¿ÉÓÃ´ı¶¨£¿
+				If col1 <> "ffffff" Then //ç™½è‰²èƒŒæ™¯æ’é™¤
+					//å«å¤–æ¡† èŒƒå›´å†…æ ¹æ®æŸ¥æ‰¾å‡ºçš„é¢œè‰²1.0ç²¾ç¡®æŸ¥å­—
+     				w1 = dm.Ocr(ox + 4, oy, ox + 20, oy + 21, col1, 1.0)//è²Œä¼¼4ä¸ªå­—çš„é¢œè‰²éƒ½ä¸åŒ xèŒƒå›´å¯æ”¾å¤§ï¼Ÿæš‚æ—¶å¯ç”¨å¾…å®šï¼Ÿ
      				If w1 <> "" Then 
-     					//TracePrint "µÚ1×ÖÑ­»·" & o1 & "´Î Ê¶×Ö£º" & w1
+     					//TracePrint "ç¬¬1å­—å¾ªç¯" & o1 & "æ¬¡ è¯†å­—ï¼š" & w1
      					Exit Do
      				End If 
 				End If
 			Next
 			If Plugin.Sys.GetTime() - s2 >= 2000 Then 
-				If chance2 = 1 Then //Ö»ÓĞµÚÒ»´ÎÊ§°Ü²Åµã»÷Ë¢ĞÂ°´Å¥	//¼ä¸ônÃëºó²ÅÄÜÔÙ´ÎË¢ĞÂ£¬·ñÔòÏÔÊ¾Ë¢ĞÂÌ«¿ì!
-					addLogT "ÑéÖ¤ÂëÍ¼Æ¬ocrÊ¶±ğÊ§°Ü½«Ë¢ĞÂÖØÊÔ£¡"
+				If chance2 = 1 Then //åªæœ‰ç¬¬ä¸€æ¬¡å¤±è´¥æ‰ç‚¹å‡»åˆ·æ–°æŒ‰é’®	//é—´éš”nç§’åæ‰èƒ½å†æ¬¡åˆ·æ–°ï¼Œå¦åˆ™æ˜¾ç¤ºåˆ·æ–°å¤ªå¿«!
+					addLogT "éªŒè¯ç å›¾ç‰‡ocrè¯†åˆ«å¤±è´¥å°†åˆ·æ–°é‡è¯•ï¼"
 					MoveTo xc1 + 138 - 1, yc1 + 46	 - 31
 					LeftClick 1
 				Else 
-					addLogT "µÚ¶ş´Î³¢ÊÔ£¬ÑéÖ¤ÂëÍ¼Æ¬ocrÊ¶±ğÊ§°ÜÇë¼ì²é£¡"	
+					addLogT "ç¬¬äºŒæ¬¡å°è¯•ï¼ŒéªŒè¯ç å›¾ç‰‡ocrè¯†åˆ«å¤±è´¥è¯·æ£€æŸ¥ï¼"	
 				End If
 				chance2 = chance2 + 1
 				goto tryThroughAgain
 			End If
 			Delay 200
 		Loop
-		For o2 = 1 To 14	//µÚ2×Ö
+		For o2 = 1 To 14	//ç¬¬2å­—
 			col2 = dm.GetColor(ox + 19 + o2 - 1, oy + 1 + 10)
 			If col2 <> "ffffff" Then
      			w2 = dm.Ocr(ox + 18, oy, ox + 33, oy + 21, col2, 1.0)     				 			
      			If w2 <> "" Then 
-     				//TracePrint "µÚ2×ÖÑ­»·" & o2 & "´Î Ê¶×Ö£º" & w2
+     				//TracePrint "ç¬¬2å­—å¾ªç¯" & o2 & "æ¬¡ è¯†å­—ï¼š" & w2
      				Exit For
      			End If
 			End If
 		Next
-		For o3 = 1 To 14	//µÚ3×Ö			
+		For o3 = 1 To 14	//ç¬¬3å­—			
 			col3 = dm.GetColor(ox + 32 + o3 - 1, oy + 1 + 10)
 			If col3 <> "ffffff" Then
      			w3 = dm.Ocr(ox + 31, oy, ox + 46, oy + 21, col3, 1.0)
      			If w3 <> "" Then 
-     				//TracePrint "µÚ3×ÖÑ­»·" & o3 & "´Î Ê¶×Ö£º" & w3
+     				//TracePrint "ç¬¬3å­—å¾ªç¯" & o3 & "æ¬¡ è¯†å­—ï¼š" & w3
      				Exit For
      			End If
 			End If
 		Next
-		For o4 = 1 To 15	//µÚ4×Ö
+		For o4 = 1 To 15	//ç¬¬4å­—
 			col4 = dm.GetColor(ox + 45 + o4 - 1, oy + 1 + 10)
 			If col4 <> "ffffff" Then
      			w4 = dm.Ocr(ox + 44, oy, ox + 60, oy + 21, col4, 1.0)     			 			
      			If w4 <> "" Then 
-     				//TracePrint "µÚ4×ÖÑ­»·" & o4 & "´Î Ê¶×Ö£º" & w4
+     				//TracePrint "ç¬¬4å­—å¾ªç¯" & o4 & "æ¬¡ è¯†å­—ï¼š" & w4
      				Exit For
      			End If
 			End If
 		Next	
 		
-		//¿ÉÄÜÊ¶±ğÊ§°Ü»òÕßË¢ĞÂÍ¼Æ¬Îª¿Õ°×Ò³
+		//å¯èƒ½è¯†åˆ«å¤±è´¥æˆ–è€…åˆ·æ–°å›¾ç‰‡ä¸ºç©ºç™½é¡µ
 		If w1 = "" or w2 = "" or w3 = "" or w4 = "" Then 
-    		//Call buttonSound("ÌáÊ¾ÉùÒô.wav")//Ôİ¶¨±¨¾¯1Éù ºóÆÚ¿ÉÌí¼Ó²»Í¬±¨¾¯Éù£¡
-			If chance2 = 1 Then //Ö»ÓĞµÚÒ»´ÎÊ§°Ü²Åµã»÷Ë¢ĞÂ°´Å¥
-				addLogT "ocrÊ§°Ü½«Ë¢ĞÂÖØÊÔ£¡½á¹û£º[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
+    		//Call buttonSound("æç¤ºå£°éŸ³.wav")//æš‚å®šæŠ¥è­¦1å£° åæœŸå¯æ·»åŠ ä¸åŒæŠ¥è­¦å£°ï¼
+			If chance2 = 1 Then //åªæœ‰ç¬¬ä¸€æ¬¡å¤±è´¥æ‰ç‚¹å‡»åˆ·æ–°æŒ‰é’®
+				addLogT "ocrå¤±è´¥å°†åˆ·æ–°é‡è¯•ï¼ç»“æœï¼š[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
 				MoveTo xc1 + 138 - 1, yc1 + 46	 - 31
 				LeftClick 1
 			Else 
-				addLogT "µÚ¶ş´Î³¢ÊÔ£¬ocrÊ§°ÜÇë¼ì²é£¡½á¹û£º[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
+				addLogT "ç¬¬äºŒæ¬¡å°è¯•ï¼Œocrå¤±è´¥è¯·æ£€æŸ¥ï¼ç»“æœï¼š[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
 			End If
 			chance2 = chance2 + 1
 			goto tryThroughAgain
     	Else 
-			TracePrint "ocr½á¹û£º[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
-			//ĞèÒª×ª³É´óĞ´ÔÙÈ¡ascii (ajµÄ°´¼üÂëÃ»ÓĞĞ¡Ğ´×ÖÄ¸ÓëASCII²»Ò»ÖÂĞè×¢Òâ£¡Èçasc("a"£©=97,SendKeyPress·¢ËÍ97Îª·¢Êı×Ö1)
+			TracePrint "ocrç»“æœï¼š[" & w1 & "][" & w2 & "][" & w3 & "][" & w4 & "]"
+			//éœ€è¦è½¬æˆå¤§å†™å†å–ascii (ajçš„æŒ‰é”®ç æ²¡æœ‰å°å†™å­—æ¯ä¸ASCIIä¸ä¸€è‡´éœ€æ³¨æ„ï¼å¦‚asc("a"ï¼‰=97,SendKeyPresså‘é€97ä¸ºå‘æ•°å­—1)
 			w1a = Asc(UCase(w1)) : w2a = Asc(UCase(w2)) : w3a = Asc(UCase(w3)) : w4a = Asc(UCase(w4))
-			//ÊäÈë¿òhwnd
+			//è¾“å…¥æ¡†hwnd
 			hwndCodeEdit = Plugin.Window.FindEx(hwndCode, 0, "Edit", 0)
-			Call Plugin.Window.SendKeyPress(hwndCodeEdit, w1a)	//ºóÌ¨°´¼ü
+			Call Plugin.Window.SendKeyPress(hwndCodeEdit, w1a)	//åå°æŒ‰é”®
 			Call Plugin.Window.SendKeyPress(hwndCodeEdit, w2a)
 			Call Plugin.Window.SendKeyPress(hwndCodeEdit, w3a)
 			Call Plugin.Window.SendKeyPress(hwndCodeEdit, w4a)
 			
-			//µÇÈë°´Å¥hwnd		//²»ĞĞ£¡£¡£¡
-			//hwndCodeLogin = Plugin.Window.FindEx(hwndCode, 0, 0, "µÇÈë")
+			//ç™»å…¥æŒ‰é’®hwnd		//ä¸è¡Œï¼ï¼ï¼
+			//hwndCodeLogin = Plugin.Window.FindEx(hwndCode, 0, 0, "ç™»å…¥")
 			//Call Plugin.Window.SendKeyPress(hwndCodeLogin, 13)	//Enter
-			MoveTo xc1 + 138 - 1, yc1 + 80 - 31	//µã»÷°´Å¥µÇÈë Î´ÊäÈë4¸ö×Ö·ûµã»÷ÎŞ·´Ó¦²»»áÏÔÊ¾"¶Ô±È´íÎó"
+			MoveTo xc1 + 138 - 1, yc1 + 80 - 31	//ç‚¹å‡»æŒ‰é’®ç™»å…¥ æœªè¾“å…¥4ä¸ªå­—ç¬¦ç‚¹å‡»æ— ååº”ä¸ä¼šæ˜¾ç¤º"å¯¹æ¯”é”™è¯¯"
 			LeftClick 1
     		
-    		//¼ì²âÊÇ·ñÊä´íÑéÖ¤Âë		//³öÏÖÁË¼¸´ÎÇ°¼¸¸ö×ÖÊ¶±ğ´íÎó ºó¼¸¸ö×ÖÕıÈ·£¿ĞèÒªÑéÖ¤£¡
-    		If Plugin.Pic.FindWordShape(xc1 + 9 - 1, yc1 + 71 - 31, xc1 + 91 - 1, yc1 + 96 - 31, "¶Ô±È´íÎó", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-				//Ë¢ĞÂ×Ô¶¯Çå¿ÕÊäÈë¿ò
-				If chance2 = 1 Then //Ö»ÓĞµÚÒ»´ÎÊ§°Ü²Åµã»÷Ë¢ĞÂ°´Å¥
-					addLogT "ÑéÖ¤Âë¶Ô±È´íÎó½«Ë¢ĞÂÖØÊÔ£¡"
+    		//æ£€æµ‹æ˜¯å¦è¾“é”™éªŒè¯ç 		//å‡ºç°äº†å‡ æ¬¡å‰å‡ ä¸ªå­—è¯†åˆ«é”™è¯¯ åå‡ ä¸ªå­—æ­£ç¡®ï¼Ÿéœ€è¦éªŒè¯ï¼
+    		If Plugin.Pic.FindWordShape(xc1 + 9 - 1, yc1 + 71 - 31, xc1 + 91 - 1, yc1 + 96 - 31, "å¯¹æ¯”é”™è¯¯", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+				//åˆ·æ–°è‡ªåŠ¨æ¸…ç©ºè¾“å…¥æ¡†
+				If chance2 = 1 Then //åªæœ‰ç¬¬ä¸€æ¬¡å¤±è´¥æ‰ç‚¹å‡»åˆ·æ–°æŒ‰é’®
+					addLogT "éªŒè¯ç å¯¹æ¯”é”™è¯¯å°†åˆ·æ–°é‡è¯•ï¼"
 					MoveTo xc1 + 138 - 1, yc1 + 46	 - 31	
 					LeftClick 1
 				Else 
-					addLogT "µÚ¶ş´Î³¢ÊÔ£¬ÑéÖ¤Âë¶Ô±È´íÎóÇë¼ì²é£¡"
+					addLogT "ç¬¬äºŒæ¬¡å°è¯•ï¼ŒéªŒè¯ç å¯¹æ¯”é”™è¯¯è¯·æ£€æŸ¥ï¼"
 				End If
 				chance2 = chance2 + 1
 				goto tryThroughAgain
 			End If
 			
-			ocrThroughCode = True //ÉÏÊöËùÓĞ²Ù×÷ÎŞÎó ·µ»Ø³É¹¦
-			Exit Function	//Ìø³öº¯Êı
+			ocrThroughCode = True //ä¸Šè¿°æ‰€æœ‰æ“ä½œæ— è¯¯ è¿”å›æˆåŠŸ
+			Exit Function	//è·³å‡ºå‡½æ•°
 		End If
 	End If
-	ocrThroughCode = False	//·µ»ØÊ§°Ü
+	ocrThroughCode = False	//è¿”å›å¤±è´¥
 	
 End Function
 
-//µã»÷¹Ò»ú¿ªÊ¼°´Å¥
+//ç‚¹å‡»æŒ‚æœºå¼€å§‹æŒ‰é’®
 Sub clickStart()
 	Delay 200
-	MoveTo xm1 + 414, ym1 + 474	//µã»÷¹Ò»ú¿ªÊ¼°´Å¥
+	MoveTo xm1 + 414, ym1 + 474	//ç‚¹å‡»æŒ‚æœºå¼€å§‹æŒ‰é’®
 	LeftClick 1
 	Delay 200
-    MoveTo xm1 + 128, ym1 + 66	//±£³ÖÔÚ ³¬¼¶ÈÈÑª ±êÇ©Ò³ Òª²Ù×÷¿Ï¶¨Òª´ò¿ªºÚÆÁÆÁÄ»
+    MoveTo xm1 + 128, ym1 + 66	//ä¿æŒåœ¨ è¶…çº§çƒ­è¡€ æ ‡ç­¾é¡µ è¦æ“ä½œè‚¯å®šè¦æ‰“å¼€é»‘å±å±å¹•
 	LeftClick 1
 	
-	Delay 200	//ÈßÓàÅĞ¶Ï±ÜÃâÎ´¿ªÊ¼¹Ò»ú£¡
-	If Plugin.Pic.FindWordShape(xm1 + 380, ym1 + 462, xm1 + 440, ym1 + 484, "¹Ò»úÍ£Ö¹", "ËÎÌå", 9, 0, 0.9) = "-1|-1" Then 
-		addLogT "'¹Ò»úÍ£Ö¹'²é×ÖÊ§°Ü£¬¿ÉÄÜÎ´¿ªÊ¼¹Ò»ú»ò½«ÔÙ´Îµã»÷£¡"
+	Delay 200	//å†—ä½™åˆ¤æ–­é¿å…æœªå¼€å§‹æŒ‚æœºï¼
+	If Plugin.Pic.FindWordShape(xm1 + 380, ym1 + 462, xm1 + 440, ym1 + 484, "æŒ‚æœºåœæ­¢", "å®‹ä½“", 9, 0, 0.9) = "-1|-1" Then 
+		addLogT "'æŒ‚æœºåœæ­¢'æŸ¥å­—å¤±è´¥ï¼Œå¯èƒ½æœªå¼€å§‹æŒ‚æœºæˆ–å°†å†æ¬¡ç‚¹å‡»ï¼"
 		Delay 200
-		//ÔÙ²é×Ö"¹Ò»ú¿ªÊ¼"£¬ÈôÓĞ±íÃ÷ÉÏ²½µã»÷Ê§°ÜÔÙ´Îµã»÷±£Ö¤Õı³£¹Ò»ú ÈßÓà£¡
-		If Plugin.Pic.FindWordShape(xm1 + 380, ym1 + 462, xm1 + 440, ym1 + 484, "¹Ò»ú¿ªÊ¼", "ËÎÌå", 9, 0, 0.9) <> "-1|-1" Then 
-			MoveTo xm1 + 414, ym1 + 474	//µã»÷¹Ò»ú¿ªÊ¼°´Å¥
+		//å†æŸ¥å­—"æŒ‚æœºå¼€å§‹"ï¼Œè‹¥æœ‰è¡¨æ˜ä¸Šæ­¥ç‚¹å‡»å¤±è´¥å†æ¬¡ç‚¹å‡»ä¿è¯æ­£å¸¸æŒ‚æœº å†—ä½™ï¼
+		If Plugin.Pic.FindWordShape(xm1 + 380, ym1 + 462, xm1 + 440, ym1 + 484, "æŒ‚æœºå¼€å§‹", "å®‹ä½“", 9, 0, 0.9) <> "-1|-1" Then 
+			MoveTo xm1 + 414, ym1 + 474	//ç‚¹å‡»æŒ‚æœºå¼€å§‹æŒ‰é’®
 			LeftClick 1
 		Else 
-			addLogT "¹Ò»ú²é×ÖÊ§°Ü£¬Çë¼ì²é»òÓĞÒì³££¿£¡"
+			addLogT "æŒ‚æœºæŸ¥å­—å¤±è´¥ï¼Œè¯·æ£€æŸ¥æˆ–æœ‰å¼‚å¸¸ï¼Ÿï¼"
 		End If
 	End If
 End Sub
-//¹Ò»úÒ³ - ¶¨µã&¿ì¹¥
+//æŒ‚æœºé¡µ - å®šç‚¹&å¿«æ”»
 Sub setFixedPoint()
 	Delay 200
-	MoveTo xm1 + 95, ym1 + 42	//µã»÷±êÇ©Ò³ ¹Ò»ú
+	MoveTo xm1 + 95, ym1 + 42	//ç‚¹å‡»æ ‡ç­¾é¡µ æŒ‚æœº
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 130, ym1 + 98	//¹´Ñ¡´ò¹Ö¶¨µã
+	MoveTo xm1 + 130, ym1 + 98	//å‹¾é€‰æ‰“æ€ªå®šç‚¹
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 130, ym1 + 124	//¹´Ñ¡¿ìËÙ¹¥»÷
+	MoveTo xm1 + 130, ym1 + 124	//å‹¾é€‰å¿«é€Ÿæ”»å‡»
 	LeftClick 1
 End Sub
-//·À³ğÈËÒ³ - µ±...&±»PK·´»÷
+//é˜²ä»‡äººé¡µ - å½“...&è¢«PKåå‡»
 Sub setDefendEnemy()
 	Delay 200
-	MoveTo xm1 + 278, ym1 + 66	//µã»÷±êÇ©Ò³ ·À³ğÈË
+	MoveTo xm1 + 278, ym1 + 66	//ç‚¹å‡»æ ‡ç­¾é¡µ é˜²ä»‡äºº
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 44, ym1 + 211	//¹´Ñ¡µ±...
+	MoveTo xm1 + 44, ym1 + 211	//å‹¾é€‰å½“...
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 55, ym1 + 313	//¹´Ñ¡±»PK·´»÷
+	MoveTo xm1 + 55, ym1 + 313	//å‹¾é€‰è¢«PKåå‡»
 	LeftClick 1
 End Sub
-//³¬¼¶ÈÈÑªÒ³¸¨Öú¹¤¾ßÔËĞĞ½Å±¾		//ÓĞ½Å±¾ÔËĞĞµÄ¶¼ĞèÒªÔÚµã»÷"¹Ò»ú¿ªÊ¼"ºóÔËĞĞ£¡£¡£¡£¡£¡
+//è¶…çº§çƒ­è¡€é¡µè¾…åŠ©å·¥å…·è¿è¡Œè„šæœ¬		//æœ‰è„šæœ¬è¿è¡Œçš„éƒ½éœ€è¦åœ¨ç‚¹å‡»"æŒ‚æœºå¼€å§‹"åè¿è¡Œï¼ï¼ï¼ï¼ï¼
 Sub setRunScript()
 	Delay 200
-	MoveTo xm1 + 128, ym1 + 66	//µã»÷±êÇ©Ò³ ³¬¼¶ÈÈÑª
+	MoveTo xm1 + 128, ym1 + 66	//ç‚¹å‡»æ ‡ç­¾é¡µ è¶…çº§çƒ­è¡€
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 70, ym1 + 407	//µã»÷¸¨Öú¹¤¾ß°´Å¥
+	MoveTo xm1 + 70, ym1 + 407	//ç‚¹å‡»è¾…åŠ©å·¥å…·æŒ‰é’®
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 240, ym1 + 403	//µã»÷Ö´ĞĞ°´Å¥
+	MoveTo xm1 + 240, ym1 + 403	//ç‚¹å‡»æ‰§è¡ŒæŒ‰é’®
 	LeftClick 1
 	Delay 200
-	MoveTo xm1 + 226, ym1 + 438	//µã»÷·µ»Ø°´Å¥»Øµ½³¬¼¶ÈÈÑªÒ³
+	MoveTo xm1 + 226, ym1 + 438	//ç‚¹å‡»è¿”å›æŒ‰é’®å›åˆ°è¶…çº§çƒ­è¡€é¡µ
 	LeftClick 1
 End Sub
 
-//¶¨ÖÆÕËºÅ Èç¶¨µã»Øµã¡¢ĞŞ¸Ä¹¥»÷¾àÀë		Ğè»ùÖ·so·Å¸üĞÂ»ùÖ·Ö®ºó
-//²ÎÊı£º¾ä±ú ĞĞºÅ
+//å®šåˆ¶è´¦å· å¦‚å®šç‚¹å›ç‚¹ã€ä¿®æ”¹æ”»å‡»è·ç¦»		éœ€åŸºå€soæ”¾æ›´æ–°åŸºå€ä¹‹å
+//å‚æ•°ï¼šå¥æŸ„ è¡Œå·
 Sub customizeAccount(hwnd, i)
-	//1 ¶¨µã»Øµã
+	//1 å®šç‚¹å›ç‚¹
 	fp = iGetItemText(i, "fixedPoint")
-	//ÔÚupdateBaseAddr(hwnd)Ö®ºóÒ»¶¨¸üĞÂĞèÒªµÄ»ùÖ·ÁË
-	If fp = "ÊÇ" Then 
+	//åœ¨updateBaseAddr(hwnd)ä¹‹åä¸€å®šæ›´æ–°éœ€è¦çš„åŸºå€äº†
+	If fp = "æ˜¯" Then 
 		Call iSetFixedReturnPoint(hwnd, i, 1)
 	Else 
 		Call iSetFixedReturnPoint(hwnd, i, 0)
 	End If
 	
-	//2 ¸ñÊ½»¯±í¸ñ¹¥»÷¾àÀë[0-255]²¢ĞŞ¸Ä¹¥»÷¾àÀë(0¸´Ô­)
+	//2 æ ¼å¼åŒ–è¡¨æ ¼æ”»å‡»è·ç¦»[0-255]å¹¶ä¿®æ”¹æ”»å‡»è·ç¦»(0å¤åŸ)
 	iSetItemText i, "attackDistance", iSetAttackDistance(hwnd, i, iGetItemText(i, "attackDistance"))
 End Sub
 
-//¶¨µã+»Øµã(ÒÆ¶¯³¬³ö¹Ò»úµã5m·µ»Ø)	 ÉèÖÃ
-//ÈôÖ»¶¨µã£¬Êó±êµã»÷ÒÆ¶¯ºó²»»á·µ»Ø¹Ò»úµã¡£Ô­ÒòÊÇ½ÇÉ«³¬³ö¹Ò»úµã·µ»ØµÄÅĞ¶ÏÌõ¼şÊÇ×Ô¶¯´ò¹Ö==1&&¶¨µã==1£¬ÏÖ½Å±¾¿ØÖÆ¶¨µã²»»á¹´Ñ¡soÆÁ±Îdllº¯ÊıµÄ¶¨µã==1ÅĞ¶ÏÌõ¼şNopµô¡£
-//²ÎÊı£º¾ä±ú ĞĞºÅ bool
+//å®šç‚¹+å›ç‚¹(ç§»åŠ¨è¶…å‡ºæŒ‚æœºç‚¹5mè¿”å›)	 è®¾ç½®
+//è‹¥åªå®šç‚¹ï¼Œé¼ æ ‡ç‚¹å‡»ç§»åŠ¨åä¸ä¼šè¿”å›æŒ‚æœºç‚¹ã€‚åŸå› æ˜¯è§’è‰²è¶…å‡ºæŒ‚æœºç‚¹è¿”å›çš„åˆ¤æ–­æ¡ä»¶æ˜¯è‡ªåŠ¨æ‰“æ€ª==1&&å®šç‚¹==1ï¼Œç°è„šæœ¬æ§åˆ¶å®šç‚¹ä¸ä¼šå‹¾é€‰soå±è”½dllå‡½æ•°çš„å®šç‚¹==1åˆ¤æ–­æ¡ä»¶Nopæ‰ã€‚
+//å‚æ•°ï¼šå¥æŸ„ è¡Œå· bool
 Function iSetFixedReturnPoint(hwnd, i, b)
-	//¶¨µã»ùÖ·´¦Êı¾İ	//raw = 0F 93 C0  /mod = B0 01 90
+	//å®šç‚¹åŸºå€å¤„æ•°æ®	//raw = 0F 93 C0  /mod = B0 01 90
 	fpbadata = dm.readData(hwnd, fixedPointBaseAddr, 3)
-	//»Øµã»ùÖ·´¦Êı¾İ
+	//å›ç‚¹åŸºå€å¤„æ•°æ®
 	rpbaData = dm.readData(hwnd, returnPointBaseAddr, 6)
 	rpRawData = "0F 85 92 01 00 00" : rpModData = "90 90 90 90 90 90"
 	
-	If b = 1 Then //¹´Ñ¡¶¨µã
-		If fpbadata = fpRawData or fpbadata = fpModData Then //¼ì²â¶¨µã»ùÖ·´¦Êı¾İ
-			If fpbadata = fpRawData Then //Ô­Ê¼Êı¾İÔòĞŞ¸Ä£¬ÒÑ¶¨µãÔòÌø¹ı
-				Call Plugin.RxSocket.writeData(hwnd, fixedPointBaseAddr, fpModData)	//×ÔĞ´µÄÒ»°ã²»´í²»ÅĞ¶Ïret0+logÁË
+	If b = 1 Then //å‹¾é€‰å®šç‚¹
+		If fpbadata = fpRawData or fpbadata = fpModData Then //æ£€æµ‹å®šç‚¹åŸºå€å¤„æ•°æ®
+			If fpbadata = fpRawData Then //åŸå§‹æ•°æ®åˆ™ä¿®æ”¹ï¼Œå·²å®šç‚¹åˆ™è·³è¿‡
+				Call Plugin.RxSocket.writeData(hwnd, fixedPointBaseAddr, fpModData)	//è‡ªå†™çš„ä¸€èˆ¬ä¸é”™ä¸åˆ¤æ–­ret0+logäº†
 			
-				If iGetItemText(i, "fixedPoint") = "·ñ" Then //eventµ÷ÓÃÊµÊ±¸üĞÂ±í¸ñÓëÎÄ¼ş
-					iSetItemText i, "fixedPoint", "ÊÇ"
+				If iGetItemText(i, "fixedPoint") = "å¦" Then //eventè°ƒç”¨å®æ—¶æ›´æ–°è¡¨æ ¼ä¸æ–‡ä»¶
+					iSetItemText i, "fixedPoint", "æ˜¯"
 					Call writeFileFormGrid()
 				End If
 			End If
 		Else 
-			addLogT "¶¨µãÊ§°Ü£¡¶¨µã»ùÖ·["& fixedPointBaseAddr &"]´¦Êı¾İÓĞÎó£¡" & fpbadata
+			addLogT "å®šç‚¹å¤±è´¥ï¼å®šç‚¹åŸºå€["& fixedPointBaseAddr &"]å¤„æ•°æ®æœ‰è¯¯ï¼" & fpbadata
 		End If
 		
-		If rpbaData = rpRawData or rpbaData = rpModData Then //¼ì²â»Øµã»ùÖ·´¦Êı¾İ
-			If rpbaData = rpRawData Then //Ô­Ê¼Êı¾İÔònopµôÅĞ¶ÏÌõ¼ş£¬ÒÑ¸ÄÔòÌø¹ı
+		If rpbaData = rpRawData or rpbaData = rpModData Then //æ£€æµ‹å›ç‚¹åŸºå€å¤„æ•°æ®
+			If rpbaData = rpRawData Then //åŸå§‹æ•°æ®åˆ™nopæ‰åˆ¤æ–­æ¡ä»¶ï¼Œå·²æ”¹åˆ™è·³è¿‡
 				Call Plugin.RxSocket.writeData(hwnd, returnPointBaseAddr, rpModData)
 			End If
 		Else 
-			addLogT "»ØµãÊ§°Ü£¡»Øµã»ùÖ·["& returnPointBaseAddr &"]´¦Êı¾İÓĞÎó£¡" & rpbaData
+			addLogT "å›ç‚¹å¤±è´¥ï¼å›ç‚¹åŸºå€["& returnPointBaseAddr &"]å¤„æ•°æ®æœ‰è¯¯ï¼" & rpbaData
 		End If
-	Else //È¡Ïû¶¨µã
-		If fpbadata = fpRawData or fpbadata = fpModData Then //¼ì²â¶¨µã»ùÖ·´¦Êı¾İ 
-			If fpbadata = fpModData Then //ÒÑ¶¨µãÔò»¹Ô­£¬Ô­Ê¼Êı¾İÔòÌø¹ı
-				Call Plugin.RxSocket.writeData(hwnd, fixedPointBaseAddr, fpRawData)	//×ÔĞ´µÄÒ»°ã²»´í²»ÅĞ¶Ïret0+logÁË
+	Else //å–æ¶ˆå®šç‚¹
+		If fpbadata = fpRawData or fpbadata = fpModData Then //æ£€æµ‹å®šç‚¹åŸºå€å¤„æ•°æ® 
+			If fpbadata = fpModData Then //å·²å®šç‚¹åˆ™è¿˜åŸï¼ŒåŸå§‹æ•°æ®åˆ™è·³è¿‡
+				Call Plugin.RxSocket.writeData(hwnd, fixedPointBaseAddr, fpRawData)	//è‡ªå†™çš„ä¸€èˆ¬ä¸é”™ä¸åˆ¤æ–­ret0+logäº†
 				
-				If iGetItemText(i, "fixedPoint") = "ÊÇ" Then //eventµ÷ÓÃÊµÊ±¸üĞÂ±í¸ñÓëÎÄ¼ş
-					iSetItemText i, "fixedPoint", "·ñ"
+				If iGetItemText(i, "fixedPoint") = "æ˜¯" Then //eventè°ƒç”¨å®æ—¶æ›´æ–°è¡¨æ ¼ä¸æ–‡ä»¶
+					iSetItemText i, "fixedPoint", "å¦"
 					Call writeFileFormGrid()
 				End If
 			End If
 		Else 
-			addLogT "¶¨µã»¹Ô­Ê§°Ü£¡¶¨µã»ùÖ·["& fixedPointBaseAddr &"]´¦Êı¾İÓĞÎó£¡" & fpbadata
+			addLogT "å®šç‚¹è¿˜åŸå¤±è´¥ï¼å®šç‚¹åŸºå€["& fixedPointBaseAddr &"]å¤„æ•°æ®æœ‰è¯¯ï¼" & fpbadata
 		End If
 	
-		If rpbaData = rpRawData or rpbaData = rpModData Then //¼ì²â»Øµã»ùÖ·´¦Êı¾İ
-			If rpbaData = rpModData Then //ÒÑ¸ÄÔò»¹Ô­ÅĞ¶ÏÌõ¼ş£¬Ô­Ê¼Êı¾İÔòÌø¹ı
+		If rpbaData = rpRawData or rpbaData = rpModData Then //æ£€æµ‹å›ç‚¹åŸºå€å¤„æ•°æ®
+			If rpbaData = rpModData Then //å·²æ”¹åˆ™è¿˜åŸåˆ¤æ–­æ¡ä»¶ï¼ŒåŸå§‹æ•°æ®åˆ™è·³è¿‡
 				Call Plugin.RxSocket.writeData(hwnd, returnPointBaseAddr, rpRawData)
 			End If
 		Else 
-			addLogT "»Øµã»¹Ô­Ê§°Ü£¡»Øµã»ùÖ·["& returnPointBaseAddr &"]´¦Êı¾İÓĞÎó£¡" & rpbaData	
+			addLogT "å›ç‚¹è¿˜åŸå¤±è´¥ï¼å›ç‚¹åŸºå€["& returnPointBaseAddr &"]å¤„æ•°æ®æœ‰è¯¯ï¼" & rpbaData	
 		End If
 	End If
 		
 End Function
 
-//·µ»Ø¸ñÊ½»¯ºóµÄ¹¥»÷¾àÀë[0-255]²¢ĞŞ¸Ä¹¥»÷¾àÀë(0¸´Ô­)
-//²ÎÊı£º¾ä±ú ĞĞºÅ Öµ
+//è¿”å›æ ¼å¼åŒ–åçš„æ”»å‡»è·ç¦»[0-255]å¹¶ä¿®æ”¹æ”»å‡»è·ç¦»(0å¤åŸ)
+//å‚æ•°ï¼šå¥æŸ„ è¡Œå· å€¼
 Function iSetAttackDistance(hwnd, i, v)
 	Dim va, vv
 	
-	//¹¥»÷¾àÀë»ùÖ·´¦7×Ö½ÚÊı¾İ rawData = 36 8B 4D 0C 83 F8 03	/mod = B9 ?? 00 00 00 90 90
+	//æ”»å‡»è·ç¦»åŸºå€å¤„7å­—èŠ‚æ•°æ® rawData = 36 8B 4D 0C 83 F8 03	/mod = B9 ?? 00 00 00 90 90
 	arRawData = "36 8B 4D 0C 83 F8 03"
-	arRawData1 = "4D 0C 83 F8 03" : arModData1 = "00 00 00 90 90"	//¹¥»÷¾àÀë»ùÖ·+0x2 ´¦5×Ö½ÚÊı¾İ
+	arRawData1 = "4D 0C 83 F8 03" : arModData1 = "00 00 00 90 90"	//æ”»å‡»è·ç¦»åŸºå€+0x2 å¤„5å­—èŠ‚æ•°æ®
 	arbaData1 = dm.ReadData(hwnd, attackRangeBaseAddr & "+0x2", 5)
 	
 	If Clng(v) = 0 Then 
 		If arbaData1 = arRawData1 or arbaData1 = arModData1 Then 
-			If arbaData1 = arModData1 Then //ÒÑĞŞ¸ÄÔò»¹Ô­£¬Ô­Ê¼Êı¾İÌø¹ı
-				Call Plugin.RxSocket.writeData(hwnd, attackRangeBaseAddr, arRawData) //»¹Ô­7×Ö½Ú
+			If arbaData1 = arModData1 Then //å·²ä¿®æ”¹åˆ™è¿˜åŸï¼ŒåŸå§‹æ•°æ®è·³è¿‡
+				Call Plugin.RxSocket.writeData(hwnd, attackRangeBaseAddr, arRawData) //è¿˜åŸ7å­—èŠ‚
 				
-				If Clng(iGetItemText(i, "attackDistance")) <> 0 then //eventµ÷ÓÃÊµÊ±¸üĞÂ±í¸ñÓëÎÄ¼ş
+				If Clng(iGetItemText(i, "attackDistance")) <> 0 then //eventè°ƒç”¨å®æ—¶æ›´æ–°è¡¨æ ¼ä¸æ–‡ä»¶
 					iSetItemText i, "attackDistance", 0
 					Call writeFileFormGrid()
 				End If
 			End If
 		Else 
-			addLogT "¹¦¾à»¹Ô­Ê§°Ü£¡¹¥»÷¾àÀë»ùÖ·["& attackRangeBaseAddr &"+0x2]´¦Êı¾İÓĞÎó£¡" & arbaData1
+			addLogT "åŠŸè·è¿˜åŸå¤±è´¥ï¼æ”»å‡»è·ç¦»åŸºå€["& attackRangeBaseAddr &"+0x2]å¤„æ•°æ®æœ‰è¯¯ï¼" & arbaData1
 		End If
 		
 		iSetAttackDistance = 0
 		Exit Function
-	ElseIf Clng(v) >= 255 Then//×ªÊ®Áù½øÖÆĞ´ÈëÄÚ´æ
-		va = 255//×î´ó255	Ì«´óÃ»±ØÒªÒ²Ã»ÓÃ
+	ElseIf Clng(v) >= 255 Then//è½¬åå…­è¿›åˆ¶å†™å…¥å†…å­˜
+		va = 255//æœ€å¤§255	å¤ªå¤§æ²¡å¿…è¦ä¹Ÿæ²¡ç”¨
 		vv = "FF"
 	Else 
-		va = Clng(v)//Õı³£(1-255)Ö®¼äµÄÕûÊı
-		vv = hex(v)	//decimal 16ÒÔÄÚµÄ×ª»»½á¹ûÎªµ¥×Ö·ûĞèÔÚÇ°+0
+		va = Clng(v)//æ­£å¸¸(1-255)ä¹‹é—´çš„æ•´æ•°
+		vv = hex(v)	//decimal 16ä»¥å†…çš„è½¬æ¢ç»“æœä¸ºå•å­—ç¬¦éœ€åœ¨å‰+0
 		If Len(vv) = 1 Then vv = "0" & vv
 	End If
 
 	If arbaData1 = arRawData1 or arbaData1 = arModData1 Then 
-		If arbaData1 = arRawData1 Then //Ô­Ê¼Êı¾İÔòĞŞ¸Ä
+		If arbaData1 = arRawData1 Then //åŸå§‹æ•°æ®åˆ™ä¿®æ”¹
 			Call Plugin.RxSocket.writeData(hwnd, attackRangeBaseAddr, "B9" & vv & arModData1)
-			If Clng(iGetItemText(i, "attackDistance")) <> va then //eventµ÷ÓÃÊµÊ±¸üĞÂ±í¸ñÓëÎÄ¼ş
+			If Clng(iGetItemText(i, "attackDistance")) <> va then //eventè°ƒç”¨å®æ—¶æ›´æ–°è¡¨æ ¼ä¸æ–‡ä»¶
 				iSetItemText i, "attackDistance", va
 				Call writeFileFormGrid()
 			End If
 		End If
-		If arbaData1 = arModData1 Then //ÊÇ½Å±¾ĞŞ¸ÄµÄÊı¾İÇÒÊıÖµ²»Ò»ÖÂÔòĞŞ¸Ä
-			If dm.ReadData(hwnd, attackRangeBaseAddr & "+0x1", 1) <> vv Then //²»ÊÇÆÚÍûÖµÔòĞŞ¸Ä¹¦¾àÎªvv
+		If arbaData1 = arModData1 Then //æ˜¯è„šæœ¬ä¿®æ”¹çš„æ•°æ®ä¸”æ•°å€¼ä¸ä¸€è‡´åˆ™ä¿®æ”¹
+			If dm.ReadData(hwnd, attackRangeBaseAddr & "+0x1", 1) <> vv Then //ä¸æ˜¯æœŸæœ›å€¼åˆ™ä¿®æ”¹åŠŸè·ä¸ºvv
 				Call Plugin.RxSocket.writeData(hwnd, attackRangeBaseAddr, "B9" & vv)
-				If Clng(iGetItemText(i, "attackDistance")) <> va then //eventµ÷ÓÃÊµÊ±¸üĞÂ±í¸ñÓëÎÄ¼ş
+				If Clng(iGetItemText(i, "attackDistance")) <> va then //eventè°ƒç”¨å®æ—¶æ›´æ–°è¡¨æ ¼ä¸æ–‡ä»¶
 					iSetItemText i, "attackDistance", va
 					Call writeFileFormGrid()
 				End If
 			End If
 		End If
 	Else 
-		addLogT "¹¦¾àĞŞ¸ÄÊ§°Ü£¡¹¥»÷¾àÀë»ùÖ·[" & attackRangeBaseAddr & "+0x2]´¦Êı¾İÓĞÎó£¡" & arbaData1
+		addLogT "åŠŸè·ä¿®æ”¹å¤±è´¥ï¼æ”»å‡»è·ç¦»åŸºå€[" & attackRangeBaseAddr & "+0x2]å¤„æ•°æ®æœ‰è¯¯ï¼" & arbaData1
 	End If
 	
 	iSetAttackDistance = va
 	
 End Function
 
-//ÉèÖÃÄ£¿é»·¾³±äÁ¿»ùÖ·		
+//è®¾ç½®æ¨¡å—ç¯å¢ƒå˜é‡åŸºå€		
 Function setModuleEnv(hwnd)
-	//1 ÉèÖÃÄ£¿éÄÚ´æµØÖ··¶Î§µÄ»·¾³±äÁ¿»ùÖ· //Client.exe¡¢rxkd.dll
+	//1 è®¾ç½®æ¨¡å—å†…å­˜åœ°å€èŒƒå›´çš„ç¯å¢ƒå˜é‡åŸºå€ //Client.exeã€rxkd.dll
 	If clientAddrRange = "" Then 
-		clientAddrRange = getModuleAddrRange(hwnd, "Client.exe")	//Ö÷³ÌĞòÈë¿Ú¶¼ÊÇ0x400000 
+		clientAddrRange = getModuleAddrRange(hwnd, "Client.exe")	//ä¸»ç¨‹åºå…¥å£éƒ½æ˜¯0x400000 
 		TracePrint "clientAddrRange = " & clientAddrRange
 	End If
 	If rxkdAddrRange = "" Then 
@@ -2254,159 +2254,159 @@ Function setModuleEnv(hwnd)
 		TracePrint "rxkdAddrRange = " & rxkdAddrRange
 	End If
 	
-	//2 ÉèÖÃd3d9.dllÄ£¿é»·¾³±äÁ¿»ùÖ·
+	//2 è®¾ç½®d3d9.dllæ¨¡å—ç¯å¢ƒå˜é‡åŸºå€
 	If d3d9ba = "" Then 
 		d3d9temp = dm.GetModuleBaseAddr(hwnd, "d3d9.dll")
 		If d3d9temp = 0 Then 
-			addLogT "»ñÈ¡ÄÚ´æÖĞ[ d3d9.dll ]Ä£¿éÊı¾İÊ§°Ü£¡"
+			addLogT "è·å–å†…å­˜ä¸­[ d3d9.dll ]æ¨¡å—æ•°æ®å¤±è´¥ï¼"
 			d3d9ba = ""
 			Exit Function
 		End If
-		d3d9ba = hex(d3d9temp)//d3d9.dll hex»ùÖ·
-		d3d9ba1 = hex(d3d9temp + ("&H" & d3d9ba1))	//5¸öÆ«ÒÆ×ªÎª¾ßÌåµØÖ·
+		d3d9ba = hex(d3d9temp)//d3d9.dll hexåŸºå€
+		d3d9ba1 = hex(d3d9temp + ("&H" & d3d9ba1))	//5ä¸ªåç§»è½¬ä¸ºå…·ä½“åœ°å€
 		d3d9ba2 = hex(d3d9temp + ("&H" & d3d9ba2))
 		d3d9ba3 = hex(d3d9temp + ("&H" & d3d9ba3))
 		d3d9ba4 = hex(d3d9temp + ("&H" & d3d9ba4))
 		d3d9ba5 = hex(d3d9temp + ("&H" & d3d9ba5))
 	End If
 End Function
-//»ñÈ¡Ä£¿éµÄÄÚ´æµØÖ··¶Î§
+//è·å–æ¨¡å—çš„å†…å­˜åœ°å€èŒƒå›´
 Function getModuleAddrRange(hwnd, mName)
-	mBaseAddr = dm.GetModuleBaseAddr(hwnd, mName)	//Ä£¿é»ùÖ·long
-	mSize = Plugin.RxSocket.getModuleSize(hwnd, mName)//Ä£¿é´óĞ¡long
+	mBaseAddr = dm.GetModuleBaseAddr(hwnd, mName)	//æ¨¡å—åŸºå€long
+	mSize = Plugin.RxSocket.getModuleSize(hwnd, mName)//æ¨¡å—å¤§å°long
 	If mBaseAddr = 0 or mSize = 0 Then 
-		addLogT "»ñÈ¡ÄÚ´æÖĞ[ " & mName & " ]Ä£¿éÊı¾İÊ§°Ü£¡"
+		addLogT "è·å–å†…å­˜ä¸­[ " & mName & " ]æ¨¡å—æ•°æ®å¤±è´¥ï¼"
 		getModuleAddrRange = ""
 		Exit Function
 	End If
 	getModuleAddrRange = hex(mBaseAddr) & "-" & hex(mBaseAddr + mSize)//hex
 End Function
 
-//¸üĞÂ»ùÖ·	client.exe´ò¿ª¾ÍÄÜ²éµ½µÄ»ùÖ· ¼´rd×´Ì¬¿É²é
+//æ›´æ–°åŸºå€	client.exeæ‰“å¼€å°±èƒ½æŸ¥åˆ°çš„åŸºå€ å³rdçŠ¶æ€å¯æŸ¥
 Function updateBaseAddr(hwnd)
 	If updateBaseAddrFlag = true Then 
-		//ÉèÖÃClient.exe¡¢rxkd.dllÄÚ´æµØÖ··¶Î§µÄ»·¾³±äÁ¿ clientAddrRange ¡¢ rxkdAddrRange
+		//è®¾ç½®Client.exeã€rxkd.dllå†…å­˜åœ°å€èŒƒå›´çš„ç¯å¢ƒå˜é‡ clientAddrRange ã€ rxkdAddrRange
 		Call setModuleEnv(hwnd)
 		
 		If roleInfoBaseAddr = "" Then 
-			//½ÇÉ«ĞÅÏ¢»ùÖ· È¡¸ÃµØÖ·µÄ´æ·ÅµÄÖµ×÷Îª»ùÖ·	//ÆäËûµØ·½ÊÇÖ±½ÓÊ¹ÓÃµÄµØÖ·×÷Îª»ùÖ·
-			roleInfoBaseAddr = findData(hwnd, clientAddrRange,"½ÇÉ«ĞÅÏ¢»ùÖ·", "8b8e340b00006a00", &H9)
-			roleInfoBaseAddr = hex(dm.readInt(hwnd, roleInfoBaseAddr, 0))	//0±íÊ¾¶ÁÈ¡32Î»
+			//è§’è‰²ä¿¡æ¯åŸºå€ å–è¯¥åœ°å€çš„å­˜æ”¾çš„å€¼ä½œä¸ºåŸºå€	//å…¶ä»–åœ°æ–¹æ˜¯ç›´æ¥ä½¿ç”¨çš„åœ°å€ä½œä¸ºåŸºå€
+			roleInfoBaseAddr = findData(hwnd, clientAddrRange,"è§’è‰²ä¿¡æ¯åŸºå€", "8b8e340b00006a00", &H9)
+			roleInfoBaseAddr = hex(dm.readInt(hwnd, roleInfoBaseAddr, 0))	//0è¡¨ç¤ºè¯»å–32ä½
 		End If
-		If packBaseAddr = "" Then //±³°ü»ùÖ· Ê¹ÓÃµÄµØ·½ĞèÒª¶ÁÈ¡µØÖ·´æ·ÅÖµ³öÀ´
-			packBaseAddr = findData(hwnd, clientAddrRange, "±³°ü»ùÖ·", "03c23bc1", &HC)//"33c956578b3d", &H6)
-			//packBaseAddr = hex(Plugin.Memory.Read32Bit(hwnd,"&H" & packba))	×Ô´ø²å¼şÒ²¿ÉÒÔ
+		If packBaseAddr = "" Then //èƒŒåŒ…åŸºå€ ä½¿ç”¨çš„åœ°æ–¹éœ€è¦è¯»å–åœ°å€å­˜æ”¾å€¼å‡ºæ¥
+			packBaseAddr = findData(hwnd, clientAddrRange, "èƒŒåŒ…åŸºå€", "03c23bc1", &HC)//"33c956578b3d", &H6)
+			//packBaseAddr = hex(Plugin.Memory.Read32Bit(hwnd,"&H" & packba))	è‡ªå¸¦æ’ä»¶ä¹Ÿå¯ä»¥
 			packBaseAddr = hex(dm.readInt(hwnd, packBaseAddr, 0))
 		End If
-		If attackRangeBaseAddr = "" Then //¹¥»÷¾àÀë»ùÖ·
-			//attackRangeBaseAddr = findData(hwnd, clientAddrRange, "¹¥»÷¾àÀë»ùÖ·", "f30f114508ff5004", 0)
+		If attackRangeBaseAddr = "" Then //æ”»å‡»è·ç¦»åŸºå€
+			//attackRangeBaseAddr = findData(hwnd, clientAddrRange, "æ”»å‡»è·ç¦»åŸºå€", "f30f114508ff5004", 0)
 			
-			//Ö±½ÓÈ¡ÉñÆ÷ÄÚ´æµØÖ··¶Î§£¬È»ºóĞŞ¸Ä7¸ö×Ö½Ú
-			attackRangeBaseAddr = findData(hwnd, rxkdAddrRange, "ÉñÆ÷¹¥¾à»ùÖ·", "e846efffff", &H9)
+			//ç›´æ¥å–ç¥å™¨å†…å­˜åœ°å€èŒƒå›´ï¼Œç„¶åä¿®æ”¹7ä¸ªå­—èŠ‚
+			attackRangeBaseAddr = findData(hwnd, rxkdAddrRange, "ç¥å™¨æ”»è·åŸºå€", "e846efffff", &H9)
 		End If
-		If fixedPointBaseAddr = "" Then //¶¨µã»ùÖ·
-			fixedPointBaseAddr = findData(hwnd, clientAddrRange, "¶¨µã»ùÖ·", "0f5bc00f2f4508", &H7)
+		If fixedPointBaseAddr = "" Then //å®šç‚¹åŸºå€
+			fixedPointBaseAddr = findData(hwnd, clientAddrRange, "å®šç‚¹åŸºå€", "0f5bc00f2f4508", &H7)
 		End If
-		If returnPointBaseAddr = "" Then //»Øµã»ùÖ·
-			//returnPointBaseAddr = findData(hwnd, rxkdAddrRange, "»Øµã»ùÖ·", "0F8592010000", 0)
+		If returnPointBaseAddr = "" Then //å›ç‚¹åŸºå€
+			//returnPointBaseAddr = findData(hwnd, rxkdAddrRange, "å›ç‚¹åŸºå€", "0F8592010000", 0)
 			//If returnPointBaseAddr = "" Then 
-			//	addLogT "½«²éÑ¯¿ÉÄÜ±»ĞŞ¸ÄºóµÄ»Øµã»ùÖ·£¡"
-			//	returnPointBaseAddr = findData(hwnd, rxkdAddrRange, "»Øµã»ùÖ·", "909090909090D9", 0)
+			//	addLogT "å°†æŸ¥è¯¢å¯èƒ½è¢«ä¿®æ”¹åçš„å›ç‚¹åŸºå€ï¼"
+			//	returnPointBaseAddr = findData(hwnd, rxkdAddrRange, "å›ç‚¹åŸºå€", "909090909090D9", 0)
 			//End If
-			//´ËÌØÕ÷ÂëÊÇ×Ô¼ºÇÒ¿ÉÄÜ±»nopĞŞ¸Ä£¬ÆäËû»ùÖ·ÊÇ²éÑ¯µÄÉÏÏÂÎÄÌØÕ÷Âë£¿´ı¶¨¿ÕÁË¿É²éÑ¯ÉÏÏÂÎÄ£¿
-			//ÈôÕËºÅ¿ªÁË¶¨µãnopµô»Øµã»ùÖ·ºóÖØ¿ª°´¼ü¾«ÁéÔò½á¹û¿ÉÄÜÎª¿Õ£¡
+			//æ­¤ç‰¹å¾ç æ˜¯è‡ªå·±ä¸”å¯èƒ½è¢«nopä¿®æ”¹ï¼Œå…¶ä»–åŸºå€æ˜¯æŸ¥è¯¢çš„ä¸Šä¸‹æ–‡ç‰¹å¾ç ï¼Ÿå¾…å®šç©ºäº†å¯æŸ¥è¯¢ä¸Šä¸‹æ–‡ï¼Ÿ
+			//è‹¥è´¦å·å¼€äº†å®šç‚¹nopæ‰å›ç‚¹åŸºå€åé‡å¼€æŒ‰é”®ç²¾çµåˆ™ç»“æœå¯èƒ½ä¸ºç©ºï¼
 			rpba1 = dm.FindData(hwnd, rxkdAddrRange, "0F8592010000")
-			If rpba1 <> "" and Instr(rpba1, "|") = 0 Then //²éÑ¯½á¹û²»Îª¿ÕÇÒ²»º¬¶à¸öµØÖ·
+			If rpba1 <> "" and Instr(rpba1, "|") = 0 Then //æŸ¥è¯¢ç»“æœä¸ä¸ºç©ºä¸”ä¸å«å¤šä¸ªåœ°å€
 				returnPointBaseAddr = rpba1
 			Else 
 				rpba2 = dm.FindData(hwnd, rxkdAddrRange, "909090909090D9")
 				If rpba2 <> "" and Instr(rpba2, "|") = 0 Then 
 					returnPointBaseAddr = rpba2
 				Else 
-					addLogT "¡¾»ùÖ·¡¿[»Øµã»ùÖ·]²éÑ¯½á¹ûÓĞÎóÇë¼ì²é£¡[" & rpba1 & "] [" & rpba2 & "]"
+					addLogT "ã€åŸºå€ã€‘[å›ç‚¹åŸºå€]æŸ¥è¯¢ç»“æœæœ‰è¯¯è¯·æ£€æŸ¥ï¼[" & rpba1 & "] [" & rpba2 & "]"
 				End If
 			End If
 		End If
-		If disconnectFlagBaseAddr = "" Then //dllµôÏß±êÊ¶»ùÖ· Ê¹ÓÃµÄµØ·½ĞèÒª¶ÁÈ¡µØÖ·´æ·ÅÖµ³öÀ´
-			disconnectFlagBaseAddr = findData(hwnd, rxkdAddrRange, "dllµôÏß±êÊ¶»ùÖ·", "7408381d", &H4)
+		If disconnectFlagBaseAddr = "" Then //dllæ‰çº¿æ ‡è¯†åŸºå€ ä½¿ç”¨çš„åœ°æ–¹éœ€è¦è¯»å–åœ°å€å­˜æ”¾å€¼å‡ºæ¥
+			disconnectFlagBaseAddr = findData(hwnd, rxkdAddrRange, "dllæ‰çº¿æ ‡è¯†åŸºå€", "7408381d", &H4)
 			disconnectFlagBaseAddr = hex(dm.readInt(hwnd, disconnectFlagBaseAddr, 0))
 		End If
-		'socket´ò¿ªÓÎÏ·¼´¿É²éµ½»ùÖ·Ö»ÊÇ½øÏß³É¹¦ºó¿ªÊ¼Í¨ĞÅ²ÅÄÜ»ñÈ¡ Socket ×´Ì¬·ÇÁãÖµ
-		If socketStateBaseAddr = "" Then //socket×´Ì¬»ùÖ·  È¡¸ÃµØÖ·×÷Îª»ùÖ·
-			//socketStateBaseAddr = findData(hwnd, clientAddrRange, "socket×´Ì¬»ùÖ·","0000BC05", &H1A)
-			//socketStateBaseAddr = "E76DF8"//ÌØÕ÷ÂëÎ´ÕÒµ½£¬´ı¶¨£¿£¿£¿£¿£¿
-			socketStateBaseAddr = findData(hwnd, clientAddrRange, "socket×´Ì¬»ùÖ·", "c687ae00000000833d", &H9)
-			socketStateBaseAddr = hex(dm.readInt(hwnd, socketStateBaseAddr, 0))	//0±íÊ¾¶ÁÈ¡32Î»
+		'socketæ‰“å¼€æ¸¸æˆå³å¯æŸ¥åˆ°åŸºå€åªæ˜¯è¿›çº¿æˆåŠŸåå¼€å§‹é€šä¿¡æ‰èƒ½è·å– Socket çŠ¶æ€éé›¶å€¼
+		If socketStateBaseAddr = "" Then //socketçŠ¶æ€åŸºå€  å–è¯¥åœ°å€ä½œä¸ºåŸºå€
+			//socketStateBaseAddr = findData(hwnd, clientAddrRange, "socketçŠ¶æ€åŸºå€","0000BC05", &H1A)
+			//socketStateBaseAddr = "E76DF8"//ç‰¹å¾ç æœªæ‰¾åˆ°ï¼Œå¾…å®šï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+			socketStateBaseAddr = findData(hwnd, clientAddrRange, "socketçŠ¶æ€åŸºå€", "c687ae00000000833d", &H9)
+			socketStateBaseAddr = hex(dm.readInt(hwnd, socketStateBaseAddr, 0))	//0è¡¨ç¤ºè¯»å–32ä½
 		End If
 		
-		'2 ĞèÒªË«»÷ÏßÂ·(£¿½øÏß³É¹¦)ºó²Å»á¸üĞÂÊµ¼ÊÏßÂ·»ùÖ·
-		//If actualLineBaseAddr = "" Then //Êµ¼ÊÏßÂ·»ùÖ·
-		//	actualLineBaseAddr = findData(hwnd, clientAddrRange, "Êµ¼ÊÏßÂ·»ùÖ·", "B3C1CFE32D", &H5)
+		'2 éœ€è¦åŒå‡»çº¿è·¯(ï¼Ÿè¿›çº¿æˆåŠŸ)åæ‰ä¼šæ›´æ–°å®é™…çº¿è·¯åŸºå€
+		//If actualLineBaseAddr = "" Then //å®é™…çº¿è·¯åŸºå€
+		//	actualLineBaseAddr = findData(hwnd, clientAddrRange, "å®é™…çº¿è·¯åŸºå€", "B3C1CFE32D", &H5)
 		//End If
 		
-		//È«²¿»ùÖ·²»Îª¿ÕÔòÍ£Ö¹¸üĞÂ»ùÖ··â±Õº¯Êı
+		//å…¨éƒ¨åŸºå€ä¸ä¸ºç©ºåˆ™åœæ­¢æ›´æ–°åŸºå€å°é—­å‡½æ•°
 		If roleInfoBaseAddr <> "" and packBaseAddr <> "" and attackRangeBaseAddr <> "" and fixedPointBaseAddr <> "" and returnPointBaseAddr <> "" and socketStateBaseAddr <> "" and disconnectFlagBaseAddr <> "" Then 
-			addLogT "==¡¾BA¡¿»ùÖ·¼°¶ÔÓ¦Êı¾İ¹©¼ì²é=="
+			addLogT "==ã€BAã€‘åŸºå€åŠå¯¹åº”æ•°æ®ä¾›æ£€æŸ¥=="
 			
-			addLogT "¡¾BA¡¿½ÇÉ«=" & roleInfoBaseAddr &"  ["& getRoleInfo(hwnd, "name", 0) & "]"
-			addLogT "¡¾BA¡¿±³°ü=" & packBaseAddr &"  ["& getRoleStoreList(hwnd, "pack", 1, "name") & "]" & "["& getRoleStoreList(hwnd, "pstore", 60, "name") & "]" & "["& getRoleStoreList(hwnd, "cstore", 60, "name") & "]"
-			addLogT "¡¾BA¡¿socket=" & socketStateBaseAddr &"  [0x"& hex(dm.ReadInt(hwnd, "[" & socketStateBaseAddr & "] + 0x2C", 0)) & "]"
-			//addLogT "¡¾BA¡¿ÊµÏß=" & actualLineBaseAddr &"  ["& dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "Ïß]"
-			addLogT "¡¾BA¡¿¹¥¾à=" & attackRangeBaseAddr & "  [" & dm.ReadInt(hwnd, attackRangeBaseAddr & "+0x1", 2) & "](raw=139)"
-			addLogT "¡¾BA¡¿¶¨µã=" & fixedPointBaseAddr & "  [" & Replace(dm.ReadData(hwnd, fixedPointBaseAddr, 3), " ", "") & "](r=0F93C0,f=B00190)"
-			addLogT "¡¾BA¡¿»Øµã=" & returnPointBaseAddr & "  [" & Replace(dm.ReadData(hwnd, returnPointBaseAddr, 6), " ", "") & "](r=0F8592010000)"
-			addLogT "¡¾BA¡¿dllµôÏß±êÊ¶=" & disconnectFlagBaseAddr & "  [" & dm.ReadInt(hwnd, disconnectFlagBaseAddr, 2) & "](r=0)"
+			addLogT "ã€BAã€‘è§’è‰²=" & roleInfoBaseAddr &"  ["& getRoleInfo(hwnd, "name", 0) & "]"
+			addLogT "ã€BAã€‘èƒŒåŒ…=" & packBaseAddr &"  ["& getRoleStoreList(hwnd, "pack", 1, "name") & "]" & "["& getRoleStoreList(hwnd, "pstore", 60, "name") & "]" & "["& getRoleStoreList(hwnd, "cstore", 60, "name") & "]"
+			addLogT "ã€BAã€‘socket=" & socketStateBaseAddr &"  [0x"& hex(dm.ReadInt(hwnd, "[" & socketStateBaseAddr & "] + 0x2C", 0)) & "]"
+			//addLogT "ã€BAã€‘å®çº¿=" & actualLineBaseAddr &"  ["& dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "çº¿]"
+			addLogT "ã€BAã€‘æ”»è·=" & attackRangeBaseAddr & "  [" & dm.ReadInt(hwnd, attackRangeBaseAddr & "+0x1", 2) & "](raw=139)"
+			addLogT "ã€BAã€‘å®šç‚¹=" & fixedPointBaseAddr & "  [" & Replace(dm.ReadData(hwnd, fixedPointBaseAddr, 3), " ", "") & "](r=0F93C0,f=B00190)"
+			addLogT "ã€BAã€‘å›ç‚¹=" & returnPointBaseAddr & "  [" & Replace(dm.ReadData(hwnd, returnPointBaseAddr, 6), " ", "") & "](r=0F8592010000)"
+			addLogT "ã€BAã€‘dllæ‰çº¿æ ‡è¯†=" & disconnectFlagBaseAddr & "  [" & dm.ReadInt(hwnd, disconnectFlagBaseAddr, 2) & "](r=0)"
 			
-			//±£´æ»ùÖ·µ½iniÎÄ¼ş·½±ã²é¿´	Ë³±ãĞ´Èë½çÃæ·½±ã²é¿´¸´ÖÆ
+			//ä¿å­˜åŸºå€åˆ°iniæ–‡ä»¶æ–¹ä¾¿æŸ¥çœ‹	é¡ºä¾¿å†™å…¥ç•Œé¢æ–¹ä¾¿æŸ¥çœ‹å¤åˆ¶
 			Call writeFileBaseAddr()
-			updateBaseAddrFlag = False	//·â±Õº¯Êı²»ÔÙ¸üĞÂ»ùÖ·
+			updateBaseAddrFlag = False	//å°é—­å‡½æ•°ä¸å†æ›´æ–°åŸºå€
 		End If
 	End If
 End Function
-//¸üĞÂ»ùÖ·2	½ø½×ÈçĞèÒª½øÏß³É¹¦ºó²Å»á¸üĞÂµÄ»ùÖ·
+//æ›´æ–°åŸºå€2	è¿›é˜¶å¦‚éœ€è¦è¿›çº¿æˆåŠŸåæ‰ä¼šæ›´æ–°çš„åŸºå€
 Function updateBaseAddr2(hwnd)
 	If updateBaseAddr2Flag = True Then 
 		Dim serverBytes, si
-		//ÌØÕ÷ÂëĞè²ğ·Öµ¥¸öºº×Öserver×ªÎªasciiË«×Ö½ÚÊı×éjoin/Æ´½ÓºóËÑË÷
+		//ç‰¹å¾ç éœ€æ‹†åˆ†å•ä¸ªæ±‰å­—serverè½¬ä¸ºasciiåŒå­—èŠ‚æ•°ç»„join/æ‹¼æ¥åæœç´¢
 		If server <> "" Then 
 			For si = 1 To Len(server)
 				serverBytes = serverBytes & Hex(Asc(mid(server, si, 1)))
 			Next
-			serverBytes = serverBytes & "2D"	//¼ÓÉÏÎ²²¿"-" Èç"³ÁÏã-"
+			serverBytes = serverBytes & "2D"	//åŠ ä¸Šå°¾éƒ¨"-" å¦‚"æ²‰é¦™-"
 		End If
 		
-		'ĞèÒªË«»÷ÏßÂ·(£¿½øÏß³É¹¦)ºó²Å»á¸üĞÂÊµ¼ÊÏßÂ·»ùÖ·
-		If actualLineBaseAddr = "" Then //Êµ¼ÊÏßÂ·»ùÖ·
-			//actualLineBaseAddr = findData(hwnd, clientAddrRange, "Êµ¼ÊÏßÂ·»ùÖ·", "B3C1CFE32D", &H5)
-			actualLineBaseAddr = findData(hwnd, clientAddrRange, "Êµ¼ÊÏßÂ·»ùÖ·", serverBytes, LenB(server) + 1)	//Æ«ÒÆÎª×Ö½ÚÊı
+		'éœ€è¦åŒå‡»çº¿è·¯(ï¼Ÿè¿›çº¿æˆåŠŸ)åæ‰ä¼šæ›´æ–°å®é™…çº¿è·¯åŸºå€
+		If actualLineBaseAddr = "" Then //å®é™…çº¿è·¯åŸºå€
+			//actualLineBaseAddr = findData(hwnd, clientAddrRange, "å®é™…çº¿è·¯åŸºå€", "B3C1CFE32D", &H5)
+			actualLineBaseAddr = findData(hwnd, clientAddrRange, "å®é™…çº¿è·¯åŸºå€", serverBytes, LenB(server) + 1)	//åç§»ä¸ºå­—èŠ‚æ•°
 		End If
 		
 		If actualLineBaseAddr <> "" Then 
-				addLogT "¡¾BA¡¿ÊµÏß=" & actualLineBaseAddr & "  [" & dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "Ïß]"
+				addLogT "ã€BAã€‘å®çº¿=" & actualLineBaseAddr & "  [" & dm.ReadString(hwnd, actualLineBaseAddr, 0, 2) & "çº¿]"
 				
-				//±£´æ»ùÖ·µ½iniÎÄ¼ş·½±ã²é¿´	Ë³±ãĞ´Èë½çÃæ·½±ã²é¿´¸´ÖÆ
-				//Call writeFileBaseAddr()	//ÏÖ¾Í1¸öÔİÊ±Ö±½ÓĞ´ÈëÎÄ¼şÓë½çÃæ
-				writeFileByKV "actualLineBaseAddr", actualLineBaseAddr		//Êµ¼ÊÏßÂ·»ùÖ·
+				//ä¿å­˜åŸºå€åˆ°iniæ–‡ä»¶æ–¹ä¾¿æŸ¥çœ‹	é¡ºä¾¿å†™å…¥ç•Œé¢æ–¹ä¾¿æŸ¥çœ‹å¤åˆ¶
+				//Call writeFileBaseAddr()	//ç°å°±1ä¸ªæš‚æ—¶ç›´æ¥å†™å…¥æ–‡ä»¶ä¸ç•Œé¢
+				writeFileByKV "actualLineBaseAddr", actualLineBaseAddr		//å®é™…çº¿è·¯åŸºå€
 				Form1.InputBoxActualLine.Text = actualLineBaseAddr
-				updateBaseAddr2Flag = False	//·â±Õº¯Êı²»ÔÙ¸üĞÂ»ùÖ·
+				updateBaseAddr2Flag = False	//å°é—­å‡½æ•°ä¸å†æ›´æ–°åŸºå€
 		End If
 	End If
 End Function
-//²éÑ¯»ùÖ·
-'hwnd ´°¿Ú¾ä±ú ÕûÊıĞÍ
-'addr_range ²éÑ¯µØÖ··¶Î§
-'typeString »ùÖ·ÀàĞÍ×Ö·û´® 
-'data ËÑË÷µÄ¶ş½øÖÆÊı¾İ Èç"00 01 23 45"
-'offset ÌØÕ÷ÂëÆ«ÒÆ
+//æŸ¥è¯¢åŸºå€
+'hwnd çª—å£å¥æŸ„ æ•´æ•°å‹
+'addr_range æŸ¥è¯¢åœ°å€èŒƒå›´
+'typeString åŸºå€ç±»å‹å­—ç¬¦ä¸² 
+'data æœç´¢çš„äºŒè¿›åˆ¶æ•°æ® å¦‚"00 01 23 45"
+'offset ç‰¹å¾ç åç§»
 Function findData(hwnd, addr_range, typeString, data, offset)
 	codeba = dm.FindData(hwnd, addr_range, data)
 	If len(codeba) = 0 Then 
-		addLogT "¡¾»ùÖ·¡¿[" & typeString & "]²éÑ¯½á¹ûÎª¿Õ£¡"
+		addLogT "ã€åŸºå€ã€‘[" & typeString & "]æŸ¥è¯¢ç»“æœä¸ºç©ºï¼"
 		findData = ""
 		Exit Function
 	End If
-	If Instr(codeba, "|") <> 0 Then //ĞèÒªÖ»²éµ½Ò»´¦µØÖ·Èô¶à´¦ËµÃ÷ÌØÕ÷Âë²»Î¨Ò»±¨´í  £¿ºÃÏñ¿ÉÄÜÓĞ¶à´¦Ò»ÑùĞ´·¨ È¡µÚÒ»¸ö£¿£¿£¿£¿´ı¶¨£¿
-		addLogT "¡¾»ùÖ·¡¿[" & typeString & "]²éÑ¯½á¹û²»Î¨Ò»£¡"
+	If Instr(codeba, "|") <> 0 Then //éœ€è¦åªæŸ¥åˆ°ä¸€å¤„åœ°å€è‹¥å¤šå¤„è¯´æ˜ç‰¹å¾ç ä¸å”¯ä¸€æŠ¥é”™  ï¼Ÿå¥½åƒå¯èƒ½æœ‰å¤šå¤„ä¸€æ ·å†™æ³• å–ç¬¬ä¸€ä¸ªï¼Ÿï¼Ÿï¼Ÿï¼Ÿå¾…å®šï¼Ÿ
+		addLogT "ã€åŸºå€ã€‘[" & typeString & "]æŸ¥è¯¢ç»“æœä¸å”¯ä¸€ï¼"
 		findData = ""
 		Exit Function
 	Else 
@@ -2414,19 +2414,19 @@ Function findData(hwnd, addr_range, typeString, data, offset)
 	End If	
 End Function
 
-'RxkdDllĞŞ¸Ä²¿·Ö½ûÓÃ×´Ì¬style¡¢È¥³ı¶¨µãº¯Í£µÈ
+'RxkdDllä¿®æ”¹éƒ¨åˆ†ç¦ç”¨çŠ¶æ€styleã€å»é™¤å®šç‚¹å‡½åœç­‰
 Sub modifyRxkdDll(hwnd)
-	//ÉèÖÃClient.exe¡¢rxkd.dllÄÚ´æµØÖ··¶Î§µÄ»·¾³±äÁ¿ clientAddrRange ¡¢ rxkdAddrRange
+	//è®¾ç½®Client.exeã€rxkd.dllå†…å­˜åœ°å€èŒƒå›´çš„ç¯å¢ƒå˜é‡ clientAddrRange ã€ rxkdAddrRange
 	Call setModuleEnv(hwnd)
 	
-	//1 ĞŞ¸Ädll²¿·Ö½ûÓÃ×´Ì¬style 0x58->0x50
+	//1 ä¿®æ”¹dlléƒ¨åˆ†ç¦ç”¨çŠ¶æ€style 0x58->0x50
 	sd1 = Plugin.Sys.GetTime()
-	//7003 ±£»¤:	¼ä¸ô¡¢½ÓÊÜËÍ»¨¡¢Õı³£×´Ì¬¡¢¶÷°®Ë«±¶
-	//7004 ¹Ò»ú: ´ò¹Ö¶¨µã¡¢¿ìËÙ¹¥»÷¡¢µ÷Õû¹¥»÷¾àÀë¡¢³öÇ½Òı¹Ö¡¢³öÇ½¼ñÎïºÍÒı¹ÖÏÈ·µ»Ø°²È«×ø±ê¡¢ÆÕÍ¨¹­¼ıÈº¡¢¾È»¤¡¢ÕÙ»½¸¨Öú
-	//7006 »Ø³ÇÓë·µ»Ø: ¹Ò»úÇĞ»»¡¢²åÈë½Å±¾
-	//7010 µØÍ¼: PK
-	//7013 ·À³ğÈË:ComboBox1¡¢ComboBox2¡¢µ±¡¢±»PK·´»÷
-	If availableDllAddrs = "" Then //Ö»²éxy¼´ÓĞÎ¨Ò»ĞÔ£¡
+	//7003 ä¿æŠ¤:	é—´éš”ã€æ¥å—é€èŠ±ã€æ­£å¸¸çŠ¶æ€ã€æ©çˆ±åŒå€
+	//7004 æŒ‚æœº: æ‰“æ€ªå®šç‚¹ã€å¿«é€Ÿæ”»å‡»ã€è°ƒæ•´æ”»å‡»è·ç¦»ã€å‡ºå¢™å¼•æ€ªã€å‡ºå¢™æ¡ç‰©å’Œå¼•æ€ªå…ˆè¿”å›å®‰å…¨åæ ‡ã€æ™®é€šå¼“ç®­ç¾¤ã€æ•‘æŠ¤ã€å¬å”¤è¾…åŠ©
+	//7006 å›åŸä¸è¿”å›: æŒ‚æœºåˆ‡æ¢ã€æ’å…¥è„šæœ¬
+	//7010 åœ°å›¾: PK
+	//7013 é˜²ä»‡äºº:ComboBox1ã€ComboBox2ã€å½“ã€è¢«PKåå‡»
+	If availableDllAddrs = "" Then //åªæŸ¥xyå³æœ‰å”¯ä¸€æ€§ï¼
 		availableDllAddrs = dm.FindData(hwnd, rxkdAddrRange, "58 07 00 60 00") & "|" & _
 			dm.FindData(hwnd, rxkdAddrRange, "58 89 00 60 00") & "|" & _
 			dm.FindData(hwnd, rxkdAddrRange, "58 BC 00 60 00") & "|" & _
@@ -2446,50 +2446,50 @@ Sub modifyRxkdDll(hwnd)
 			dm.FindData(hwnd, rxkdAddrRange, "58 96 00 11 00") & "|" & _
 			dm.FindData(hwnd, rxkdAddrRange, "58 07 00 4D 00") & "|" & _
 			dm.FindData(hwnd, rxkdAddrRange, "58 07 00 8C 00")
-		TracePrint "dll½ûÓÃ×´Ì¬µØÖ·²éÑ¯½á¹û availableDllAddrs= " & availableDllAddrs
-		TracePrint "dm²éÑ¯ÕûºÏdll½ûÓÃ×´Ì¬µØÖ·ºÄÊ±£º" & (Plugin.Sys.GetTime() - sd1) & "ms"
+		TracePrint "dllç¦ç”¨çŠ¶æ€åœ°å€æŸ¥è¯¢ç»“æœ availableDllAddrs= " & availableDllAddrs
+		TracePrint "dmæŸ¥è¯¢æ•´åˆdllç¦ç”¨çŠ¶æ€åœ°å€è€—æ—¶ï¼š" & (Plugin.Sys.GetTime() - sd1) & "ms"
 	End If	
 	
-	//¸Ã·½·¨ÊÇÈô³É¹¦¸Ä1¸öµØÖ·¼´·µ»Ø1
+	//è¯¥æ–¹æ³•æ˜¯è‹¥æˆåŠŸæ”¹1ä¸ªåœ°å€å³è¿”å›1
 	//If availableDllAddrs <> "||||||||||||||||||" Then 
 	iret = Plugin.RxSocket.writeData2Clickable(hwnd, availableDllAddrs)
-	If iret = 0 then addLogT "modifyRxkdDll()ĞŞ¸Ädll½ûÓÃ×´Ì¬Òì³££¡"
+	If iret = 0 then addLogT "modifyRxkdDll()ä¿®æ”¹dllç¦ç”¨çŠ¶æ€å¼‚å¸¸ï¼"
 
 		
-	//2 ĞŞ¸ÄstopGuaji2()ÖĞµÄWriteProcessMemoryĞ´Èë0×Ö½Ú£¬È¥³ı¶¨µãº¯Í£(»Ø²¹¡¢ËÀÍö¡¢¿çÍ¼¡¢°²È«×ø±ê¡¢¿ñÒâµÈ)	Ê¹ÓÃÏÂ²½3´Ë´¦ÒÑÎŞÓÃ£¡
+	//2 ä¿®æ”¹stopGuaji2()ä¸­çš„WriteProcessMemoryå†™å…¥0å­—èŠ‚ï¼Œå»é™¤å®šç‚¹å‡½åœ(å›è¡¥ã€æ­»äº¡ã€è·¨å›¾ã€å®‰å…¨åæ ‡ã€ç‹‚æ„ç­‰)	ä½¿ç”¨ä¸‹æ­¥3æ­¤å¤„å·²æ— ç”¨ï¼
 	iret = Plugin.RxSocket.writeData(hwnd,dm.FindData(hwnd, rxkdAddrRange, "038d55f4"),"00")
-	If iret = 0 then addLogT "modifyRxkdDll()È¥³ıdll¶¨µãº¯Í£Òì³££¡"
+	If iret = 0 then addLogT "modifyRxkdDll()å»é™¤dllå®šç‚¹å‡½åœå¼‚å¸¸ï¼"
 	
-	//3 ĞŞ¸ÄdllÖĞËùÓĞÊ¹ÓÃ¶¨µãµØÖ·µÄÎ»ÖÃ£¬ÆÁ±Îdll²Ù×÷¶¨µã¶øÊÇ½Å±¾²Ù×÷
-	//rxkd.dll¿ØÖÆClient¶¨µã»ùÖ·µÄ14¸öµØÖ·
+	//3 ä¿®æ”¹dllä¸­æ‰€æœ‰ä½¿ç”¨å®šç‚¹åœ°å€çš„ä½ç½®ï¼Œå±è”½dllæ“ä½œå®šç‚¹è€Œæ˜¯è„šæœ¬æ“ä½œ
+	//rxkd.dllæ§åˆ¶Clientå®šç‚¹åŸºå€çš„14ä¸ªåœ°å€
 	If ctrlFpDllAddrs = "" Then 
 		If fixedPointBaseAddr = "" Then 
-			addLogT "modifyRxkdDll()¶¨µã»ùÖ·Îª¿Õ£¡"
+			addLogT "modifyRxkdDll()å®šç‚¹åŸºå€ä¸ºç©ºï¼"
 			Exit Sub
 		End If
-		//°Ñ¶¨µã»ùÖ·×ªÎªĞ¡¶Ë±íÊ¾µÄ¶ş½øÖÆĞÎÊ½(0±íÊ¾4×Ö½Ú)
-		ctrlFpDllAddrs = dm.FindData(hwnd, rxkdAddrRange, dm.IntToData("&H" & fixedPointBaseAddr ,0))	//dllFpData)//14¸öµØÖ·
-		TracePrint "dll¿ØÖÆ¶¨µãµØÖ·²éÑ¯½á¹û ctrlFpDllAddrs= " & ctrlFpDllAddrs
+		//æŠŠå®šç‚¹åŸºå€è½¬ä¸ºå°ç«¯è¡¨ç¤ºçš„äºŒè¿›åˆ¶å½¢å¼(0è¡¨ç¤º4å­—èŠ‚)
+		ctrlFpDllAddrs = dm.FindData(hwnd, rxkdAddrRange, dm.IntToData("&H" & fixedPointBaseAddr ,0))	//dllFpData)//14ä¸ªåœ°å€
+		TracePrint "dllæ§åˆ¶å®šç‚¹åœ°å€æŸ¥è¯¢ç»“æœ ctrlFpDllAddrs= " & ctrlFpDllAddrs
 	End If
 	
-	//ĞŞ¸ÄdllÊ¹ÓÃĞ´Èë¶¨µãµØÖ· Îª·½±ã¿ì½İÖ±½ÓÈ«²¿Ìæ»»ÎªÒ»¸ö²»¿É·ÃÎÊµØÖ· EEEEEEEE
+	//ä¿®æ”¹dllä½¿ç”¨å†™å…¥å®šç‚¹åœ°å€ ä¸ºæ–¹ä¾¿å¿«æ·ç›´æ¥å…¨éƒ¨æ›¿æ¢ä¸ºä¸€ä¸ªä¸å¯è®¿é—®åœ°å€ EEEEEEEE
 	For Each useFpAddr In split(ctrlFpDllAddrs, "|")
 		iret = Plugin.RxSocket.writeData(hwnd,useFpAddr,"EEEEEEEE")
-		If iret = 0 then addLogT "modifyRxkdDll()ÆÁ±Îdll¿ØÖÆ¶¨µãµØÖ·Òì³££¡"
+		If iret = 0 then addLogT "modifyRxkdDll()å±è”½dllæ§åˆ¶å®šç‚¹åœ°å€å¼‚å¸¸ï¼"
 	Next
 
 End Sub
 
-//´ò¿ª²éÏßÆ÷
+//æ‰“å¼€æŸ¥çº¿å™¨
 Sub openSLM()
 	Dim xsl1, ysl1
-	RunApp payDirPath & "²éÏß.exe"
+	RunApp payDirPath & "æŸ¥çº¿.exe"
 	Delay 200
-    hwndsl = Plugin.Window.Find("WTWindow", "ÈÈÑªÉñÆ÷²éÏß")
-   	//»¹Ô­¼¤»î
+    hwndsl = Plugin.Window.Find("WTWindow", "çƒ­è¡€ç¥å™¨æŸ¥çº¿")
+   	//è¿˜åŸæ¿€æ´»
    	Call Plugin.Window.Restore(hwndsl)
     Call Plugin.Window.Active(hwndsl)
-   	//ÒÆ¶¯´°¿Úµ½ÌØ¶¨Î»ÖÃ
+   	//ç§»åŠ¨çª—å£åˆ°ç‰¹å®šä½ç½®
 	Call Plugin.Window.Move(hwndsl, 0, 810)
 		
     sRectsl = Plugin.Window.GetWindowRect(hwndsl)
@@ -2497,150 +2497,150 @@ Sub openSLM()
     xsl1 = Clng(MyArraysl(0)) : ysl1 = Clng(MyArraysl(1))
     
     Delay 200
-    MoveTo xsl1 + 140, ysl1 + 70	//×Ô¶¯Ë¢ĞÂ    	
+    MoveTo xsl1 + 140, ysl1 + 70	//è‡ªåŠ¨åˆ·æ–°    	
     LeftClick 1
     Delay 200
-    MoveTo xsl1 + 133, ysl1 + 43	//·ÖÇø ÎåÇø
+    MoveTo xsl1 + 133, ysl1 + 43	//åˆ†åŒº äº”åŒº
     //MouseWheel - 9
     LeftClick 1
     Delay 200
     MoveTo xsl1 + 133, ysl1 + 166		
 	LeftClick 1
     Delay 1500
-    MoveTo xsl1 + 260, ysl1 + 43	//server  Óë·ÖÇø¹ØÁª ¿ÉÄÜË¢ĞÂ²»³öÀ´ Áô1s
+    MoveTo xsl1 + 260, ysl1 + 43	//server  ä¸åˆ†åŒºå…³è” å¯èƒ½åˆ·æ–°ä¸å‡ºæ¥ ç•™1s
     LeftClick 1
-    //MouseWheel - 4 	//¹öÂÖ»­ÃæÑÓ³Ù »»×ø±êµã»÷£¿£¿£¿£¿
+    //MouseWheel - 4 	//æ»šè½®ç”»é¢å»¶è¿Ÿ æ¢åæ ‡ç‚¹å‡»ï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
     Delay 200
     MoveTo xsl1 + 260, ysl1 + 88    	
     LeftClick 1
     Delay 200
     
-    MoveTo xsl1 + 180, ysl1 + 100	//µãÏÂedit½çÃæÈ¥³ı·şÎñÆ÷Ñ¡Ôñ¾Û½¹    	
+    MoveTo xsl1 + 180, ysl1 + 100	//ç‚¹ä¸‹editç•Œé¢å»é™¤æœåŠ¡å™¨é€‰æ‹©èšç„¦    	
     LeftDoubleClick 1
-    Delay 1500//µÈ´ı½çÃæË¢ĞÂ1s+   ÃâµÃºóÃæedit½çÃæ²éserverÎŞÏŞÉ±½ø³Ì	
+    Delay 1500//ç­‰å¾…ç•Œé¢åˆ·æ–°1s+   å…å¾—åé¢editç•Œé¢æŸ¥serveræ— é™æ€è¿›ç¨‹	
 End Sub
 
-//×¢²á´óÄ®²å¼ş´´½¨¶ÔÏó
+//æ³¨å†Œå¤§æ¼ æ’ä»¶åˆ›å»ºå¯¹è±¡
 Sub regDM()
-	//ÊÍ·Å¸½¼şµ½ÎÄ¼ş¼Ğ
+	//é‡Šæ”¾é™„ä»¶åˆ°æ–‡ä»¶å¤¹
     PutAttachment alFreeDirPath, "*.*"
     
-    //×¢²á´óÄ®²å¼ş
+    //æ³¨å†Œå¤§æ¼ æ’ä»¶
     //Call Plugin.RegDll.Reg(alFreeDirPath & "dm.dll")
-    //RunApp "regsvr32 " & alFreeDirPath & "dm.dll /s"		²»ĞĞ£¡
+    //RunApp "regsvr32 " & alFreeDirPath & "dm.dll /s"		ä¸è¡Œï¼
 	Set ws = createObject("WScript.shell")	
 	ws.run "cmd /c cd /d " & alFreeDirPath & " && regsvr32 dm.dll /s", 0
-	//ws.run "regsvr32 " & alFreeDirPath & "dm.dll /s"		//²»ĞĞ£¡
+	//ws.run "regsvr32 " & alFreeDirPath & "dm.dll /s"		//ä¸è¡Œï¼
 	Set ws = Nothing
 	Delay 1000
 	
-	//´´½¨´óÄ®¶ÔÏó
+	//åˆ›å»ºå¤§æ¼ å¯¹è±¡
     Set dm = createobject("dm.dmsoft")
     //addLogT "Fr:" & alFreeDirPath
     //addLogT "bP:" & dm.GetBasePath()
-    If dm.Ver() = "3.1233" Then //´óÄ®²å¼ş°æ±¾
-        dm.SetPath alFreeDirPath		//ÉèÖÃÈ«¾ÖÂ·¾¶	ÉèÖÃÁË´ËÂ·¾¶ºó,ËùÓĞ½Ó¿Úµ÷ÓÃÖĞ,Ïà¹ØµÄÎÄ¼ş¶¼Ïà¶ÔÓÚ´ËÂ·¾¶. ±ÈÈçÍ¼Æ¬,×Ö¿âµÈ.
-    	dm.SetDict 0, "codeMap.txt"	//ÉèÖÃ×Öµä	º¯ÊıºÜÂı£¬È«¾Ö³õÊ¼»¯µ÷ÓÃÒ»´Î
-    	dm_ret = dm.UseDict(0)			//Ê¹ÓÃ×Öµä	ÉèÖÃÖ®ºóÓÀ¾ÃÉúĞ§£¬³ı·ÇÔÙ´ÎÉè¶¨ eventºÍÖ÷Ïß³Ì±ØĞë¶¼ÉèÖÃ²ÅÄÜÊ¹ÓÃ×Öµä£¡£¡£¡£¡£¡
+    If dm.Ver() = "3.1233" Then //å¤§æ¼ æ’ä»¶ç‰ˆæœ¬
+        dm.SetPath alFreeDirPath		//è®¾ç½®å…¨å±€è·¯å¾„	è®¾ç½®äº†æ­¤è·¯å¾„å,æ‰€æœ‰æ¥å£è°ƒç”¨ä¸­,ç›¸å…³çš„æ–‡ä»¶éƒ½ç›¸å¯¹äºæ­¤è·¯å¾„. æ¯”å¦‚å›¾ç‰‡,å­—åº“ç­‰.
+    	dm.SetDict 0, "codeMap.txt"	//è®¾ç½®å­—å…¸	å‡½æ•°å¾ˆæ…¢ï¼Œå…¨å±€åˆå§‹åŒ–è°ƒç”¨ä¸€æ¬¡
+    	dm_ret = dm.UseDict(0)			//ä½¿ç”¨å­—å…¸	è®¾ç½®ä¹‹åæ°¸ä¹…ç”Ÿæ•ˆï¼Œé™¤éå†æ¬¡è®¾å®š eventå’Œä¸»çº¿ç¨‹å¿…é¡»éƒ½è®¾ç½®æ‰èƒ½ä½¿ç”¨å­—å…¸ï¼ï¼ï¼ï¼ï¼
     Else 
-        addLogT "×¢²á´óÄ®²å¼şÊ§°Ü£¡"
+        addLogT "æ³¨å†Œå¤§æ¼ æ’ä»¶å¤±è´¥ï¼"
         ExitScript
     End If
 End Sub
-//Èç¹ûÊÇ¶àÏß³ÌÊ¹ÓÃ´óÄ®²å¼ş£¬±ØĞëÃ¿¸öÏß³Ì¶¼Òª´´½¨Ò»¸ödm¶ÔÏó
+//å¦‚æœæ˜¯å¤šçº¿ç¨‹ä½¿ç”¨å¤§æ¼ æ’ä»¶ï¼Œå¿…é¡»æ¯ä¸ªçº¿ç¨‹éƒ½è¦åˆ›å»ºä¸€ä¸ªdmå¯¹è±¡
 Sub useDM()
-	Set dm = createobject("dm.dmsoft")//´´½¨´óÄ®¶ÔÏó
+	Set dm = createobject("dm.dmsoft")//åˆ›å»ºå¤§æ¼ å¯¹è±¡
 	dm.SetPath alFreeDirPath
-	dm.SetDict 0, "codeMap.txt"	//eventºÍÖ÷Ïß³Ì±ØĞë¶¼ÉèÖÃ²ÅÄÜÊ¹ÓÃ×Öµä£¡£¡£¡£¡£¡
+	dm.SetDict 0, "codeMap.txt"	//eventå’Œä¸»çº¿ç¨‹å¿…é¡»éƒ½è®¾ç½®æ‰èƒ½ä½¿ç”¨å­—å…¸ï¼ï¼ï¼ï¼ï¼
 	dm_ret = dm.UseDict(0)
 End Sub
 
-//¼ì²â½çÃæÑ¡Ôñ launcher.exe Â·¾¶²¢Éè»·¾³±äÁ¿ÖµÓë±£´æ
+//æ£€æµ‹ç•Œé¢é€‰æ‹© launcher.exe è·¯å¾„å¹¶è®¾ç¯å¢ƒå˜é‡å€¼ä¸ä¿å­˜
 Sub checkLauncherPath()
 	Do
-		path = Form1.BrowseBoxLauncherPath.Path	//È¡½çÃæä¯ÀÀ¿òÖµ
+		path = Form1.BrowseBoxLauncherPath.Path	//å–ç•Œé¢æµè§ˆæ¡†å€¼
 		If path <> "" Then 
-			pindex = InStrRev(path, "\")'·´Ïò²éÕÒÕıÏò¼ÆÊıindex Ã»ÕÒµ½·µ»Ø0
+			pindex = InStrRev(path, "\")'åå‘æŸ¥æ‰¾æ­£å‘è®¡æ•°index æ²¡æ‰¾åˆ°è¿”å›0
 			If pindex > 0 Then 
 				If Right(path, 12) <> "launcher.exe" Then 
-					//addLogT "ÇëÑ¡Ôñ launcher.exe ÎÄ¼ş£¡"
+					//addLogT "è¯·é€‰æ‹© launcher.exe æ–‡ä»¶ï¼"
 					Goto checkPathFail
 				End If
 			
-				//rxRootDirPath = Left(path, pindex - 1)'rootÄ¿Â¼ ÎÄ¼ş¼ĞÂ·¾¶²»º¬×îºó\ ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü
-				rxRootDirPath = Left(path, pindex)'rootÄ¿Â¼Â·¾¶  ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\
+				//rxRootDirPath = Left(path, pindex - 1)'rootç›®å½• æ–‡ä»¶å¤¹è·¯å¾„ä¸å«æœ€å\ å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°
+				rxRootDirPath = Left(path, pindex)'rootç›®å½•è·¯å¾„  å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\
 				
-				writeFileByKV "launcherPath", path	//ÕıÈ·µÄ Launcher.exe Â·¾¶Ğ´ÈëiniÎÄ¼ş×Ô¶¯±£´æ
+				writeFileByKV "launcherPath", path	//æ­£ç¡®çš„ Launcher.exe è·¯å¾„å†™å…¥iniæ–‡ä»¶è‡ªåŠ¨ä¿å­˜
 				Exit Sub
 			End If
 		End If
 		
 		Rem checkPathFail
-		addLogT "ÇëÑ¡ÔñÕıÈ·µÄ launcher.exe ËùÔÚÎ»ÖÃ£¡"
-		Form1.TabControl1.Tab = 2	//Õ¹Ê¾Ñ¡ÔñÒ³-¹¦ÄÜ2
+		addLogT "è¯·é€‰æ‹©æ­£ç¡®çš„ launcher.exe æ‰€åœ¨ä½ç½®ï¼"
+		Form1.TabControl1.Tab = 2	//å±•ç¤ºé€‰æ‹©é¡µ-åŠŸèƒ½2
 	
 		Delay 5000
 	Loop
 End Sub
 
-//¼ì²â½çÃæÑ¡ÔñÂ·¾¶²¢Éè»·¾³±äÁ¿ÖµÓë±£´æ
+//æ£€æµ‹ç•Œé¢é€‰æ‹©è·¯å¾„å¹¶è®¾ç¯å¢ƒå˜é‡å€¼ä¸ä¿å­˜
 Sub checkPath(exeName)
 	Dim path, pindex
 	Do
 		Select Case exeName
    			Case "launcher.exe"
-   				path = Form1.BrowseBoxLauncherPath.Path//È¡½çÃæä¯ÀÀ¿òÖµ
-   			Case "ÈÈÑªÉñÆ÷.exe"
+   				path = Form1.BrowseBoxLauncherPath.Path//å–ç•Œé¢æµè§ˆæ¡†å€¼
+   			Case "çƒ­è¡€ç¥å™¨.exe"
    				path = Form1.BrowseBoxPayPath.Path
-   			Case "»ù´¡Ö÷´°¿Ú.exe"
+   			Case "åŸºç¡€ä¸»çª—å£.exe"
    				path = Form1.BrowseBoxFreePath.Path
    		End Select
 		If path <> "" Then 
-			pindex = InStrRev(path, "\")'·´Ïò²éÕÒÕıÏò¼ÆÊıindex Ã»ÕÒµ½·µ»Ø0
-			If pindex > 0 and Right(path, len(exeName)) = exeName Then //ĞèÒÔexeName½áÎ²
+			pindex = InStrRev(path, "\")'åå‘æŸ¥æ‰¾æ­£å‘è®¡æ•°index æ²¡æ‰¾åˆ°è¿”å›0
+			If pindex > 0 and Right(path, len(exeName)) = exeName Then //éœ€ä»¥exeNameç»“å°¾
 				Select Case exeName
 					Case "launcher.exe"
-						//rxRootDirPath = Left(path, pindex - 1)'rootÄ¿Â¼ ÎÄ¼ş¼ĞÂ·¾¶²»º¬×îºó\ ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü
-						rxRootDirPath = Left(path, pindex)'rootÄ¿Â¼Â·¾¶  ÈçE:\ÈÈÑª½­ºşÂÒÊÀºÀ½Ü\
-						writeFileByKV "launcherPath", path	//Launcher.exe Â·¾¶Ğ´ÈëiniÎÄ¼ş±£´æ
-					Case "ÈÈÑªÉñÆ÷.exe"
-						payDirPath = Left(path, pindex)	'payÄ¿Â¼Â·¾¶  ÈçE:\ÈÈÑªÉñÆ÷\
-						writeFileByKV "payPath", path	//ÈÈÑªÉñÆ÷.exe Â·¾¶Ğ´ÈëiniÎÄ¼ş±£´æ
-					Case "»ù´¡Ö÷´°¿Ú.exe"
-						freeDirPath = Left(path, pindex)'freeÄ¿Â¼Â·¾¶  ÈçE:\ÈÈÑªÉñÆ÷»ù´¡°æ\
-						writeFileByKV "freePath", path	//»ù´¡Ö÷´°¿Ú.exe Â·¾¶Ğ´ÈëiniÎÄ¼ş±£´æ	
+						//rxRootDirPath = Left(path, pindex - 1)'rootç›®å½• æ–‡ä»¶å¤¹è·¯å¾„ä¸å«æœ€å\ å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°
+						rxRootDirPath = Left(path, pindex)'rootç›®å½•è·¯å¾„  å¦‚E:\çƒ­è¡€æ±Ÿæ¹–ä¹±ä¸–è±ªæ°\
+						writeFileByKV "launcherPath", path	//Launcher.exe è·¯å¾„å†™å…¥iniæ–‡ä»¶ä¿å­˜
+					Case "çƒ­è¡€ç¥å™¨.exe"
+						payDirPath = Left(path, pindex)	'payç›®å½•è·¯å¾„  å¦‚E:\çƒ­è¡€ç¥å™¨\
+						writeFileByKV "payPath", path	//çƒ­è¡€ç¥å™¨.exe è·¯å¾„å†™å…¥iniæ–‡ä»¶ä¿å­˜
+					Case "åŸºç¡€ä¸»çª—å£.exe"
+						freeDirPath = Left(path, pindex)'freeç›®å½•è·¯å¾„  å¦‚E:\çƒ­è¡€ç¥å™¨åŸºç¡€ç‰ˆ\
+						writeFileByKV "freePath", path	//åŸºç¡€ä¸»çª—å£.exe è·¯å¾„å†™å…¥iniæ–‡ä»¶ä¿å­˜	
 				End Select
 				
 				Exit Sub
 			End If
 		End If
 		
-		addLogT "ÇëÑ¡ÔñÕıÈ·µÄ " & exeName & " ËùÔÚÎ»ÖÃ£¡"
-		Form1.TabControl1.Tab = 2	//Õ¹Ê¾Ñ¡ÔñÒ³-¹¦ÄÜ2
+		addLogT "è¯·é€‰æ‹©æ­£ç¡®çš„ " & exeName & " æ‰€åœ¨ä½ç½®ï¼"
+		Form1.TabControl1.Tab = 2	//å±•ç¤ºé€‰æ‹©é¡µ-åŠŸèƒ½2
 	
 		Delay 5000
 	Loop	
 End Sub
 
 
-//ÏÔÊ¾¹Ø±Õ ¼´ºÚÆÁ´¦Àí		0-È«²¿ 1-¹Ø±Õ13
-//ÏÔÊ¾Ö»ÅĞ¶Ï¹Ø±Õ13ÏîÓë´ò¿ª13¶ÔÓ¦ ¼õÉÙ¶ÁÄÚ´æ
+//æ˜¾ç¤ºå…³é—­ å³é»‘å±å¤„ç†		0-å…¨éƒ¨ 1-å…³é—­13
+//æ˜¾ç¤ºåªåˆ¤æ–­å…³é—­13é¡¹ä¸æ‰“å¼€13å¯¹åº” å‡å°‘è¯»å†…å­˜
 Sub displayClose(hwnd, n)
 	If n = 0 Then 
-		//2 Ö÷½çÃæ±³¾°È«»ÒÉ« Ìì¿ÕµØÃæ						-10%
+		//2 ä¸»ç•Œé¢èƒŒæ™¯å…¨ç°è‰² å¤©ç©ºåœ°é¢						-10%
 		Call readWriteData(hwnd, d3d9ba2, d3d9r2, d3d9m2)
-		//4 Î´Öª£¿
+		//4 æœªçŸ¥ï¼Ÿ
 		Call readWriteData(hwnd, d3d9ba4, d3d9r4, d3d9m4)
-		//5 µØÍ¼¡¢ÑªÀ¶Ìõ¡¢ÁÄÌì¿òÕ¼Î»(ÎŞ×Ö)¡¢µÇÂ¼Ò³logo
+		//5 åœ°å›¾ã€è¡€è“æ¡ã€èŠå¤©æ¡†å ä½(æ— å­—)ã€ç™»å½•é¡µlogo
 		Call readWriteData(hwnd, d3d9ba5, d3d9r5, d3d9m5)
 	End If
-	//1 ³ıµØÍ¼¡¢ÑªÀ¶Ìõ¡¢ÁÄÌì¿òÕ¼Î»(ÎŞ×Ö)Íâ È«²¿Í¼Æ¬Àà	 -10%
+	//1 é™¤åœ°å›¾ã€è¡€è“æ¡ã€èŠå¤©æ¡†å ä½(æ— å­—)å¤– å…¨éƒ¨å›¾ç‰‡ç±»	 -10%
 	Call readWriteData(hwnd, d3d9ba1, d3d9r1, d3d9m1)
-	//3 ºÚÆÁ ¼üÅÌ¿ÉÊäÈë		Ó¦·Åµ½×îºó ÏÈÒş²ØÆäËûµÄÔÙºÚÆÁ
+	//3 é»‘å± é”®ç›˜å¯è¾“å…¥		åº”æ”¾åˆ°æœ€å å…ˆéšè—å…¶ä»–çš„å†é»‘å±
 	Call readWriteData(hwnd, d3d9ba3, d3d9r3, d3d9m3)
 End Sub
-//ÏÔÊ¾´ò¿ª	0-È«²¿ 1-´ò¿ª13
-//ÏÔÊ¾Ö»´ò¿ª13Ïî(ÖÁÉÙÏî)·½±ãµÇÂ¼Ê±²éÍ¼²éÉ«²é×ÖÊ¹ÓÃ
+//æ˜¾ç¤ºæ‰“å¼€	0-å…¨éƒ¨ 1-æ‰“å¼€13
+//æ˜¾ç¤ºåªæ‰“å¼€13é¡¹(è‡³å°‘é¡¹)æ–¹ä¾¿ç™»å½•æ—¶æŸ¥å›¾æŸ¥è‰²æŸ¥å­—ä½¿ç”¨
 Sub displayOpen(hwnd, n)
 	If n = 0 Then 
 		Call readWriteData(hwnd, d3d9ba2, d3d9m2, d3d9r2)
@@ -2650,40 +2650,40 @@ Sub displayOpen(hwnd, n)
 	Call readWriteData(hwnd, d3d9ba1, d3d9m1, d3d9r1)
 	Call readWriteData(hwnd, d3d9ba3, d3d9m3, d3d9r3)
 End Sub
-//¶ÁÈ¡Êı¾İÈôÎªÆÚ´ıÖµÔòĞŞ¸Ä
+//è¯»å–æ•°æ®è‹¥ä¸ºæœŸå¾…å€¼åˆ™ä¿®æ”¹
 Sub readWriteData(hwnd, ba, expectData, modData)
-	//d3d9baµÈ»ùÖ··ÅupdateBaseAddrÀïµ÷ÓÃsetModuleAddrRangeEnvÉèÖÃ»·¾³±äÁ¿ÁË ¿É¸ÄÎ»ÖÃ´ı¶¨£¿£¿£¿
+	//d3d9baç­‰åŸºå€æ”¾updateBaseAddré‡Œè°ƒç”¨setModuleAddrRangeEnvè®¾ç½®ç¯å¢ƒå˜é‡äº† å¯æ”¹ä½ç½®å¾…å®šï¼Ÿï¼Ÿï¼Ÿ
 
-	//2¸ö("&H" & x)Ïà¼Óµ±×ö×Ö·û´®ÁË£¿ ×ª1¸öClng³¢ÊÔ¿ÉĞĞ£¡
-	//ban = hex(("&H" & d3d9ba) + Clng("&H" & ba))//d3d9»ùÖ·+Æ«ÒÆ		//Ğ¡ÓÚ&HFFFF& µÄĞèÒªÎ²²¿+&Ç¿×ªIntÎªLong
+	//2ä¸ª("&H" & x)ç›¸åŠ å½“åšå­—ç¬¦ä¸²äº†ï¼Ÿ è½¬1ä¸ªClngå°è¯•å¯è¡Œï¼
+	//ban = hex(("&H" & d3d9ba) + Clng("&H" & ba))//d3d9åŸºå€+åç§»		//å°äº&HFFFF& çš„éœ€è¦å°¾éƒ¨+&å¼ºè½¬Intä¸ºLong
 
 	If dm.ReadData(hwnd, ba, 3) = expectData Then 
-		//dm.WriteDataÀÏÊÇ³ö´í¸ÄÎª×ÔĞ´µÄ£¡£¡£¡£¡£¡
-		//If dm.WriteData(hwnd, ba, modData) = 0 Then addLogT "readWriteData Ğ´ÈëÊ§°Ü£¡"
-		If Plugin.RxSocket.writeData(hwnd, ba, modData) = 0 Then addLogT "readWriteData()Ğ´ÈëÄÚ´æÊ§°Ü£¡"
+		//dm.WriteDataè€æ˜¯å‡ºé”™æ”¹ä¸ºè‡ªå†™çš„ï¼ï¼ï¼ï¼ï¼
+		//If dm.WriteData(hwnd, ba, modData) = 0 Then addLogT "readWriteData å†™å…¥å¤±è´¥ï¼"
+		If Plugin.RxSocket.writeData(hwnd, ba, modData) = 0 Then addLogT "readWriteData()å†™å…¥å†…å­˜å¤±è´¥ï¼"
 	End If
 End Sub
 
-//¸ñÊ½»¯ÏßÂ· Êä³öÈç2-3-4		ÒÔ¼õºÅ·Ö¸ôÌìÉúÈ¥¸ºÊıÁË£¡
+//æ ¼å¼åŒ–çº¿è·¯ è¾“å‡ºå¦‚2-3-4		ä»¥å‡å·åˆ†éš”å¤©ç”Ÿå»è´Ÿæ•°äº†ï¼
 Function formatLine(qw)
 	If qw = "" Then 
-		//¿ÕĞèÒª±£´æÂğ£¿»¹ÊÇÌáÊ¾´íÎóĞŞ¸Ä£¿¸ø¸öÄ¬ÈÏÖµ£¡
-		formatLine = "3"	//ÊäÈë¿ÕÄ¬ÈÏ·µ»Ø3Ïß
+		//ç©ºéœ€è¦ä¿å­˜å—ï¼Ÿè¿˜æ˜¯æç¤ºé”™è¯¯ä¿®æ”¹ï¼Ÿç»™ä¸ªé»˜è®¤å€¼ï¼
+		formatLine = "3"	//è¾“å…¥ç©ºé»˜è®¤è¿”å›3çº¿
 		Exit Function
 	End If
 	resultLine = ""
-	For Each zx In split(qw,"-")	//2-2-3-4  --2-3  asd-2-3  asd  2- 3-4(´ø¿Õ¸ñÖ±½ÓÇå³ıÁË)
-		If zx <> "" and IsNumeric(zx) = true and CInt(zx) <> 0 Then	//È¥¿Õ¡¢È¥·ÇÊı×Ö¡¢È¥0
-			If resultLine = "" Then	//Ê×´ÎÑ­»·
+	For Each zx In split(qw,"-")	//2-2-3-4  --2-3  asd-2-3  asd  2- 3-4(å¸¦ç©ºæ ¼ç›´æ¥æ¸…é™¤äº†)
+		If zx <> "" and IsNumeric(zx) = true and CInt(zx) <> 0 Then	//å»ç©ºã€å»éæ•°å­—ã€å»0
+			If resultLine = "" Then	//é¦–æ¬¡å¾ªç¯
 				resultLine = zx
 				goto escapeFor
 			End If
 			For Each ad In split(resultLine, "-")
-				If zx = ad then	//È¥ÖØ
+				If zx = ad then	//å»é‡
 					goto escapeFor
 				End If
 			next
-			resultLine = resultLine & "-" & zx	//½á¹ûÏßÂ·ÀÛ¼Ó
+			resultLine = resultLine & "-" & zx	//ç»“æœçº¿è·¯ç´¯åŠ 
 			rem escapeFor
 		End If
 	Next
@@ -2694,72 +2694,72 @@ Function formatLine(qw)
 	End If
 End Function
 
-//¸ñÊ½»¯Êı¾İÖĞ¿ÉÄÜ´æÔÚÒıÆğÆçÒåµÄ×Ö·û(×Ô¶¨Òå×ª»»·û)£¬±ÜÃâÊı¾İ´íÎó		ÈçusersÊı¾İÓÃ»§Ö®¼äÓÃ"|"¡¢ÓÃ»§Ö®ÄÚÓÃ"," ¼ä¸ô
+//æ ¼å¼åŒ–æ•°æ®ä¸­å¯èƒ½å­˜åœ¨å¼•èµ·æ­§ä¹‰çš„å­—ç¬¦(è‡ªå®šä¹‰è½¬æ¢ç¬¦)ï¼Œé¿å…æ•°æ®é”™è¯¯		å¦‚usersæ•°æ®ç”¨æˆ·ä¹‹é—´ç”¨"|"ã€ç”¨æˆ·ä¹‹å†…ç”¨"," é—´éš”
 Function formatData2Save(sep)
-	formatData2Save = Trim(Replace(Replace(sep, "|", "#S"), ",", "#C"))	//ÓÃµÄÓ¢ÎÄ¶ººÅ ","-"#C"  "|"-"#S"
+	formatData2Save = Trim(Replace(Replace(sep, "|", "#S"), ",", "#C"))	//ç”¨çš„è‹±æ–‡é€—å· ","-"#C"  "|"-"#S"
 End Function
-//×ª»»Êı¾İÖĞµÄ×Ô¶¨Òå×ª»»·û·½±ãÏÔÊ¾
+//è½¬æ¢æ•°æ®ä¸­çš„è‡ªå®šä¹‰è½¬æ¢ç¬¦æ–¹ä¾¿æ˜¾ç¤º
 Function transformData2Show(sep)
 //	transformData2Show = Trim(Replace(sep, "#S", "|"))//Chr(124)
 	transformData2Show = Trim(Replace(Replace(sep, "#S", "|"), "#C", ","))
 End Function
 
-//°´Å¥°´¼üÒô
+//æŒ‰é’®æŒ‰é”®éŸ³
 Sub buttonSound(sm)
 	If Form1.CheckBoxMute.Value = 0 Then 
 		Call Plugin.Media.Play(alFreeDirPath & sm)	
 	End If	
 End Sub
 
-//¸ù¾İÁĞÊôĞÔ»ñÈ¡ÁĞ´ÎĞò ¹©ÊÖ¶¯ÅÅĞòÕ¹Ê¾ÁĞ 	£¡£¡£¡ĞèÓëÒ³ÃæÁĞ¶ÔÓ¦£¡£¡£¡
+//æ ¹æ®åˆ—å±æ€§è·å–åˆ—æ¬¡åº ä¾›æ‰‹åŠ¨æ’åºå±•ç¤ºåˆ— 	ï¼ï¼ï¼éœ€ä¸é¡µé¢åˆ—å¯¹åº”ï¼ï¼ï¼
 Function getColomnByProperty(jProperty)
 	Select Case jProperty
-		Case "check"		//µÚ0ÁĞ Ñ¡ÖĞ		//ĞĞÁĞ¶¼ÊÇ´Ó0¼ÆÊı¡£µÚ0ĞĞ¹Ì¶¨ËùÒÔ»á´Ó1¿ªÊ¼¼ÆÊı
+		Case "check"		//ç¬¬0åˆ— é€‰ä¸­		//è¡Œåˆ—éƒ½æ˜¯ä»0è®¡æ•°ã€‚ç¬¬0è¡Œå›ºå®šæ‰€ä»¥ä¼šä»1å¼€å§‹è®¡æ•°
 			getColomnByProperty = 0
-		Case "account"		//ÕËºÅ
+		Case "account"		//è´¦å·
 			getColomnByProperty = 1
-		Case "password"		//ÃÜÂë
+		Case "password"		//å¯†ç 
 			getColomnByProperty = 2
-		Case "line"			//ÏßÂ·
+		Case "line"			//çº¿è·¯
 			getColomnByProperty = 3
-		Case "actualLine"	//Êµ¼Ê½øÈëÏßÂ·
+		Case "actualLine"	//å®é™…è¿›å…¥çº¿è·¯
 			getColomnByProperty = 4
-		Case "notes"		//±¸×¢
+		Case "notes"		//å¤‡æ³¨
 			getColomnByProperty = 5
-		Case "name"			//½ÇÉ«Ãû
+		Case "name"			//è§’è‰²å
 			getColomnByProperty = 6
-		Case "order"		//ÈËÎïË³Ğò
+		Case "order"		//äººç‰©é¡ºåº
 			getColomnByProperty = 7
-		Case "afterLine"	//ÉÏÏßºó²Ù×÷
+		Case "afterLine"	//ä¸Šçº¿åæ“ä½œ
 			getColomnByProperty = 8
-		Case "fixedPoint"	//¶¨µã
+		Case "fixedPoint"	//å®šç‚¹
 			getColomnByProperty = 9
-		Case "attackDistance"//¹¥»÷¾àÀë
+		Case "attackDistance"//æ”»å‡»è·ç¦»
 			getColomnByProperty = 10
-		Case "state"		//×´Ì¬
+		Case "state"		//çŠ¶æ€
 			getColomnByProperty = 11
-		Case "hwnd"			//¾ä±ú
+		Case "hwnd"			//å¥æŸ„
 			getColomnByProperty = 12
-		Case "money"		//½ğÇ®
+		Case "money"		//é‡‘é’±
 			getColomnByProperty = 13
-		Case "level"		//µÈ¼¶
+		Case "level"		//ç­‰çº§
 			getColomnByProperty = 14
-		Case "ginseng"		//ÈË²Î
+		Case "ginseng"		//äººå‚
 			getColomnByProperty = 15
-		Case "stone"		//Ç¿»¯
+		Case "stone"		//å¼ºåŒ–
 			getColomnByProperty = 16
-		Case "lastStores"	//²ÖÓà
+		Case "lastStores"	//ä»“ä½™
 			getColomnByProperty = 17
-		Case "part"			//·ÖÇø
+		Case "part"			//åˆ†åŒº
 			getColomnByProperty = 18
-		Case "server"	//·şÎñÆ÷
+		Case "server"	//æœåŠ¡å™¨
 			getColomnByProperty = 19
-		Case Else			//Ä¬ÈÏ-1
+		Case Else			//é»˜è®¤-1
 			getColomnByProperty = -1	
 	End Select	
 End Function
-//»ñÈ¡ÌØ¶¨µ¥Ôª¸ñÄÚÈİ
-'gi ĞĞ jPropertyÁĞÊôĞÔ
+//è·å–ç‰¹å®šå•å…ƒæ ¼å†…å®¹
+'gi è¡Œ jPropertyåˆ—å±æ€§
 Function iGetItemText(gi, jProperty)
 	gj = getColomnByProperty(jProperty)
 	If gj <> - 1  Then 
@@ -2768,24 +2768,24 @@ Function iGetItemText(gi, jProperty)
 		iGetItemText = ""
 	End If
 End Function
-//ĞŞ¸ÄÌØ¶¨µ¥Ôª¸ñÄÚÈİ
-'gi ĞĞ jProperty ÁĞÊôĞÔ gv Öµ
+//ä¿®æ”¹ç‰¹å®šå•å…ƒæ ¼å†…å®¹
+'gi è¡Œ jProperty åˆ—å±æ€§ gv å€¼
 Function iSetItemText(gi, jProperty, gv)
 	gj = getColomnByProperty(jProperty)
 	If gj <> -1 Then
 		Form1.Grid1.SetItemText gi, gj, gv
 	End If
 End Function
-//»ñÈ¡ÌØ¶¨µ¥Ôª¸ñ±³¾°ÑÕÉ«
+//è·å–ç‰¹å®šå•å…ƒæ ¼èƒŒæ™¯é¢œè‰²
 Function iGetItemBkColor(gi, jProperty)
 	gj = getColomnByProperty(jProperty)
 	If gj <> -1 Then
 		iGetItemBkColor = Form1.Grid1.GetItemBkColor(gi, gj)
 	Else 
-		iGetItemBkColor = "FFFFFF"	//Ä¬ÈÏ·µ»Ø°×É«
+		iGetItemBkColor = "FFFFFF"	//é»˜è®¤è¿”å›ç™½è‰²
 	End If
 End Function
-//ĞŞ¸ÄÌØ¶¨µ¥Ôª¸ñ±³¾°ÑÕÉ«
+//ä¿®æ”¹ç‰¹å®šå•å…ƒæ ¼èƒŒæ™¯é¢œè‰²
 Function iSetItemBkColor(gi, jProperty, gv)
 	gj = getColomnByProperty(jProperty)
 	If gj <> -1 Then
@@ -2794,62 +2794,67 @@ Function iSetItemBkColor(gi, jProperty, gv)
 End Function
 
 //Rem exitAll
-//	//½áÊø½Å±¾µ±Ç°Ïß³ÌµÄÖ´ĞĞ£¬ÔÚÖ÷Ïß³ÌÖ´ĞĞÊ±Ö÷½Å±¾Í£Ö¹£¬ÆäËûÏß³ÌÈÔÈ»¼ÌĞøÔËĞĞ¡£  
+//	//ç»“æŸè„šæœ¬å½“å‰çº¿ç¨‹çš„æ‰§è¡Œï¼Œåœ¨ä¸»çº¿ç¨‹æ‰§è¡Œæ—¶ä¸»è„šæœ¬åœæ­¢ï¼Œå…¶ä»–çº¿ç¨‹ä»ç„¶ç»§ç»­è¿è¡Œã€‚  
 //	//EndScript
-//	//Ç¿ÖÆÖĞÖ¹ÍË³ö½Å±¾µÄÖ´ĞĞ£¬ÔÚÕâ¸öÓï¾äÖ®ºóµÄËùÓĞÃüÁî¶¼²»»áÖ´ĞĞ  
+//	//å¼ºåˆ¶ä¸­æ­¢é€€å‡ºè„šæœ¬çš„æ‰§è¡Œï¼Œåœ¨è¿™ä¸ªè¯­å¥ä¹‹åçš„æ‰€æœ‰å‘½ä»¤éƒ½ä¸ä¼šæ‰§è¡Œ  
 //	//ExitScript
 
 
-//===================================Ñ¡Ïî¿¨-ÈÕÖ¾===================================
-//Ìí¼Ó½çÃæÈÕÖ¾
+//===================================é€‰é¡¹å¡-æ—¥å¿—===================================
+//æ·»åŠ ç•Œé¢æ—¥å¿—
 Function addLog(a)	
-	//µ±Ç°ÏµÍ³Ê±¼ä Èç "2006-05-20 15:27:31"
-	//sl = Right(Plugin.Sys.GetDateTime(), 8) //·µ»ØÊ±·ÖÃë
+	//å½“å‰ç³»ç»Ÿæ—¶é—´ å¦‚ "2006-05-20 15:27:31"
+	//sl = Right(Plugin.Sys.GetDateTime(), 8) //è¿”å›æ—¶åˆ†ç§’
     Form1.ListBoxLog.AddItem time() & "   " & a
  	hwndal = Form1.ListBoxLog.hwnd
- 	Call Plugin.Window.SendKeyPress(hwndal, 35)//·¢ËÍend°´¼üÂë ×Ô¶¯¹öÆÁ
- 	If Form1.ListBoxLog.ListCount = 300 Then 	//300ĞĞÇå¿ÕÒ»´Î
+ 	Call Plugin.Window.SendKeyPress(hwndal, 35)//å‘é€endæŒ‰é”®ç  è‡ªåŠ¨æ»šå±
+ 	If Form1.ListBoxLog.ListCount = 300 Then 	//300è¡Œæ¸…ç©ºä¸€æ¬¡
  		Form1.ListBoxLog.List = ""
  	End If 	
 End Function
-//Ìí¼ÓÏµÍ³TracePrint¼°×Ô¶¨Òå½çÃæÈÕÖ¾
+//æ·»åŠ ç³»ç»ŸTracePrintåŠè‡ªå®šä¹‰ç•Œé¢æ—¥å¿—
 Function addLogT(a)
 	TracePrint a
 	Call addLog(a)
 End Function
-//Çå¿ÕÈÕÖ¾
+//æ¸…ç©ºæ—¥å¿—
 Event Form1.ButtonClearLog.Click
 	Form1.ListBoxLog.List = ""  
 End Event
 
 
-//===================================Ñ¡Ïî¿¨-ÕËºÅ²Ù×÷===================================
-//Ò³Ãæµã»÷Ôö¸Ä°´Å¥ÊÂ¼ş
+//===================================é€‰é¡¹å¡-è´¦å·æ“ä½œ===================================
+//é¡µé¢ç‚¹å‡»å¢æ”¹æŒ‰é’®äº‹ä»¶
 Event Form1.ButtonAE.Click
-	If Trim(Form1.InputBoxAccount.Text) <> "" Then //ÊäÈë¿òÕËºÅ²»Îª¿Õ
-		user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
+	Dim ii
+	If Trim(Form1.InputBoxAccount.Text) <> "" Then //è¾“å…¥æ¡†è´¦å·ä¸ä¸ºç©º
+		user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
 		
-	 	For ii = 1 To UBound(user)	//Ñ­»·ÅĞ¶ÏÊÇ·ñ´æÔÚÕËºÅ
+	 	For ii = 1 To UBound(user)	//å¾ªç¯åˆ¤æ–­æ˜¯å¦å­˜åœ¨è´¦å·
 	 		If Trim(Form1.InputBoxAccount.Text) = iGetItemText(ii, "account") Then 
-				//±í¸ñÕËºÅ´æÔÚ
+				//è¡¨æ ¼è´¦å·å­˜åœ¨
 				Goto existAccount
 	 		End If
 	 	Next
 
-	 	//±í¸ñÕËºÅ²»´æÔÚ£¬ĞÂ²åÈëĞĞ=Ô­ÕËºÅÊı+1		//²Ù×÷Ó¦ÓëformloadÖĞµÄÒ»ÖÂ£¬µ¥¶ÀÌáÈ¡sub£¿
-		ii = UBound(user) + 1
-		Form1.Grid1.InsertRow ii	//²åÈëÖ¸¶¨ĞĞ
-		Form1.Grid1.SetRowEditable ii, 0	//ĞĞÉèÖÃÖ»¶Á
-		Form1.Grid1.SetCellType ii, 0, 1//ÉèÖÃÊ×ÁĞÎª¶àÑ¡¿ò
-		Form1.Grid1.SetColumnEditable getColomnByProperty("check"), 1	//·Å¿ªÊ×ÁĞ¶àÑ¡¿òÖ»¶ÁÎª¿É¹´Ñ¡
+	 	//è¡¨æ ¼è´¦å·ä¸å­˜åœ¨	
+		If UBound(user) = - 1  Then //æ–‡ä»¶ä¸­æ²¡æœ‰è´¦å·æ·»åŠ è‡³ç¬¬ä¸€è¡Œ
+			ii = 1
+		Else //è‹¥æœ‰åˆ™æ–°æ’å…¥è¡Œ=åŸè´¦å·æ•°+1	
+			ii = UBound(user) + 1
+		End If
+		Form1.Grid1.InsertRow ii	//æ’å…¥æŒ‡å®šè¡Œ
+		Form1.Grid1.SetRowEditable ii, 0	//è¡Œè®¾ç½®åªè¯»
+		Form1.Grid1.SetCellType ii, 0, 1//è®¾ç½®é¦–åˆ—ä¸ºå¤šé€‰æ¡†
+		Form1.Grid1.SetColumnEditable getColomnByProperty("check"), 1	//æ”¾å¼€é¦–åˆ—å¤šé€‰æ¡†åªè¯»ä¸ºå¯å‹¾é€‰
 		
-		iSetItemText ii, "account", Trim(Form1.InputBoxAccount.Text)	//ĞÂÔöĞĞ ÉèÖÃĞÂÕËºÅ
-		iSetItemText ii, "state", hState(0)	//ĞÂÔöĞĞ ×´Ì¬ÉèÖÃÎª¿Õ
-		iSetItemText ii, "hwnd", 0			//ĞÂÔöĞĞ ¾ä±úÉèÖÃÎª¿Õ
+		iSetItemText ii, "account", Trim(Form1.InputBoxAccount.Text)	//æ–°å¢è¡Œ è®¾ç½®æ–°è´¦å·
+		iSetItemText ii, "state", hState(0)	//æ–°å¢è¡Œ çŠ¶æ€è®¾ç½®ä¸ºç©º
+		iSetItemText ii, "hwnd", 0			//æ–°å¢è¡Œ å¥æŸ„è®¾ç½®ä¸ºç©º
 	 	
 	 	Rem existAccount
 	 	iSetItemText ii, "password", Plugin.Encrypt.StringEncode(Form1.InputBoxPassword.Text, cipher)
-		iSetItemText ii, "line", formatLine(Trim(Form1.InputBoxLine.Text))	//¸ñÊ½»¯ÏßÂ·
+		iSetItemText ii, "line", formatLine(Trim(Form1.InputBoxLine.Text))	//æ ¼å¼åŒ–çº¿è·¯
 		iSetItemText ii, "notes", Trim(Form1.InputBoxNotes.Text)
 		iSetItemText ii, "name", Trim(Form1.InputBoxName.Text)
 		iSetItemText ii, "order", orderArray(Form1.ComboBoxOrder.ListIndex)
@@ -2859,46 +2864,46 @@ Event Form1.ButtonAE.Click
 		iSetItemText ii, "part", Trim(Form1.InputBoxPart.Text)
 		iSetItemText ii, "server", Trim(Form1.InputBoxServer.Text)
 		
-		//µ÷ÓÃĞ´ÈëÎÄ¼ş²¢ÖØÖÃusers×Ö·û´®»·¾³±äÁ¿
+		//è°ƒç”¨å†™å…¥æ–‡ä»¶å¹¶é‡ç½®userså­—ç¬¦ä¸²ç¯å¢ƒå˜é‡
 		Call writeFileFormGrid()
 	End If	
 End Event
 
-//Ò³Ãæµã»÷É¾³ı°´Å¥ÊÂ¼ş
+//é¡µé¢ç‚¹å‡»åˆ é™¤æŒ‰é’®äº‹ä»¶
 Event Form1.ButtonDel.Click
 	Form1.Grid1.GetSelectedRange xd, yd, x1d, y1d
 	If xd > 0 Then 
 		Form1.Grid1.DeleteRow xd
-		//µ÷ÓÃĞ´ÈëÎÄ¼ş
+		//è°ƒç”¨å†™å…¥æ–‡ä»¶
 		Call writeFileFormGrid()
 	End If
 End Event
 
-//ÏÂÀ­¿ò´«Öµ¸øÊäÈë¿ò ÊµÏÖ¿ÉÊä¿ÉÀ­
-Event Form1.ComboBoxLine.SelectChange	//ÏßÂ·
-	Form1.InputBoxLine.Text = lineArray2(Form1.ComboBoxLine.ListIndex)	//ÏßÂ·Êı×é	ÊäÈë¿òÒ³ÃæÏÔÊ¾
+//ä¸‹æ‹‰æ¡†ä¼ å€¼ç»™è¾“å…¥æ¡† å®ç°å¯è¾“å¯æ‹‰
+Event Form1.ComboBoxLine.SelectChange	//çº¿è·¯
+	Form1.InputBoxLine.Text = lineArray2(Form1.ComboBoxLine.ListIndex)	//çº¿è·¯æ•°ç»„	è¾“å…¥æ¡†é¡µé¢æ˜¾ç¤º
 End Event
-Event Form1.ComboBoxPart.SelectChange	//·ÖÇø
-	//´«Öµ¸ø·ÖÇøÊäÈë¿ò
+Event Form1.ComboBoxPart.SelectChange	//åˆ†åŒº
+	//ä¼ å€¼ç»™åˆ†åŒºè¾“å…¥æ¡†
 	Form1.InputBoxPart.Text = partArray(Form1.ComboBoxPart.ListIndex)	
-	//·ÖÇøÑ¡Ôñºó¼ÓÔØ¶ÔÓ¦·şÎñÆ÷ÏÂÀ­¿ò
-	Form1.ComboBoxServer.List = serverArray(Form1.ComboBoxPart.ListIndex)	//¸ù¾İ·ÖÇø¼ÓÔØ¶ÔÓ¦µÄ·şÎñÆ÷ÁĞ±íList
-	Form1.ComboBoxServer.ListIndex = - 1 //·şÎñÆ÷ÏÂÀ­¿òÄ¬ÈÏË¢ĞÂ²»Ñ¡ÖĞ
-	Form1.InputBoxServer.Text = ""	//·şÎñÆ÷ÊäÈë¿òÇå¿Õ
+	//åˆ†åŒºé€‰æ‹©ååŠ è½½å¯¹åº”æœåŠ¡å™¨ä¸‹æ‹‰æ¡†
+	Form1.ComboBoxServer.List = serverArray(Form1.ComboBoxPart.ListIndex)	//æ ¹æ®åˆ†åŒºåŠ è½½å¯¹åº”çš„æœåŠ¡å™¨åˆ—è¡¨List
+	Form1.ComboBoxServer.ListIndex = - 1 //æœåŠ¡å™¨ä¸‹æ‹‰æ¡†é»˜è®¤åˆ·æ–°ä¸é€‰ä¸­
+	Form1.InputBoxServer.Text = ""	//æœåŠ¡å™¨è¾“å…¥æ¡†æ¸…ç©º
 End Event
-Event Form1.ComboBoxServer.SelectChange	//·şÎñÆ÷
-	//ÏÈÈ¡Ñ¡ÔñµÄ·ÖÇø¶ÔÓ¦µÄ·şÎñÆ÷List£¬ÔÙÈ¡¶ÔÓ¦·şÎñÆ÷
+Event Form1.ComboBoxServer.SelectChange	//æœåŠ¡å™¨
+	//å…ˆå–é€‰æ‹©çš„åˆ†åŒºå¯¹åº”çš„æœåŠ¡å™¨Listï¼Œå†å–å¯¹åº”æœåŠ¡å™¨
 	Form1.InputBoxServer.Text = split(serverArray(Form1.ComboBoxPart.ListIndex), "|")(Form1.ComboBoxServer.ListIndex)
 End Event
 
-//µ¥»÷Ñ¡ÖĞÕûĞĞ²¢Ìî³äÊı¾İµ½ÕËºÅ²Ù×÷Ò³
+//å•å‡»é€‰ä¸­æ•´è¡Œå¹¶å¡«å……æ•°æ®åˆ°è´¦å·æ“ä½œé¡µ
 Event Form1.Grid1.Click
 	Form1.Grid1.GetSelectedRange xal, yal, x1al, y1al
 	Form1.Grid1.SetSelectedRange xal, 1, xal, Form1.Grid1.ColumnCount - 1
-	If Form1.TabControl1.Tab <> 1 Then //Ñ¡ÏîÒ³-ÕËºÅ²Ù×÷Ò³Î´Ñ¡ÖĞ¼¤»î²»Ìî³ä
+	If Form1.TabControl1.Tab <> 1 Then //é€‰é¡¹é¡µ-è´¦å·æ“ä½œé¡µæœªé€‰ä¸­æ¿€æ´»ä¸å¡«å……
 		Exit Event
 	End If
-	If  xal = - 1 or Trim(iGetItemText(xal, "account")) = "" Then //Î´Ñ¡ÖĞÈÎºÎĞĞ/¿ÕÕËºÅĞĞÌî³äÄ¬ÈÏÖµ
+	If  xal = - 1 or Trim(iGetItemText(xal, "account")) = "" Then //æœªé€‰ä¸­ä»»ä½•è¡Œ/ç©ºè´¦å·è¡Œå¡«å……é»˜è®¤å€¼
 		Form1.InputBoxAccount.Text = ""
 		Form1.InputBoxPassword.Text = ""
 		Form1.InputBoxPart.Text = ""
@@ -2919,11 +2924,11 @@ Event Form1.Grid1.Click
 	Form1.InputBoxServer.Text = iGetItemText(xal, "server")
 	Form1.InputBoxLine.Text = iGetItemText(xal, "line")
 	Form1.InputBoxName.Text = iGetItemText(xal, "name")
-	//ÈËÎïË³Ğò	¿Õ¡¢"1234"×Ö·û´®ÖĞ²»´æÔÚ¡¢ÕûÊıÖµ´óÓÚ4(Èç12¡¢23) ÉèÖÃÄ¬ÈÏÑ¡ÔñÈËÎï1
+	//äººç‰©é¡ºåº	ç©ºã€"1234"å­—ç¬¦ä¸²ä¸­ä¸å­˜åœ¨ã€æ•´æ•°å€¼å¤§äº4(å¦‚12ã€23) è®¾ç½®é»˜è®¤é€‰æ‹©äººç‰©1
 	If iGetItemText(xal, "order") = "" or Instr(Join(orderArray), iGetItemText(xal, "order")) = 0 or CInt(iGetItemText(xal, "order")) > 4 Then 
 		Form1.ComboBoxOrder.ListIndex = 0
 	Else 
-		Form1.ComboBoxOrder.ListIndex = CInt(iGetItemText(xal, "order")) - 1	//Ö±½Ó-1·½±ãµã ÃâµÃ¸÷ÖÖÊı×éÈÆ¹ıÀ´ÈÆ¹ıÈ¥µÄ£¡
+		Form1.ComboBoxOrder.ListIndex = CInt(iGetItemText(xal, "order")) - 1	//ç›´æ¥-1æ–¹ä¾¿ç‚¹ å…å¾—å„ç§æ•°ç»„ç»•è¿‡æ¥ç»•è¿‡å»çš„ï¼
 	End If
 	For ial = 0 To UBound(afterLineArray)
 		If afterLineArray(ial) = iGetItemText(xal, "afterLine") Then 
@@ -2939,135 +2944,135 @@ Event Form1.Grid1.Click
 	End If
 	Form1.InputBoxAttackDistance.Text = iGetItemText(xal, "attackDistance")
 End Event
-//Ñ¡Ïî¿¨¸Ä±ä
+//é€‰é¡¹å¡æ”¹å˜
 Event Form1.TabControl1.SelectChange
-    If Form1.TabControl1.Tab = 1 Then //ÕËºÅ²Ù×÷Ò³
-		//µ÷ÓÃEvent Form1.Grid1.Click Ìî³äÊı¾İµ½ÕËºÅ²Ù×÷Ò³
+    If Form1.TabControl1.Tab = 1 Then //è´¦å·æ“ä½œé¡µ
+		//è°ƒç”¨Event Form1.Grid1.Click å¡«å……æ•°æ®åˆ°è´¦å·æ“ä½œé¡µ
 		Call Form1.Grid1.Click
     End If
 End Event
 
-//¶¨µã»Øµã
+//å®šç‚¹å›ç‚¹
 Event Form1.CheckBoxFixedPoint.Click
 	Form1.Grid1.GetSelectedRange x0p, y0p, x1p, y1p
 	hwndFixed = iGetItemText(x0p, "hwnd")
 	If x0p = - 1  or hwndFixed = "" Then Exit Event
-	//¶¨µã»Øµã
+	//å®šç‚¹å›ç‚¹
 	If hwndFixed > 0 Then Call iSetFixedReturnPoint(hwndFixed, x0p, Form1.CheckBoxFixedPoint.Value)
 End Event
-//¹¥»÷¾àÀëÊäÈë¿òÊ§È¥½¹µã
+//æ”»å‡»è·ç¦»è¾“å…¥æ¡†å¤±å»ç„¦ç‚¹
 Event Form1.InputBoxAttackDistance.LostFocus
 	Form1.Grid1.GetSelectedRange x0p, y0p, x1p, y1p
 	hwndDistance = iGetItemText(x0p, "hwnd")
 	If x0p = - 1  or hwndDistance = "" Then Exit Event
-	If Trim(Form1.InputBoxAttackDistance.Text) = "" or IsNumeric(Trim(Form1.InputBoxAttackDistance.Text)) = False Then //Îª¿Õ/²»ÄÜ×ª»»ÎªÊı×Ö ÉèÖÃÄ¬ÈÏÖµ0
-		addLog  "¹¥»÷¾àÀë²»ÄÜÎª¿Õ»ò·ÇÊı×Ö£¡"
+	If Trim(Form1.InputBoxAttackDistance.Text) = "" or IsNumeric(Trim(Form1.InputBoxAttackDistance.Text)) = False Then //ä¸ºç©º/ä¸èƒ½è½¬æ¢ä¸ºæ•°å­— è®¾ç½®é»˜è®¤å€¼0
+		addLog  "æ”»å‡»è·ç¦»ä¸èƒ½ä¸ºç©ºæˆ–éæ•°å­—ï¼"
 		Exit Event
 	End If
-	//¸ñÊ½»¯ÊäÈë¿ò¹¥»÷¾àÀë[0-255]²¢ĞŞ¸Ä¹¥»÷¾àÀë(0¸´Ô­)
+	//æ ¼å¼åŒ–è¾“å…¥æ¡†æ”»å‡»è·ç¦»[0-255]å¹¶ä¿®æ”¹æ”»å‡»è·ç¦»(0å¤åŸ)
 	If hwndDistance > 0 Then Form1.InputBoxAttackDistance.Text = iSetAttackDistance(hwndDistance, x0p, Form1.InputBoxAttackDistance.Text)
 End Event
 
-//============================== Ñ¡Ïî¿¨-×ÓÏß³Ì ==============================
-//×ÓÏß³ÌÑ­»·Ê±¼ä¸üĞÂ
+//============================== é€‰é¡¹å¡-å­çº¿ç¨‹ ==============================
+//å­çº¿ç¨‹å¾ªç¯æ—¶é—´æ›´æ–°
 //Event Form1.ButtonstDelay.Click
 //	If Form1.InputBoxSubTime.Text <> "" Then 
 //		stDelay = Form1.InputBoxSubTime.Text
-//		addLog ("µ±Ç°×ÓÏß³ÌÑ­»·Ê±¼äÎª£º" & CLng(Form1.InputBoxSubTime.Text) & "Ãë¡£")
+//		addLog ("å½“å‰å­çº¿ç¨‹å¾ªç¯æ—¶é—´ä¸ºï¼š" & CLng(Form1.InputBoxSubTime.Text) & "ç§’ã€‚")
 //	End If
 //End Event
 
-//¼ÌĞø×ÓÏß³Ì	tcp²éÏß		·ÅÖ÷Ïß³Ì²é£¡´Ë´¦ÎŞÓÃÆú£¡
+//ç»§ç»­å­çº¿ç¨‹	tcpæŸ¥çº¿		æ”¾ä¸»çº¿ç¨‹æŸ¥ï¼æ­¤å¤„æ— ç”¨å¼ƒï¼
 //Event Form1.ButtonContinueST.Click
 //	Form1.ButtonPauseST.Visible = 1
 //	If tcpCheckLineThreadId <> 0 Then 
 //		ContinueThread tcpCheckLineThreadId
-//		addLog "µ±Ç°tcp²éÏß×ÓÏß³Ì¼ÌĞøÔËĞĞ£¡"
+//		addLog "å½“å‰tcpæŸ¥çº¿å­çº¿ç¨‹ç»§ç»­è¿è¡Œï¼"
 //	Else 
-//		addLog "²»´æÔÚ×ÓÏß³Ì£¡"	
+//		addLog "ä¸å­˜åœ¨å­çº¿ç¨‹ï¼"	
 //	End If	
 //End Event
-//ÔİÍ£×ÓÏß³Ì	tcp²éÏß
+//æš‚åœå­çº¿ç¨‹	tcpæŸ¥çº¿
 //Event Form1.ButtonPauseST.Click
 //	Form1.ButtonPauseST.Visible = 0
 //	If tcpCheckLineThreadId <> 0 Then  
 //		PauseThread tcpCheckLineThreadId
-//		addLog "µ±Ç°tcp²éÏß×ÓÏß³ÌÔİÍ£ÔËĞĞ£¡"
+//		addLog "å½“å‰tcpæŸ¥çº¿å­çº¿ç¨‹æš‚åœè¿è¡Œï¼"
 //	Else 
-//		addLog "²»´æÔÚ×ÓÏß³Ì£¡"
+//		addLog "ä¸å­˜åœ¨å­çº¿ç¨‹ï¼"
 //	End If
 //End Event
-//½áÊø×ÓÏß³Ì
+//ç»“æŸå­çº¿ç¨‹
 //Event Form1.ButtonStopST.Click
 //	If subThreadId <> 0 Then 
 //		StopThread subThreadId
-//		addLog "µ±Ç°×ÓÏß³Ì½áÊøÔËĞĞ£¡"
+//		addLog "å½“å‰å­çº¿ç¨‹ç»“æŸè¿è¡Œï¼"
 //	End If
 //End Event
 
-//×ÓÏß³ÌÑ­»·Ê±¼äÊäÈë¿ò¸Ä±äÊ±
+//å­çº¿ç¨‹å¾ªç¯æ—¶é—´è¾“å…¥æ¡†æ”¹å˜æ—¶
 Event Form1.InputBoxSubTime.Change
-	If Trim(Form1.InputBoxSubTime.Text) = "" or IsNumeric(Trim(Form1.InputBoxSubTime.Text)) = False Then //Îª¿Õ/²»ÄÜ×ª»»ÎªÊı×Ö ÉèÖÃÄ¬ÈÏÖµ
-		Form1.InputBoxSubTime.Text = 10		//¸ø¸öÄ¬ÈÏ10s
+	If Trim(Form1.InputBoxSubTime.Text) = "" or IsNumeric(Trim(Form1.InputBoxSubTime.Text)) = False Then //ä¸ºç©º/ä¸èƒ½è½¬æ¢ä¸ºæ•°å­— è®¾ç½®é»˜è®¤å€¼
+		Form1.InputBoxSubTime.Text = 10		//ç»™ä¸ªé»˜è®¤10s
 	Else 
-		Form1.InputBoxSubTime.Text = Clng(Trim(Form1.InputBoxSubTime.Text))	//×ª³¤ÕûĞÍ
+		Form1.InputBoxSubTime.Text = Clng(Trim(Form1.InputBoxSubTime.Text))	//è½¬é•¿æ•´å‹
 	End If
 End Event
 
-//===================================ÏÔÊ¾Òş²Ø===================================
-//µã»÷±í¸ñĞĞ µ¥¸ö´°¿ÚÏÔÊ¾Òş²Ø
+//===================================æ˜¾ç¤ºéšè—===================================
+//ç‚¹å‡»è¡¨æ ¼è¡Œ å•ä¸ªçª—å£æ˜¾ç¤ºéšè—
 Event Form1.ButtonSH.Click
 	Form1.Grid1.GetSelectedRange xsh, ysh, x1sh, y1sh
 	hwndSH = iGetItemText(xsh, "hwnd")
-	hwndMainSH = Plugin.Window.Find("#32770", "~" & iGetItemText(xsh, "name") & "~")//Íâ¹ÒÖ÷´°¿Ú¾ä±ú
+	hwndMainSH = Plugin.Window.Find("#32770", "~" & iGetItemText(xsh, "name") & "~")//å¤–æŒ‚ä¸»çª—å£å¥æŸ„
 	If xsh = - 1  or hwndSH = "" Then Exit Event
 	
 	If hwndSH > 0 Then 
-		//0 : ÅĞ¶Ï´°¿ÚÊÇ·ñ´æÔÚ   
-		//1 : ÅĞ¶Ï´°¿ÚÊÇ·ñ´¦ÓÚ¼¤»î   
-		//2 : ÅĞ¶Ï´°¿ÚÊÇ·ñ¿É¼û   
-		//3 : ÅĞ¶Ï´°¿ÚÊÇ·ñ×îĞ¡»¯   
-		//4 : ÅĞ¶Ï´°¿ÚÊÇ·ñ×î´ó»¯   
-		//5 : ÅĞ¶Ï´°¿ÚÊÇ·ñÖÃ¶¥
-		//6 : ÅĞ¶Ï´°¿ÚÊÇ·ñÎŞÏìÓ¦
-		hwndSHState = Plugin.Window.GetWindowState(hwndSH, 2)//¿Í»§¶ËÊÇ·ñ¿É¼û
-		hwndMainSHState = Plugin.Window.GetWindowState(hwndMainSH, 2)//Íâ¹ÒÊÇ·ñ¿É¼û
+		//0 : åˆ¤æ–­çª—å£æ˜¯å¦å­˜åœ¨   
+		//1 : åˆ¤æ–­çª—å£æ˜¯å¦å¤„äºæ¿€æ´»   
+		//2 : åˆ¤æ–­çª—å£æ˜¯å¦å¯è§   
+		//3 : åˆ¤æ–­çª—å£æ˜¯å¦æœ€å°åŒ–   
+		//4 : åˆ¤æ–­çª—å£æ˜¯å¦æœ€å¤§åŒ–   
+		//5 : åˆ¤æ–­çª—å£æ˜¯å¦ç½®é¡¶
+		//6 : åˆ¤æ–­çª—å£æ˜¯å¦æ— å“åº”
+		hwndSHState = Plugin.Window.GetWindowState(hwndSH, 2)//å®¢æˆ·ç«¯æ˜¯å¦å¯è§
+		hwndMainSHState = Plugin.Window.GetWindowState(hwndMainSH, 2)//å¤–æŒ‚æ˜¯å¦å¯è§
 		
-		If hwndSHState = True Then //¿Í»§¶Ë¿É¼ûÔòÒş²Ø
-			//Íâ¹Ò´æÔÚÇÒ¿É¼ûÔòÒş²Ø
+		If hwndSHState = True Then //å®¢æˆ·ç«¯å¯è§åˆ™éšè—
+			//å¤–æŒ‚å­˜åœ¨ä¸”å¯è§åˆ™éšè—
 			If hwndMainSH > 0 and hwndMainSHState = True Then Call Plugin.Window.Hide(hwndMainSH)
 			Call Plugin.Window.Hide(hwndSH)
 		Else 
-			Call Plugin.Window.Restore(hwndSH)		//Èô×îĞ¡»¯ºóÒş²ØÖ±½Óµã»÷°´Å¥ÏÔÊ¾²»ÄÜºô³öÍâ¹Ò¡£ĞèÏÈ»¹Ô­ÔÙÏÔÊ¾¼¤»î£¡
+			Call Plugin.Window.Restore(hwndSH)		//è‹¥æœ€å°åŒ–åéšè—ç›´æ¥ç‚¹å‡»æŒ‰é’®æ˜¾ç¤ºä¸èƒ½å‘¼å‡ºå¤–æŒ‚ã€‚éœ€å…ˆè¿˜åŸå†æ˜¾ç¤ºæ¿€æ´»ï¼
 			Call Plugin.Window.Show(hwndSH)
 			Call Plugin.Window.Active(hwndSH)
-			//KeyPress "End", 1	//ÏÔÊ¾Ö±½Ó´ò¿ªÍâ¹ÒÖ÷½çÃæ£¿
+			//KeyPress "End", 1	//æ˜¾ç¤ºç›´æ¥æ‰“å¼€å¤–æŒ‚ä¸»ç•Œé¢ï¼Ÿ
 			
-			If hwndMainSH > 0 and hwndMainSHState = False Then //Íâ¹Ò´æÔÚÇÒ²»¿É¼û
+			If hwndMainSH > 0 and hwndMainSHState = False Then //å¤–æŒ‚å­˜åœ¨ä¸”ä¸å¯è§
 				Call Plugin.Window.Show(hwndMainSH)
 				Call Plugin.Window.Active(hwndMainSH)
 			End If
 		End If	
 	End If 
 End Event
-//Ò»¼üÈ«²¿ÏÔÊ¾
+//ä¸€é”®å…¨éƒ¨æ˜¾ç¤º
 Event Form1.ButtonAllShow.Click
 	Form1.ButtonAllShow.Visible = 0
-	user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
+	user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
 	For ia = 1 To UBound(user)
 		hwndSH = iGetItemText(ia, "hwnd")
 		If hwndSH > 0 Then 
-			Call Plugin.Window.Show(hwndSH)		//²»ÄÜÈçµ¥¸öÏÔÊ¾Ò»ÑùË³Ğò »áÃ»¼¤»îÒ»Ñù£¡
+			Call Plugin.Window.Show(hwndSH)		//ä¸èƒ½å¦‚å•ä¸ªæ˜¾ç¤ºä¸€æ ·é¡ºåº ä¼šæ²¡æ¿€æ´»ä¸€æ ·ï¼
 			Call Plugin.Window.Restore(hwndSH)
     		Call Plugin.Window.Active(hwndSH)
     		Delay 50
 		End If
 	Next
 End Event
-//Ò»¼üÈ«²¿Òş²Ø
+//ä¸€é”®å…¨éƒ¨éšè—
 Event Form1.ButtonAllHide.Click
 	Form1.ButtonAllShow.Visible = 1
-	user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
+	user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
 	For ia = 1 To UBound(user)
 		hwndSH = iGetItemText(ia, "hwnd")
 		If hwndSH > 0 Then 
@@ -3075,20 +3080,20 @@ Event Form1.ButtonAllHide.Click
 		End If
 	Next
 End Event
-//Ãâ·ÑÉñÆ÷»ù±¾Ö÷´°¿Ú ÏÔÊ¾Òş²Ø
+//å…è´¹ç¥å™¨åŸºæœ¬ä¸»çª—å£ æ˜¾ç¤ºéšè—
 Event Form1.ButtonFree.Click
-	hwndFree = Plugin.Window.Find(0, "»ù±¾Ö÷´°¿Ú")
-	iStateFree = Plugin.Window.GetWindowState(hwndFree, 2)	//ÊÇ·ñ¿É¼û
+	hwndFree = Plugin.Window.Find(0, "åŸºæœ¬ä¸»çª—å£")
+	iStateFree = Plugin.Window.GetWindowState(hwndFree, 2)	//æ˜¯å¦å¯è§
 	If iStateFree = True Then 
 		Call Plugin.Window.Hide(hwndFree)
 	Else 
 		Call Plugin.Window.Show(hwndFree)	
 	End If
 End Event
-//ÊÕ·ÑÉñÆ÷Ö÷´°¿Ú ÏÔÊ¾Òş²Ø
+//æ”¶è´¹ç¥å™¨ä¸»çª—å£ æ˜¾ç¤ºéšè—
 Event Form1.ButtonPay.Click
-	hwndPay = Plugin.Window.Find("WTWindow", "½øÈëÓÎÏ·°´HOME»òDeleteºô³ö´°¿Ú")
-	iStatePay = Plugin.Window.GetWindowState(hwndPay, 2)	//ÊÇ·ñ¿É¼û
+	hwndPay = Plugin.Window.Find("WTWindow", "è¿›å…¥æ¸¸æˆæŒ‰HOMEæˆ–Deleteå‘¼å‡ºçª—å£")
+	iStatePay = Plugin.Window.GetWindowState(hwndPay, 2)	//æ˜¯å¦å¯è§
 	If iStatePay = True Then 
 		Call Plugin.Window.Hide(hwndPay)
 	Else 
@@ -3098,28 +3103,28 @@ Event Form1.ButtonPay.Click
 	End If
 End Event
 
-//============================== ¹¦ÄÜ ==============================
-//×Ô¶¯µÇÂ¼ °´Å¥ÊÂ¼ş
+//============================== åŠŸèƒ½ ==============================
+//è‡ªåŠ¨ç™»å½• æŒ‰é’®äº‹ä»¶
 Event Form1.ButtonOpenAutoLogin.Click
-	If rxRootDirPath = "" Then //¸ùÄ¿Â¼Îª¿ÕÊ±½ûÖ¹¿ªÆô×Ô¶¯µÇÂ¼
-		addLog "ClickEvent ÇëÑ¡ÔñÕıÈ·µÄ launcher.exe ËùÔÚÎ»ÖÃºóÔÙ³¢ÊÔ¿ªÆô×Ô¶¯µÇÂ¼£¡"
-		Form1.TabControl1.Tab = 2	//Õ¹Ê¾Ñ¡ÔñÒ³-¹¦ÄÜ2
+	If rxRootDirPath = "" Then //æ ¹ç›®å½•ä¸ºç©ºæ—¶ç¦æ­¢å¼€å¯è‡ªåŠ¨ç™»å½•
+		addLog "ClickEvent è¯·é€‰æ‹©æ­£ç¡®çš„ launcher.exe æ‰€åœ¨ä½ç½®åå†å°è¯•å¼€å¯è‡ªåŠ¨ç™»å½•ï¼"
+		Form1.TabControl1.Tab = 2	//å±•ç¤ºé€‰æ‹©é¡µ-åŠŸèƒ½2
 		Exit Event
 	End If
 
-	Form1.ButtonOpenAutoLogin.Visible = 0	//¿ªÆô°´Å¥Òş²Ø
+	Form1.ButtonOpenAutoLogin.Visible = 0	//å¼€å¯æŒ‰é’®éšè—
 	autoLoginFlag = True
-	addLog "×Ô¶¯µÇÂ¼¿ªÆô£¡"
+	addLog "è‡ªåŠ¨ç™»å½•å¼€å¯ï¼"
 End Event
 Event Form1.ButtonCloseAutoLogin.Click
-	Form1.ButtonOpenAutoLogin.Visible = 1	//¿ªÆô°´Å¥ÏÔÊ¾
+	Form1.ButtonOpenAutoLogin.Visible = 1	//å¼€å¯æŒ‰é’®æ˜¾ç¤º
 	autoLoginFlag = False
-	addLog "×Ô¶¯µÇÂ¼¹Ø±Õ£¡"
+	addLog "è‡ªåŠ¨ç™»å½•å…³é—­ï¼"
 End Event
 
-//ÕËºÅÈ«Ñ¡
+//è´¦å·å…¨é€‰
 Event Form1.CheckBoxAll.Click
-	user = split(users, "|")//ÖØÖÃÓÃ»§ĞÅÏ¢Êı×é±£³Ö×îĞÂ
+	user = split(users, "|")//é‡ç½®ç”¨æˆ·ä¿¡æ¯æ•°ç»„ä¿æŒæœ€æ–°
 	If Form1.CheckBoxAll.Value = 1 Then 
 		For ia = 1 To UBound(user)
 			Form1.Grid1.SetCheckBoxValue ia, 0, 1
@@ -3131,12 +3136,12 @@ Event Form1.CheckBoxAll.Click
 	End If	
 End Event
 
-//Ó¦ÓÃÉèÖÃ
+//åº”ç”¨è®¾ç½®
 Event Form1.ButtonApply.Click
 	Call writeFileSpecialData()	
 End Event
 
-//µã»÷±í¸ñĞĞ µ¥¸ö´°¿Ú ¿ª¹ØºÚÆÁ
+//ç‚¹å‡»è¡¨æ ¼è¡Œ å•ä¸ªçª—å£ å¼€å…³é»‘å±
 Event Form1.ButtonOCDisplay.Click
 	Form1.Grid1.GetSelectedRange xb, yb, xb1, yb1
 	hwndoc = iGetItemText(xb, "hwnd")
@@ -3148,12 +3153,12 @@ Event Form1.ButtonOCDisplay.Click
 		ElseIf dm.ReadData(hwndoc, d3d9ba1, 3) = d3d9m1 Then
 			Call displayOpen(hwndoc, 0)
 		Else 
-			addLog "d3d9Ê×µØÖ·Êı¾İÓĞÎó£¡¡¾" & d3d9ba1 & "¡¿"	
+			addLog "d3d9é¦–åœ°å€æ•°æ®æœ‰è¯¯ï¼ã€" & d3d9ba1 & "ã€‘"	
 		End If
 		
 	End If
 End Event
-//ÏÔÊ¾´ò¿ª¹Ø±Õ13 ²âÊÔ
+//æ˜¾ç¤ºæ‰“å¼€å…³é—­13 æµ‹è¯•
 Event Form1.ButtonOCD.Click
 	Form1.Grid1.GetSelectedRange xb, yb, xb1, yb1
 	hwndoc = iGetItemText(xb, "hwnd")
@@ -3164,47 +3169,47 @@ Event Form1.ButtonOCD.Click
 		ElseIf dm.ReadData(hwndoc, d3d9ba1, 3) = d3d9m1 Then
 			Call displayOpen(hwndoc, 1)
 		Else 
-			addLog "d3d9Ê×µØÖ·Êı¾İÓĞÎó£¡¡¾" & d3d9ba1 & "¡¿"	
+			addLog "d3d9é¦–åœ°å€æ•°æ®æœ‰è¯¯ï¼ã€" & d3d9ba1 & "ã€‘"	
 		End If
 	End If
 End Event
 
-//ĞÂ¿ª²éÏßÆ÷
+//æ–°å¼€æŸ¥çº¿å™¨
 Event Form1.ButtonOpenSLM.Click
-	Call buttonSound("°´Å¥°´¼üÒô.mp3")
-	//addLog "ĞÂ¿ª²éÏßÆ÷£¡"
-	hwndsl = Plugin.Window.Find("WTWindow", "ÈÈÑªÉñÆ÷²éÏß")
+	Call buttonSound("æŒ‰é’®æŒ‰é”®éŸ³.mp3")
+	//addLog "æ–°å¼€æŸ¥çº¿å™¨ï¼"
+	hwndsl = Plugin.Window.Find("WTWindow", "çƒ­è¡€ç¥å™¨æŸ¥çº¿")
     If hwndsl <> 0 Then 
      	Call Plugin.Window.CloseEx(hwndsl)    	
     End If
     Call openSLM()
 End Event
 
-//°´Å¥ ¸üĞÂ½çÃæ±í¸ñ²ÖÓà
+//æŒ‰é’® æ›´æ–°ç•Œé¢è¡¨æ ¼ä»“ä½™
 Event Form1.ButtonUpdateStores.Click
-	//ÈôÖ±½ÓÔÚeventÀï²Ù×÷ »á¿¨½çÃæ£¡ soÓÃ±äÁ¿¿ØÖÆ·Åµ½×ÓÏß³ÌÀï¸üĞÂ£¡£¡£¡
-	Call buttonSound("°´Å¥°´¼üÒô.mp3")
+	//è‹¥ç›´æ¥åœ¨eventé‡Œæ“ä½œ ä¼šå¡ç•Œé¢ï¼ soç”¨å˜é‡æ§åˆ¶æ”¾åˆ°å­çº¿ç¨‹é‡Œæ›´æ–°ï¼ï¼ï¼
+	Call buttonSound("æŒ‰é’®æŒ‰é”®éŸ³.mp3")
 	lastStoresFlag = True
 End Event
 
-//µã»÷±í¸ñĞĞ µ¥¸ö´°¿Ú ¹ıÑéÖ¤Âë´°¿Ú
+//ç‚¹å‡»è¡¨æ ¼è¡Œ å•ä¸ªçª—å£ è¿‡éªŒè¯ç çª—å£
 Event Form1.ButtonThroughCode.Click
-	//formLoadÖĞ´´½¨dm¶ÔÏóeventÏß³ÌÍ¨ÓÃ£¡
-	Call buttonSound("°´Å¥°´¼üÒô.mp3")
+	//formLoadä¸­åˆ›å»ºdmå¯¹è±¡eventçº¿ç¨‹é€šç”¨ï¼
+	Call buttonSound("æŒ‰é’®æŒ‰é”®éŸ³.mp3")
 	Form1.Grid1.GetSelectedRange x0p, y0p, x1p, y1p
 	hwndPass = iGetItemText(x0p, "hwnd")
 	If x0p = -1 or hwndPass = "" Then Exit Event
 	If hwndPass > 0 Then 
-		//addLog "Clickevent ¡¾" & iGetItemText(x0p, "account") & "¡¿Ò³Ãæ°´Å¥µã»÷¹ıÑéÖ¤Âë´°¿Ú£¡"
-		//µã»÷°´Å¥Ö±½Óµ¯³öÓÎÏ·´°¿Ú+Íâ¹Ò´°¿Ú£¿ ·½±ã¿ì½İ´ò¿ªÊ¹ÓÃ£¿£¡
+		//addLog "Clickevent ã€" & iGetItemText(x0p, "account") & "ã€‘é¡µé¢æŒ‰é’®ç‚¹å‡»è¿‡éªŒè¯ç çª—å£ï¼"
+		//ç‚¹å‡»æŒ‰é’®ç›´æ¥å¼¹å‡ºæ¸¸æˆçª—å£+å¤–æŒ‚çª—å£ï¼Ÿ æ–¹ä¾¿å¿«æ·æ‰“å¼€ä½¿ç”¨ï¼Ÿï¼
 		Call Plugin.Window.Restore(hwndPass)
 		Call Plugin.Window.Show(hwndPass)
 		Call Plugin.Window.Active(hwndPass)
 		
-		//²éÍ¼ ·¶Î§ÎªÑéÖ¤ÂëÍ¼Æ¬Ğ¡·¶Î§
-		iCoordre = Plugin.Pic.FindPic(640, 370, 820, 480, alFreeDirPath & "Ë¢ĞÂµÇÈë°´Å¥.bmp", 0, 1.0)
-		If iCoordre <> "-1|-1" Then //²éµ½ËµÃ÷ÒÑ´ò¿ªÑéÖ¤Âë´°¿Ú
-			//ÒÆ¶¯µ½ÑéÖ¤Âë´°¿Ú±êÌâÀ¸µã»÷Ê¹Ö®ÖÃÇ°
+		//æŸ¥å›¾ èŒƒå›´ä¸ºéªŒè¯ç å›¾ç‰‡å°èŒƒå›´
+		iCoordre = Plugin.Pic.FindPic(640, 370, 820, 480, alFreeDirPath & "åˆ·æ–°ç™»å…¥æŒ‰é’®.bmp", 0, 1.0)
+		If iCoordre <> "-1|-1" Then //æŸ¥åˆ°è¯´æ˜å·²æ‰“å¼€éªŒè¯ç çª—å£
+			//ç§»åŠ¨åˆ°éªŒè¯ç çª—å£æ ‡é¢˜æ ç‚¹å‡»ä½¿ä¹‹ç½®å‰
 			MoveTo Clng(Split(iCoordre, "|")(0)), Clng(Split(iCoordre, "|")(1)) - 20
 			LeftClick 1
 			hwndCode = Plugin.Window.Foreground()
@@ -3218,71 +3223,71 @@ Event Form1.ButtonThroughCode.Click
             		Exit Do
         		End If
 				If Plugin.Sys.GetTime() - s1 >= 2000 Then 
-     	 			addLog "ClickEvent ¡¾" & iGetItemText(x0p, "account") & "¡¿ÑéÖ¤Âë´°¿Ú×¥È¡Ê§°Ü£¡Çë¼ì²é£¡"
+     	 			addLog "ClickEvent ã€" & iGetItemText(x0p, "account") & "ã€‘éªŒè¯ç çª—å£æŠ“å–å¤±è´¥ï¼è¯·æ£€æŸ¥ï¼"
         			Exit Event
         		End If
      			Delay 200
 			Loop
 		End If
 		
-		//ÄÃµ½µÄÊÇÍâ¹ÒÖ÷½çÃæ´°¿Ú
+		//æ‹¿åˆ°çš„æ˜¯å¤–æŒ‚ä¸»ç•Œé¢çª—å£
 		If Plugin.Window.GetText(hwndCode) = "~" & iGetItemText(x0p, "name") & "~" Then 
-			//addLog "Clickevent ¡¾" &iGetItemText(x0p, "account") & "¡¿ÒÑ¹ıÑéÖ¤Âë´°¿Ú£¡"
+			//addLog "Clickevent ã€" &iGetItemText(x0p, "account") & "ã€‘å·²è¿‡éªŒè¯ç çª—å£ï¼"
 			Exit Event
 		End If
 		
 		Call Plugin.Window.Active(hwndCode)
 		Delay 200
-		//´°¿ÚÇø ²»×¼£¿£¡ Èç²å¼ş½á¹û£º 643,374  ×¥×¥½á¹û£º645,374  ½á¹ûxÉÙ2ÏñËØ£¿µ«ÊÇ²éÑ¯Ã»ÎÊÌâ£¡´ı¶¨£¿
-		//Ê¹ÓÃGetWindowRectÆ«²îºÜ´ó£¬×ó±ßÎ´Öª²¿·Ö½ØÍ¼²»ÄÜÏÔÊ¾£¡¹Ê¸ÄÓÃGetClientRect
+		//çª—å£åŒº ä¸å‡†ï¼Ÿï¼ å¦‚æ’ä»¶ç»“æœï¼š 643,374  æŠ“æŠ“ç»“æœï¼š645,374  ç»“æœxå°‘2åƒç´ ï¼Ÿä½†æ˜¯æŸ¥è¯¢æ²¡é—®é¢˜ï¼å¾…å®šï¼Ÿ
+		//ä½¿ç”¨GetWindowRectåå·®å¾ˆå¤§ï¼Œå·¦è¾¹æœªçŸ¥éƒ¨åˆ†æˆªå›¾ä¸èƒ½æ˜¾ç¤ºï¼æ•…æ”¹ç”¨GetClientRect
 		sRectCode = Plugin.Window.GetClientRect(hwndCode)	
-		//ÑéÖ¤Âë¿Í»§ÇøÆğÊ¼xy×ø±ê	Ïà¶Ô1,31
+		//éªŒè¯ç å®¢æˆ·åŒºèµ·å§‹xyåæ ‡	ç›¸å¯¹1,31
 		xc1 = Clng(Split(sRectCode, "|")(0)) : yc1 = Clng(Split(sRectCode, "|")(1))
 		iCoordBlank = Plugin.Pic.FindPic(xc1 + 9 - 1, yc1 + 71 - 31, xc1 + 91 - 1, yc1 + 96 - 31, alFreeDirPath & "blank0.bmp", 0, 1.0)
-		If iCoordBlank = "-1|-1" Then //Î´²éµ½¿Õ°×ÊäÈë¿ò ËµÃ÷ÒÑÊäÈëÑéÖ¤ÂëÖ±½Óµã»÷µÇÈë
+		If iCoordBlank = "-1|-1" Then //æœªæŸ¥åˆ°ç©ºç™½è¾“å…¥æ¡† è¯´æ˜å·²è¾“å…¥éªŒè¯ç ç›´æ¥ç‚¹å‡»ç™»å…¥
 			MoveTo xc1 + 138 - 1, yc1 + 80 - 31
 			LeftClick 1
-		Else //ÊäÈëÎª¿Õ ¹ıÑéÖ¤Âë
+		Else //è¾“å…¥ä¸ºç©º è¿‡éªŒè¯ç 
 			If ocrThroughCode(hwndCode) = False Then 
-				addLog "ocrÊ§°Ü£¡"
+				addLog "ocrå¤±è´¥ï¼"
 				Exit Event
 			End If
 		End If
 				
-		/*MoveTo xc1 + 70, yc1 + 78	//µã»÷ÊäÈë¿ò
+		/*MoveTo xc1 + 70, yc1 + 78	//ç‚¹å‡»è¾“å…¥æ¡†
    		LeftClick 1
 		Delay 100
-		KeyPress "BackSpace", 4		//Çå¿ÕÊäÈë¿ò*/
+		KeyPress "BackSpace", 4		//æ¸…ç©ºè¾“å…¥æ¡†*/
 		
 		s1 = Plugin.Sys.GetTime()
     	Do
-    		//Íâ¹ÒÖ÷´°¿ÚhwndMain
+    		//å¤–æŒ‚ä¸»çª—å£hwndMain
        		hwndMain = Plugin.Window.Find("#32770", "~" & iGetItemText(x0p, "name") & "~")
         	If hwndMain > 0 Then 
             	Exit Do   
         	End If
         	If Plugin.Sys.GetTime() - s1 >= 3000 Then //3s
-     	 		addLog ("ClickEvent 3sÄÚÆô¶¯Íâ¹ÒÊ§°Ü»ò½ÇÉ«Ñ¡Ôñ²»ÕıÈ·£¡Çë¼ì²é£¡")
-     	 		//TODO ºóÆÚ¿ÉÌí¼ÓÖ´ĞĞÏà¹Ø²Ù×÷ÖØÑ¡½ÇÉ«½øÈëÓÎÏ·¼¤»îÍâ¹Ò£¡´ı¶¨£¿
+     	 		addLog ("ClickEvent 3så†…å¯åŠ¨å¤–æŒ‚å¤±è´¥æˆ–è§’è‰²é€‰æ‹©ä¸æ­£ç¡®ï¼è¯·æ£€æŸ¥ï¼")
+     	 		//TODO åæœŸå¯æ·»åŠ æ‰§è¡Œç›¸å…³æ“ä½œé‡é€‰è§’è‰²è¿›å…¥æ¸¸æˆæ¿€æ´»å¤–æŒ‚ï¼å¾…å®šï¼Ÿ
         		Exit Event
      		End If
      		Delay 200
     	Loop	
 	
 		Call Plugin.Window.Active(hwndMain)
-		//Íâ¹ÒÖ÷´°¿ÚÒÆ¶¯µ½ÓÒ²àÌØ¶¨Î»ÖÃ
+		//å¤–æŒ‚ä¸»çª—å£ç§»åŠ¨åˆ°å³ä¾§ç‰¹å®šä½ç½®
 		Call Plugin.Window.Move(hwndMain, 1300, 0)
 		Delay 200
 		sRectMain = Plugin.Window.GetWindowRect(hwndMain)
-    	//µÃµ½Íâ¹ÒÖ÷´°¿ÚÆğÊ¼xy×ø±ê
+    	//å¾—åˆ°å¤–æŒ‚ä¸»çª—å£èµ·å§‹xyåæ ‡
     	xm1 = Clng(Split(sRectMain, "|")(0)) : ym1 = Clng(Split(sRectMain, "|")(1))
-    	MoveTo xm1 + 128, ym1 + 66	//µã»÷ ³¬¼¶ÈÈÑª ±êÇ©Ò³
+    	MoveTo xm1 + 128, ym1 + 66	//ç‚¹å‡» è¶…çº§çƒ­è¡€ æ ‡ç­¾é¡µ
 		LeftClick 1
 		
 	End If 
 End Event
 
-//µã»÷±í¸ñĞĞ µ¥¸ö´°¿Ú Ìá½»ÀÏãù²ªÅÉÈÎÎñ		Ğè¶Ô»°NPC£¡£¡£¡£¡£¡
+//ç‚¹å‡»è¡¨æ ¼è¡Œ å•ä¸ªçª—å£ æäº¤è€æ³«å‹ƒæ´¾ä»»åŠ¡		éœ€å¯¹è¯NPCï¼ï¼ï¼ï¼ï¼
 Event Form1.ButtonCommit.Click
 	Form1.Grid1.GetSelectedRange x0p, y0p, x1p, y1p
 	hwndPass = iGetItemText(x0p, "hwnd")
@@ -3293,61 +3298,61 @@ Event Form1.ButtonCommit.Click
 		Call Plugin.Window.Active(hwndPass)
 		
 		For co = 1 To Form1.ComboBoxCommit.ListIndex + 1
-			//´ò¿ªNPC¶Ô»°¿òÏÈÌá½»ÈÎÎñÔÙ½ÓÊÜÈÎÎñ
+			//æ‰“å¼€NPCå¯¹è¯æ¡†å…ˆæäº¤ä»»åŠ¡å†æ¥å—ä»»åŠ¡
 			
-			If Form1.ComboBoxExpCandy.ListIndex = 0 Then //¾­ÑéÈÎÎñ
-				MoveTo 950, 420		//È·ÈÏÈÎÎñ
+			If Form1.ComboBoxExpCandy.ListIndex = 0 Then //ç»éªŒä»»åŠ¡
+				MoveTo 950, 420		//ç¡®è®¤ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 200, 210		//µã»÷ÈÎÎñ
+				MoveTo 200, 210		//ç‚¹å‡»ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 950, 300		//Ìá½»ÈÎÎñµã»÷¶Ô»°¿ò
+				MoveTo 950, 300		//æäº¤ä»»åŠ¡ç‚¹å‡»å¯¹è¯æ¡†
 				LeftClick 1
 				Delay 200
-				//MoveTo 950, 472		//Ìá½»ÈÎÎñÈ·ÈÏ
+				//MoveTo 950, 472		//æäº¤ä»»åŠ¡ç¡®è®¤
 				//LeftClick 1
 				KeyPress "ESC", 1
 				Delay 200
 				
-				MoveTo 950, 420		//È·ÈÏÈÎÎñ
+				MoveTo 950, 420		//ç¡®è®¤ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 200, 210		//µã»÷ÈÎÎñ
+				MoveTo 200, 210		//ç‚¹å‡»ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 950, 420		//½ÓÊÜÈÎÎñ
+				MoveTo 950, 420		//æ¥å—ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				//MoveTo 950, 472		//½ÓÊÜÈÎÎñÈ·ÈÏ
+				//MoveTo 950, 472		//æ¥å—ä»»åŠ¡ç¡®è®¤
 				//LeftClick 1
 				KeyPress "ESC", 1
 				Delay 200
-			Else //ÌÇ¹ûÈÎÎñ
-				MoveTo 950, 426		//È·ÈÏÈÎÎñ
+			Else //ç³–æœä»»åŠ¡
+				MoveTo 950, 426		//ç¡®è®¤ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 200, 214		//µã»÷ÈÎÎñ
+				MoveTo 200, 214		//ç‚¹å‡»ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				//MoveTo 950, 472		//Ìá½»ÈÎÎñÈ·ÈÏ	/Ö±½ÓESC
+				//MoveTo 950, 472		//æäº¤ä»»åŠ¡ç¡®è®¤	/ç›´æ¥ESC
 				//LeftClick 1
 				KeyPress "ESC", 1
 				Delay 200
 				
-				MoveTo 950, 426		//È·ÈÏÈÎÎñ
+				MoveTo 950, 426		//ç¡®è®¤ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 200, 214		//µã»÷ÈÎÎñ
+				MoveTo 200, 214		//ç‚¹å‡»ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				MoveTo 950, 300		//ÁìÈ¡ÈÎÎñµã»÷¶Ô»°¿ò
+				MoveTo 950, 300		//é¢†å–ä»»åŠ¡ç‚¹å‡»å¯¹è¯æ¡†
 				LeftClick 1
 				Delay 200
-				MoveTo 950, 426		//½ÓÊÜÈÎÎñ
+				MoveTo 950, 426		//æ¥å—ä»»åŠ¡
 				LeftClick 1
 				Delay 200
-				//MoveTo 950, 472		//½ÓÊÜÈÎÎñÈ·ÈÏ
+				//MoveTo 950, 472		//æ¥å—ä»»åŠ¡ç¡®è®¤
 				//LeftClick 1
 				KeyPress "ESC", 1
 				Delay 200
@@ -3355,71 +3360,71 @@ Event Form1.ButtonCommit.Click
 		Next	
 	End If
 End Event
-//ÓÒ»÷Ê¹ÓÃÎïÆ·
+//å³å‡»ä½¿ç”¨ç‰©å“
 Event Form1.ButtonRC.Click
 	MoveTo Form1.InputBoxRCx.Text, Form1.InputBoxRCy.Text
 	For co = 1 To Form1.ComboBoxRC.ListIndex + 1
 		RightClick 1
 		Delay 200
 	Next
-	MoveTo 863, 1063 //ÒÆ¶¯µ½ÌØ¶¨Î»ÖÃ¿ÉÖªÒÑÍê³É£¡
+	MoveTo 863, 1063 //ç§»åŠ¨åˆ°ç‰¹å®šä½ç½®å¯çŸ¥å·²å®Œæˆï¼
 End Event
 
-//ĞÂ¿ªClientÓÎÏ·		testÓÃ£¡
+//æ–°å¼€Clientæ¸¸æˆ		testç”¨ï¼
 Event Form1.ButtonOpenClient.Click
-	//ÖØÖÃÊ¹ÓÃÂ·¾¶Êı×é£¬±ÜÃâ¹Ø±Õ¿Í»§¶ËºóÒ»Ö±¿ªÏÂÒ»Â·¾¶
+	//é‡ç½®ä½¿ç”¨è·¯å¾„æ•°ç»„ï¼Œé¿å…å…³é—­å®¢æˆ·ç«¯åä¸€ç›´å¼€ä¸‹ä¸€è·¯å¾„
 	Call initUseDir()
-	part = iGetItemText(1, "part")	//Ä¬ÈÏ¸ø¸öµÚÒ»ĞĞÕËºÅ·ÖÇø
-	//shellExecute Ö±½ÓÆô¶¯Client.exe
+	part = iGetItemText(1, "part")	//é»˜è®¤ç»™ä¸ªç¬¬ä¸€è¡Œè´¦å·åˆ†åŒº
+	//shellExecute ç›´æ¥å¯åŠ¨Client.exe
 	Call iRunClient()
-    //´°¿Ú¾ÍĞ÷×´Ì¬¼ì²â
+    //çª—å£å°±ç»ªçŠ¶æ€æ£€æµ‹
     s1 = Plugin.Sys.GetTime()
     Do
-        hwnd = Plugin.Window.Find("D3D Window", "ÈÈÑª½­ºş")
-        If hwnd > 0 and Plugin.Window.GetWindowState(hwnd, 6) = False Then //´°¿Ú´æÔÚÇÒÒÑÏìÓ¦£¡
+        hwnd = Plugin.Window.Find("D3D Window", "çƒ­è¡€æ±Ÿæ¹–")
+        If hwnd > 0 and Plugin.Window.GetWindowState(hwnd, 6) = False Then //çª—å£å­˜åœ¨ä¸”å·²å“åº”ï¼
         	Exit Do
         End If
         If Plugin.Sys.GetTime() - s1 >= 10000 Then 
-     	 	addLog "¿Í»§¶ËÆô¶¯ÏìÓ¦³¬Ê±10s!½áÊø£¡"
+     	 	addLog "å®¢æˆ·ç«¯å¯åŠ¨å“åº”è¶…æ—¶10s!ç»“æŸï¼"
      	 	//Call Plugin.Window.CloseEx(hwnd)
-     	 	Call Plugin.Memory.TerminateProc(hwnd)//½áÊø´°¿Ú¾ä±ú¶ÔÓ¦½ø³Ì
-			//Éè0ÖØÖÃ²»Ò»¶¨ÓÉ×Ô¼º¿ØÖÆ£¬¿ÉÄÜÍâ¹Ò£¿soÖ±½ÓÖØĞÂ³õÊ¼»¯
+     	 	Call Plugin.Memory.TerminateProc(hwnd)//ç»“æŸçª—å£å¥æŸ„å¯¹åº”è¿›ç¨‹
+			//è®¾0é‡ç½®ä¸ä¸€å®šç”±è‡ªå·±æ§åˆ¶ï¼Œå¯èƒ½å¤–æŒ‚ï¼Ÿsoç›´æ¥é‡æ–°åˆå§‹åŒ–
 			Call initUseDir()
 			Exit Event
      	End If
      	Delay 200
     Loop
     
-    //»¹Ô­¼¤»î
+    //è¿˜åŸæ¿€æ´»
     Call Plugin.Window.Restore(hwnd)
     Call Plugin.Window.Active(hwnd)
-	//¼ì²âCapsLock×´Ì¬£¬Èô¼¤»îÔòÈ¡Ïû
+	//æ£€æµ‹CapsLockçŠ¶æ€ï¼Œè‹¥æ¿€æ´»åˆ™å–æ¶ˆ
     If GetKeyState(20) = 1 Then 
     	KeyPress "CapsLock", 1
     End If
-    //±ê¼ÇÊı×é¶ÔÓ¦Â·¾¶ÒÑÊ¹ÓÃ	???ÈôÒ»Ö±¿ª»áÒ»Ö±È¡ÏÂÒ»Êı×ÖÂ·¾¶£¬ÎŞÖØÖÃµÄÑ¡Ïî£¿
+    //æ ‡è®°æ•°ç»„å¯¹åº”è·¯å¾„å·²ä½¿ç”¨	???è‹¥ä¸€ç›´å¼€ä¼šä¸€ç›´å–ä¸‹ä¸€æ•°å­—è·¯å¾„ï¼Œæ— é‡ç½®çš„é€‰é¡¹ï¼Ÿ
     rindex = getDirIndex(hwnd)
 	If CInt(rindex) <> - 1  Then useDir(rindex) = 1
 	
-	//ĞèÒªÁôÊ±¼ä¸øÉñÆ÷dll hook¼ÓÔØ·ñÔòĞŞ¸Ädll»áÒì³£
+	//éœ€è¦ç•™æ—¶é—´ç»™ç¥å™¨dll hookåŠ è½½å¦åˆ™ä¿®æ”¹dllä¼šå¼‚å¸¸
     Delay 3000
-	//RxkdDllĞŞ¸Ä²¿·Ö½ûÓÃ×´Ì¬style¡¢È¥³ı¶¨µãº¯Í£µÈ
+	//RxkdDllä¿®æ”¹éƒ¨åˆ†ç¦ç”¨çŠ¶æ€styleã€å»é™¤å®šç‚¹å‡½åœç­‰
 	Call modifyRxkdDll(hwnd)
 	
-	//¸Ä¿Í»§¶Ë±êÌâ
+	//æ”¹å®¢æˆ·ç«¯æ ‡é¢˜
 	Call Plugin.Window.SetText(hwnd, "manual rdy")	
 End Event
 
-//¼ì²éÕËºÅÊÇ·ñ¶¨µã
+//æ£€æŸ¥è´¦å·æ˜¯å¦å®šç‚¹
 Event Form1.ButtonFixedPoint.Click
 	Form1.Grid1.GetSelectedRange x0p, y0p, x1p, y1p
 	hwndFixed = iGetItemText(x0p, "hwnd")
 	If x0p = -1 or hwndFixed = "" Then Exit Event
 	If hwndFixed > 0 Then 
 		If dm.readData(hwndFixed, fixedPointBaseAddr, 3) = fpModData Then //"B0 01 90"
-			addLog "¡¾" & iGetItemText(x0p, "account") & "¡¿ÒÑ¶¨µã£¡"
+			addLog "ã€" & iGetItemText(x0p, "account") & "ã€‘å·²å®šç‚¹ï¼"
 		Else 
-			addLog "¡¾" & iGetItemText(x0p, "account") & "¡¿Î´¶¨µã£¡"
+			addLog "ã€" & iGetItemText(x0p, "account") & "ã€‘æœªå®šç‚¹ï¼"
 		End If		
 	End If
 End Event
