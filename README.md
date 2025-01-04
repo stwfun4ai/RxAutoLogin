@@ -18,7 +18,7 @@
 
 - 完全关闭按键精灵。
 
-- 下载 [RxSocket.dll](searchLines/RXSocket.dll) 放到按键精灵安装目录下的 plugin 里。
+- 下载 [RxSocket.dll](RxSocket.dll) 放到按键精灵安装目录下的 plugin 里。
 
 - 下载 [RxAutoLogin.Q](RxAutoLogin.Q) 放到按键精灵安装目录下的 QMScript 目录下
 
@@ -167,7 +167,7 @@
 
   > ps:曾开了几天 CPU 飙升！ 且一直挂在最前影响做其他事儿。弃了！
 
-- 现使用 VC6 写的按键精灵插件 [searchLines/RxSocket.dll](searchLines/RXSocket.dll) 。包含如下方法：
+- 现使用 VC6 写的按键精灵插件 [RxSocket.dll](RxSocket.dll) 。包含如下方法：
 
   - getPartServerLines 获取分区服务器的线路状况(字符串分区,字符串服务器(末尾加\"(新服)\"))[0满,1未满,逗号分隔]
   - getByteArray 获取分区返回数据(字符串分区)[字节数组]
